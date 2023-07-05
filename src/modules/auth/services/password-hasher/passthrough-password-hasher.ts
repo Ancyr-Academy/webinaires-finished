@@ -1,4 +1,3 @@
-import * as argon2 from 'argon2';
 import { IPasswordHasher } from './password-hasher-interface';
 
 export class PassthroughPasswordHasher implements IPasswordHasher {
