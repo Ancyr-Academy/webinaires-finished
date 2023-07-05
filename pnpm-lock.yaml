@@ -24,8 +24,8 @@ dependencies:
     specifier: ^1.1.9
     version: 1.1.9
   nanoid:
-    specifier: ^4.0.2
-    version: 4.0.2
+    specifier: ^3.3.0
+    version: 3.3.0
   reflect-metadata:
     specifier: ^0.1.13
     version: 0.1.13
@@ -5458,12 +5458,12 @@ packages:
       }
     dev: true
 
-  /nanoid@4.0.2:
+  /nanoid@3.3.0:
     resolution:
       {
-        integrity: sha512-7ZtY5KTCNheRGfEFxnedV5zFiORN1+Y1N6zvPTnHQd8ENUvfaDBeuJDZb2bN/oXwXxu3qkTXDzy57W5vAmDTBw==,
+        integrity: sha512-JzxqqT5u/x+/KOFSd7JP15DOo9nOoHpx6DYatqIHUW2+flybkm+mdcraotSQR5WcnZr+qhGVh8Ted0KdfSMxlg==,
       }
-    engines: { node: ^14 || ^16 || >=18 }
+    engines: { node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1 }
     hasBin: true
     dev: false
 

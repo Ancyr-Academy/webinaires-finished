@@ -62,4 +62,19 @@ describe('Create account', () => {
       });
     }).rejects.toThrowError('Email address is not available');
   });
+
+  it.each([
+    {
+      emailAddress: 'johndoe',
+      password: 'azerty',
+    },
+    {
+      emailAddress: 'johndoe@gmail.com',
+      password: '',
+    },
+  ])(`should fail because the request is invalid`, async (request) => {
+    expect(async () => {
+      await useCase.execute(request);
+    }).rejects.toThrowError('Validation errors');
+  });
 });

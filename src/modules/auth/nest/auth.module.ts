@@ -5,6 +5,7 @@ import { CreateAccount } from '../usecases/create-account/create-account';
 import { I_ID_PROVIDER } from '../../system/id/id-provider';
 import { I_AUTH_GATEWAY } from '../gateway/auth.gateway';
 import { InMemoryAuthGateway } from '../gateway-infra/in-memory-auth-gateway';
+import { AuthController } from './auth.controller';
 
 const services = [
   {
@@ -35,6 +36,7 @@ const useCases = [
 ];
 
 @Module({
+  controllers: [AuthController],
   providers: [...services, ...gateways, ...useCases],
   exports: [],
 })

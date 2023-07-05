@@ -10,15 +10,16 @@ import { NanoidProvider } from '../id/nanoid-provider';
     {
       provide: I_DATE_PROVIDER,
       useFactory: () => {
-        new CurrentDateProvider();
+        return new CurrentDateProvider();
       },
     },
     {
       provide: I_ID_PROVIDER,
       useFactory: () => {
-        new NanoidProvider();
+        return new NanoidProvider();
       },
     },
   ],
+  exports: [I_DATE_PROVIDER, I_ID_PROVIDER],
 })
 export class SystemModule {}

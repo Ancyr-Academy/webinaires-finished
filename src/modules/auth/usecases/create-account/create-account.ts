@@ -1,5 +1,7 @@
+import { z } from 'zod';
 import { DomainException } from '../../../shared/domain-exception';
 import { AbstractExecutable } from '../../../shared/executable';
+import { Validator } from '../../../shared/validator';
 import { IIDProvider } from '../../../system/id/id-provider';
 import { UserEntity } from '../../entity/user.entity';
 import { IAuthGateway } from '../../gateway/auth.gateway';
@@ -15,12 +17,23 @@ type Response = {
 };
 
 export class CreateAccount extends AbstractExecutable<Request, Response> {
+  private validator = new Validator(
+    z.object({
+      emailAddress: z.string().email(),
+      password: z.string().min(6),
+    }),
+  );
+
   constructor(
     private readonly idProvider: IIDProvider,
     private readonly authGateway: IAuthGateway,
     private readonly passwordHasher: IPasswordHasher,
   ) {
     super();
+  }
+
+  protected async validate(payload: Request): Promise<void> {
+    await this.validator.validate(payload);
   }
 
   async handle({ emailAddress, password }: Request): Promise<Response> {
