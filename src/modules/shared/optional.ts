@@ -25,7 +25,7 @@ export class Optional<T> {
     return this.value;
   }
 
-  public getOrThrow(error: Error): T {
+  public getOrThrow(error = new Error('Option was null')): T {
     if (this.value === null || this.value === undefined) {
       throw error;
     }
