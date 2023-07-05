@@ -5,7 +5,8 @@ import { Validator } from '../../../shared/validator';
 import { IIDProvider } from '../../../system/id/id-provider';
 import { UserEntity } from '../../entity/user.entity';
 import { IAuthGateway } from '../../gateway/auth.gateway';
-import { IPasswordHasher } from '../../services/password-hasher/password-hasher-interface';
+import { IPasswordHasher } from '../../services/password-hasher/password-hasher.interface';
+import { IMailerService } from '../../../mailer/services/mailer/mailer-service.interface';
 
 type Request = {
   emailAddress: string;
@@ -28,6 +29,7 @@ export class CreateAccount extends AbstractExecutable<Request, Response> {
     private readonly idProvider: IIDProvider,
     private readonly authGateway: IAuthGateway,
     private readonly passwordHasher: IPasswordHasher,
+    private readonly mailerService: IMailerService,
   ) {
     super();
   }
@@ -53,6 +55,11 @@ export class CreateAccount extends AbstractExecutable<Request, Response> {
     });
 
     await this.authGateway.createUser(user);
+    await this.mailerService.sendMail({
+      to: emailAddress,
+      subject: 'Bienvenue à Webinaires !',
+      body: 'Votre compte a bien été créé.',
+    });
 
     return {
       id: this.idProvider.getId(),

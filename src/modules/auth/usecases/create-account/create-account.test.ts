@@ -1,3 +1,4 @@
+import { LoopbackMailerService } from '../../../mailer/services/mailer/loopback-mailer-service';
 import { FixedIdProvider } from '../../../system/id/fixed-id-provider';
 import { UserFactory } from '../../entity/user.factory';
 import { InMemoryAuthGateway } from '../../gateway-infra/in-memory-auth-gateway';
@@ -7,30 +8,23 @@ import { CreateAccount } from './create-account';
 describe('Create account', () => {
   let authGateway: InMemoryAuthGateway;
   let passwordHasher: PassthroughPasswordHasher;
+  let mailerService: LoopbackMailerService;
   let useCase: CreateAccount;
 
   beforeEach(() => {
     authGateway = new InMemoryAuthGateway();
     passwordHasher = new PassthroughPasswordHasher();
+    mailerService = new LoopbackMailerService();
+
     useCase = new CreateAccount(
       new FixedIdProvider(),
       authGateway,
       passwordHasher,
+      mailerService,
     );
   });
 
-  test('should return the id of the new created user', async () => {
-    const result = await useCase.execute({
-      emailAddress: 'johndoe@gmail.com',
-      password: 'azerty',
-    });
-
-    expect(result).toEqual({
-      id: 'stub-id',
-    });
-  });
-
-  test('should save the user', async () => {
+  test('save the user', async () => {
     const result = await useCase.execute({
       emailAddress: 'johndoe@gmail.com',
       password: 'azerty',
@@ -38,6 +32,10 @@ describe('Create account', () => {
 
     const createdUserOption = await authGateway.getUserById(result.id);
     const createdUser = createdUserOption.getOrThrow();
+
+    expect(result).toEqual({
+      id: 'stub-id',
+    });
 
     expect(createdUser.data).toEqual({
       id: 'stub-id',
@@ -76,5 +74,22 @@ describe('Create account', () => {
     expect(async () => {
       await useCase.execute(request);
     }).rejects.toThrowError('Validation errors');
+  });
+
+  test('sending a confirmation e-mail', async () => {
+    await useCase.execute({
+      emailAddress: 'johndoe@gmail.com',
+      password: 'azerty',
+    });
+
+    const sentEmails = mailerService.getSentEmails();
+
+    expect(sentEmails).toEqual([
+      {
+        to: 'johndoe@gmail.com',
+        subject: 'Bienvenue à Webinaires !',
+        body: 'Votre compte a bien été créé.',
+      },
+    ]);
   });
 });
