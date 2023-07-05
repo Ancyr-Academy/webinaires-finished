@@ -8,12 +8,23 @@ import { InMemoryAuthGateway } from '../gateway-infra/in-memory-auth-gateway';
 import { AuthController } from './auth.controller';
 import { MailerModule } from '../../mailer/nest/mailer.module';
 import { I_MAILER_SERVICE } from '../../mailer/services/mailer/mailer-service.interface';
+import { AuthGuard } from './auth.guard';
+import { APP_GUARD, Reflector } from '@nestjs/core';
+import { I_AUTHENTICATOR } from '../services/authenticator/authenticator.interface';
+import { Authenticator } from '../services/authenticator/authenticator';
 
 const services = [
   {
     provide: I_PASSWORD_HASHER,
     useFactory: () => {
       return new Argon2PasswordHasher();
+    },
+  },
+  {
+    provide: I_AUTHENTICATOR,
+    inject: [I_AUTH_GATEWAY, I_PASSWORD_HASHER],
+    useFactory: (authGateway, passwordHasher) => {
+      return new Authenticator(authGateway, passwordHasher);
     },
   },
 ];
@@ -50,7 +61,18 @@ const useCases = [
 @Module({
   imports: [MailerModule],
   controllers: [AuthController],
-  providers: [...services, ...gateways, ...useCases],
+  providers: [
+    {
+      provide: APP_GUARD,
+      inject: [Reflector, I_AUTHENTICATOR],
+      useFactory: (reflector, authenticator) => {
+        return new AuthGuard(reflector, authenticator);
+      },
+    },
+    ...services,
+    ...gateways,
+    ...useCases,
+  ],
   exports: [],
 })
 export class AuthModule {}

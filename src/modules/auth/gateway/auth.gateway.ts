@@ -7,4 +7,5 @@ export interface IAuthGateway {
   createUser(user: UserEntity): Promise<void>;
   getUserById(id: string): Promise<Optional<UserEntity>>;
   isEmailAddressAvailable(emailAddress: string): Promise<boolean>;
+  findByEmailAddress(emailAddress: string): Promise<Optional<UserEntity>>;
 }

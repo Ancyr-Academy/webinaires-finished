@@ -18,4 +18,12 @@ export class InMemoryAuthGateway implements IAuthGateway {
     const users = Array.from(this.users.values());
     return !users.some((user) => user.data.emailAddress === emailAddress);
   }
+
+  async findByEmailAddress(
+    emailAddress: string,
+  ): Promise<Optional<UserEntity>> {
+    const users = Array.from(this.users.values());
+    const user = users.find((user) => user.data.emailAddress === emailAddress);
+    return user ? Optional.of(user) : Optional.empty();
+  }
 }

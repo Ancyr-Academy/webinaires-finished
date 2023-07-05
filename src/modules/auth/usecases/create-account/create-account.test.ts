@@ -40,7 +40,7 @@ describe('Create account', () => {
     expect(createdUser.data).toEqual({
       id: 'stub-id',
       emailAddress: 'johndoe@gmail.com',
-      password: 'hashed:azerty',
+      password: 'hashed_azerty',
     });
   });
 
