@@ -66,7 +66,7 @@ describe('Changing the number of seats of a webinaire', () => {
     });
   });
 
-  describe('Changing the seats when the user is not the organizer', () => {
+  describe('reducing the amount of seats available', () => {
     const payload = {
       user: alice,
       webinaireId: 'webinaire-id',
