@@ -49,7 +49,5 @@ export class ChangeSeats extends AbstractExecutable<Request, Response> {
     }
 
     await this.webinaireGateway.update(webinaire);
-
-    return;
   }
 }
