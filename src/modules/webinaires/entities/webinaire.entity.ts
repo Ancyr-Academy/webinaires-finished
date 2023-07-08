@@ -23,4 +23,8 @@ export class WebinaireEntity extends AbstractEntity<WebinaireData> {
   hasValidNumberOfSeats(): boolean {
     return this.data.seats > 0 && this.data.seats <= WebinaireEntity.MAX_SEATS;
   }
+
+  isOrganizer(userId: string) {
+    return this.data.organizerId === userId;
+  }
 }

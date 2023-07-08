@@ -54,6 +54,10 @@ export abstract class AbstractEntity<TData extends { id: string }> {
     this.initialState = this.currentState;
     Object.freeze(this.initialState);
   }
+
+  reset() {
+    this.currentState = this.initialState;
+  }
 }
 
 export type EntityType<T> = T extends AbstractEntity<infer P> ? P : never;

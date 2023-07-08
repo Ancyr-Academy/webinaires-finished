@@ -1,28 +1,9 @@
 import { UserFactory } from '../../../auth/entity/user.factory';
-import { Optional } from '../../../shared/optional';
 import { FixedDateProvider } from '../../../system/date/fixed-date-provider';
 import { FixedIdProvider } from '../../../system/id/fixed-id-provider';
-import { WebinaireEntity } from '../../entities/webinaire.entity';
-import { IWebinaireGateway } from '../../gateway/webinaire.gateway';
+import { InMemoryWebinaireGateway } from '../../gateway-infra/in-memory-webinaire-gateway';
 import { Organize } from './organize';
 
-class InMemoryWebinaireGateway implements IWebinaireGateway {
-  private webinaires = new Map<string, WebinaireEntity>();
-
-  async getWebinaireById(id: string): Promise<Optional<WebinaireEntity>> {
-    const webinaire = this.webinaires.get(id);
-    return webinaire ? Optional.of(webinaire) : Optional.empty();
-  }
-
-  async create(entity: WebinaireEntity): Promise<void> {
-    this.webinaires.set(entity.id, entity);
-    return;
-  }
-
-  count() {
-    return this.webinaires.size;
-  }
-}
 describe('Organizing webinaires', () => {
   const todayIs = new Date('2023-01-01T00:00:00.000Z');
   const user = UserFactory.create();
