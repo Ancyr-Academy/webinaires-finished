@@ -32,4 +32,8 @@ export class Optional<T> {
 
     return this.value;
   }
+
+  public isNull(): boolean {
+    return this.value === null || this.value === undefined;
+  }
 }
