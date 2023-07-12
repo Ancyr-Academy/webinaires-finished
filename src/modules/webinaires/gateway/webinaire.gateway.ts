@@ -5,4 +5,5 @@ export interface IWebinaireGateway {
   getWebinaireById(id: string): Promise<Optional<WebinaireEntity>>;
   create(entity: WebinaireEntity): Promise<void>;
   update(entity: WebinaireEntity): Promise<void>;
+  delete(entity: WebinaireEntity): Promise<void>;
 }

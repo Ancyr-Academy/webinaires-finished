@@ -26,6 +26,11 @@ export class InMemoryWebinaireGateway implements IWebinaireGateway {
     return;
   }
 
+  async delete(entity: WebinaireEntity): Promise<void> {
+    this.webinaires.delete(entity.id);
+    return;
+  }
+
   count() {
     return this.webinaires.size;
   }

@@ -4,7 +4,7 @@ import { WebinaireFactory } from '../../entities/webinaire.factory';
 import { InMemoryWebinaireGateway } from '../../gateway-infra/in-memory-webinaire-gateway';
 import { ChangeDates } from './change-dates';
 
-describe('Changing the dates of a webinaire', () => {
+describe('Feature: Changing the dates of a webinaire', () => {
   async function getWebinaireById(id: string) {
     const updatedWebinaireOption = await webinaireGateway.getWebinaireById(id);
     return updatedWebinaireOption.getOrThrow();
@@ -47,7 +47,7 @@ describe('Changing the dates of a webinaire', () => {
     useCase = new ChangeDates(dateProvider, webinaireGateway);
   });
 
-  describe('Changing the dates', () => {
+  describe('Scenario: Changing the dates', () => {
     const payload = {
       user: alice,
       webinaireId: 'webinaire-id',
@@ -71,7 +71,24 @@ describe('Changing the dates of a webinaire', () => {
     });
   });
 
-  describe('Changing the dates when the user is not the organizer', () => {
+  describe('Scenario: the webinaire does not exist', () => {
+    const payload = {
+      user: bob,
+      webinaireId: 'does-not-exist',
+      startAt: new Date('2023-01-29T11:00:00.000Z'),
+      endAt: new Date('2023-01-29T12:00:00.000Z'),
+    };
+
+    it('should fail to update', async () => {
+      await expect(useCase.execute(payload)).rejects.toThrow(
+        'Webinaire not found',
+      );
+
+      await expectDatesAreUnchanged('webinaire-id');
+    });
+  });
+
+  describe('Scenario: the user is not the organizer', () => {
     const payload = {
       user: bob,
       webinaireId: 'webinaire-id',
@@ -88,7 +105,7 @@ describe('Changing the dates of a webinaire', () => {
     });
   });
 
-  describe('Changing for a date that is too close to today', () => {
+  describe('Scenario: the choosen date is too close to today', () => {
     const payload = {
       user: alice,
       webinaireId: 'webinaire-id',

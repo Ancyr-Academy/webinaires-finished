@@ -4,7 +4,7 @@ import { FixedIdProvider } from '../../../system/id/fixed-id-provider';
 import { InMemoryWebinaireGateway } from '../../gateway-infra/in-memory-webinaire-gateway';
 import { Organize } from './organize';
 
-describe('Organizing webinaires', () => {
+describe('Feature: Organizing webinaires', () => {
   const todayIs = new Date('2023-01-01T00:00:00.000Z');
   const user = UserFactory.create();
 
@@ -20,7 +20,7 @@ describe('Organizing webinaires', () => {
     useCase = new Organize(idProvider, dateProvider, webinaireGateway);
   });
 
-  describe('Organizing a webinaire', () => {
+  describe('Scenario: organizing a webinaire', () => {
     const payload = {
       user: user,
 
@@ -54,7 +54,7 @@ describe('Organizing webinaires', () => {
     });
   });
 
-  describe('Organizing a webinaire too close to the start date', () => {
+  describe('Scenario: the date of the webinaire is in 2 days', () => {
     const payload = {
       user: user,
 
@@ -78,7 +78,7 @@ describe('Organizing webinaires', () => {
     });
   });
 
-  describe('Organizing a webinaire with an invalid amount of seats', () => {
+  describe('Scenario: the webinaire has an invalid number of seats', () => {
     it.each([-1, 0, 1001])('should fail with %i seats', async (seats) => {
       const payload = {
         user: user,

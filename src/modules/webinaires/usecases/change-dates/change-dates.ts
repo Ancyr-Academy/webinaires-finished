@@ -31,7 +31,9 @@ export class ChangeDates extends AbstractExecutable<Request, Response> {
       webinaireId,
     );
 
-    const webinaire = webinaireOption.getOrThrow();
+    const webinaire = webinaireOption.getOrThrow(
+      new DomainException('WEBINAIRE_NOT_FOUND', 'Webinaire not found'),
+    );
 
     if (webinaire.isOrganizer(user.id) === false) {
       throw new DomainException(

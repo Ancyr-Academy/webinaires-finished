@@ -3,7 +3,7 @@ import { WebinaireFactory } from '../../entities/webinaire.factory';
 import { InMemoryWebinaireGateway } from '../../gateway-infra/in-memory-webinaire-gateway';
 import { ChangeSeats } from './change-seats';
 
-describe('Changing the number of seats of a webinaire', () => {
+describe('Feature: Changing the number of seats of a webinaire', () => {
   async function getWebinaireById(id: string) {
     const updatedWebinaireOption = await webinaireGateway.getWebinaireById(id);
     return updatedWebinaireOption.getOrThrow();
@@ -33,7 +33,7 @@ describe('Changing the number of seats of a webinaire', () => {
     useCase = new ChangeSeats(webinaireGateway);
   });
 
-  describe('Changing the number of seats', () => {
+  describe('Scenario: Changing the number of seats', () => {
     const payload = {
       user: alice,
       webinaireId: 'webinaire-id',
@@ -49,7 +49,24 @@ describe('Changing the number of seats of a webinaire', () => {
     });
   });
 
-  describe('Changing the seats when the user is not the organizer', () => {
+  describe('Scenario: the webinaire does not exist', () => {
+    const payload = {
+      user: alice,
+      webinaireId: 'does-not-exist',
+      seats: 10,
+    };
+
+    it('should update the webinaire', async () => {
+      await expect(useCase.execute(payload)).rejects.toThrow(
+        'Webinaire not found',
+      );
+
+      const updatedWebinaire = await getWebinaireById('webinaire-id');
+      expect(updatedWebinaire.data.seats).toBe(5);
+    });
+  });
+
+  describe('Scenario: the user is not the organizer', () => {
     const payload = {
       user: bob,
       webinaireId: 'webinaire-id',
@@ -66,7 +83,7 @@ describe('Changing the number of seats of a webinaire', () => {
     });
   });
 
-  describe('reducing the amount of seats available', () => {
+  describe('Scenario: reducing the number of seats available', () => {
     const payload = {
       user: alice,
       webinaireId: 'webinaire-id',
@@ -83,7 +100,7 @@ describe('Changing the number of seats of a webinaire', () => {
     });
   });
 
-  describe('Using invalid number of seats', () => {
+  describe('Scenario: using an invalid number of seats', () => {
     it('should fail with a too large amount of seats', async () => {
       const payload = {
         user: alice,
