@@ -32,12 +32,12 @@ export class ReserveSeat extends AbstractExecutable<Request, Response> {
       throw new DomainException('WEBINAIRE_FULL', 'Webinaire is full');
     }
 
-    const participationOption = await this.participationRepository.find(
+    const existingParticipation = await this.participationRepository.find(
       webinaireId,
       user.id,
     );
 
-    if (participationOption.isNull() === false) {
+    if (existingParticipation.isNull() === false) {
       throw new DomainException(
         'ALREADY_RESERVED',
         'You already participate in this webinaire',
