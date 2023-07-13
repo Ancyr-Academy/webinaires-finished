@@ -1,8 +1,8 @@
 import { Optional } from '../../shared/optional';
 import { WebinaireEntity } from '../entities/webinaire.entity';
-import { IWebinaireGateway } from '../gateway/webinaire.gateway';
+import { IWebinaireRepository } from '../gateway/webinaire.repository';
 
-export class InMemoryWebinaireGateway implements IWebinaireGateway {
+export class InMemoryWebinaireRepository implements IWebinaireRepository {
   private webinaires = new Map<string, WebinaireEntity>();
 
   async getWebinaireById(id: string): Promise<Optional<WebinaireEntity>> {

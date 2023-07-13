@@ -2,7 +2,7 @@ import { UserEntity } from '../../../auth/entity/user.entity';
 import { DomainException } from '../../../shared/domain-exception';
 import { AbstractExecutable } from '../../../shared/executable';
 import { IDateProvider } from '../../../system/date/date-provider';
-import { IWebinaireGateway } from '../../gateway/webinaire.gateway';
+import { IWebinaireRepository } from '../../gateway/webinaire.repository';
 
 type Request = {
   user: UserEntity;
@@ -16,7 +16,7 @@ type Response = void;
 export class ChangeDates extends AbstractExecutable<Request, Response> {
   constructor(
     private readonly dateProvider: IDateProvider,
-    private readonly webinaireGateway: IWebinaireGateway,
+    private readonly webinaireGateway: IWebinaireRepository,
   ) {
     super();
   }

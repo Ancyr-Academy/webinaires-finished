@@ -1,7 +1,7 @@
 import { UserEntity } from '../../../auth/entity/user.entity';
 import { DomainException } from '../../../shared/domain-exception';
 import { AbstractExecutable } from '../../../shared/executable';
-import { IWebinaireGateway } from '../../gateway/webinaire.gateway';
+import { IWebinaireRepository } from '../../gateway/webinaire.repository';
 
 type Request = {
   webinaireId: string;
@@ -12,7 +12,7 @@ type Request = {
 type Response = void;
 
 export class ChangeSeats extends AbstractExecutable<Request, Response> {
-  constructor(private readonly webinaireGateway: IWebinaireGateway) {
+  constructor(private readonly webinaireGateway: IWebinaireRepository) {
     super();
   }
 

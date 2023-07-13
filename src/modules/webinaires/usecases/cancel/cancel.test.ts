@@ -1,9 +1,9 @@
 import { UserFactory } from '../../../auth/entity/user.factory';
 import { WebinaireFactory } from '../../entities/webinaire.factory';
-import { InMemoryWebinaireGateway } from '../../gateway-infra/in-memory-webinaire-gateway';
+import { InMemoryWebinaireRepository } from '../../gateway-infra/in-memory-webinaire-repository';
 import { Cancel } from './cancel';
 describe('Feature: canceling a webinaire', () => {
-  let webinaireGateway: InMemoryWebinaireGateway;
+  let webinaireGateway: InMemoryWebinaireRepository;
   let useCase: Cancel;
 
   const alice = UserFactory.create({
@@ -20,7 +20,7 @@ describe('Feature: canceling a webinaire', () => {
   });
 
   beforeEach(() => {
-    webinaireGateway = new InMemoryWebinaireGateway();
+    webinaireGateway = new InMemoryWebinaireRepository();
     webinaireGateway.create(webinaire.cloneInitial());
 
     useCase = new Cancel(webinaireGateway);

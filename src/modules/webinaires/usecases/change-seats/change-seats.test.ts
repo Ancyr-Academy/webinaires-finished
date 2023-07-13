@@ -1,6 +1,6 @@
 import { UserFactory } from '../../../auth/entity/user.factory';
 import { WebinaireFactory } from '../../entities/webinaire.factory';
-import { InMemoryWebinaireGateway } from '../../gateway-infra/in-memory-webinaire-gateway';
+import { InMemoryWebinaireRepository } from '../../gateway-infra/in-memory-webinaire-repository';
 import { ChangeSeats } from './change-seats';
 
 describe('Feature: Changing the number of seats of a webinaire', () => {
@@ -23,11 +23,11 @@ describe('Feature: Changing the number of seats of a webinaire', () => {
     seats: 5,
   });
 
-  let webinaireGateway: InMemoryWebinaireGateway;
+  let webinaireGateway: InMemoryWebinaireRepository;
   let useCase: ChangeSeats;
 
   beforeEach(() => {
-    webinaireGateway = new InMemoryWebinaireGateway();
+    webinaireGateway = new InMemoryWebinaireRepository();
     webinaireGateway.create(webinaire.cloneInitial());
 
     useCase = new ChangeSeats(webinaireGateway);

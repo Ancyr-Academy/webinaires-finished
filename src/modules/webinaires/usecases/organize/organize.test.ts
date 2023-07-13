@@ -1,7 +1,7 @@
 import { UserFactory } from '../../../auth/entity/user.factory';
 import { FixedDateProvider } from '../../../system/date/fixed-date-provider';
 import { FixedIdProvider } from '../../../system/id/fixed-id-provider';
-import { InMemoryWebinaireGateway } from '../../gateway-infra/in-memory-webinaire-gateway';
+import { InMemoryWebinaireRepository } from '../../gateway-infra/in-memory-webinaire-repository';
 import { Organize } from './organize';
 
 describe('Feature: Organizing webinaires', () => {
@@ -10,13 +10,13 @@ describe('Feature: Organizing webinaires', () => {
 
   let idProvider: FixedIdProvider;
   let dateProvider: FixedDateProvider;
-  let webinaireGateway: InMemoryWebinaireGateway;
+  let webinaireGateway: InMemoryWebinaireRepository;
   let useCase: Organize;
 
   beforeEach(() => {
     idProvider = new FixedIdProvider('webinaire-id');
     dateProvider = new FixedDateProvider(todayIs);
-    webinaireGateway = new InMemoryWebinaireGateway();
+    webinaireGateway = new InMemoryWebinaireRepository();
     useCase = new Organize(idProvider, dateProvider, webinaireGateway);
   });
 

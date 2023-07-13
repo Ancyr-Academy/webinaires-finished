@@ -1,7 +1,7 @@
 import { UserFactory } from '../../../auth/entity/user.factory';
 import { FixedDateProvider } from '../../../system/date/fixed-date-provider';
 import { WebinaireFactory } from '../../entities/webinaire.factory';
-import { InMemoryWebinaireGateway } from '../../gateway-infra/in-memory-webinaire-gateway';
+import { InMemoryWebinaireRepository } from '../../gateway-infra/in-memory-webinaire-repository';
 import { ChangeDates } from './change-dates';
 
 describe('Feature: Changing the dates of a webinaire', () => {
@@ -36,12 +36,12 @@ describe('Feature: Changing the dates of a webinaire', () => {
   });
 
   let dateProvider: FixedDateProvider;
-  let webinaireGateway: InMemoryWebinaireGateway;
+  let webinaireGateway: InMemoryWebinaireRepository;
   let useCase: ChangeDates;
 
   beforeEach(() => {
     dateProvider = new FixedDateProvider(todayIs);
-    webinaireGateway = new InMemoryWebinaireGateway();
+    webinaireGateway = new InMemoryWebinaireRepository();
     webinaireGateway.create(webinaire.cloneInitial());
 
     useCase = new ChangeDates(dateProvider, webinaireGateway);

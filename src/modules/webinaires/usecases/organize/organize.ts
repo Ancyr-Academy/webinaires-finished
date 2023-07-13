@@ -4,7 +4,7 @@ import { AbstractExecutable } from '../../../shared/executable';
 import { IDateProvider } from '../../../system/date/date-provider';
 import { IIDProvider } from '../../../system/id/id-provider';
 import { WebinaireEntity } from '../../entities/webinaire.entity';
-import { IWebinaireGateway } from '../../gateway/webinaire.gateway';
+import { IWebinaireRepository } from '../../gateway/webinaire.repository';
 
 type Request = {
   user: UserEntity;
@@ -22,7 +22,7 @@ export class Organize extends AbstractExecutable<Request, Response> {
   constructor(
     private readonly idProvider: IIDProvider,
     private readonly dateProvider: IDateProvider,
-    private readonly webinaireGateway: IWebinaireGateway,
+    private readonly webinaireGateway: IWebinaireRepository,
   ) {
     super();
   }
