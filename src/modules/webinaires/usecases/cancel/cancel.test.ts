@@ -6,12 +6,13 @@ import { WebinaireFactory } from '../../entities/webinaire.factory';
 import { InMemoryWebinaireRepository } from '../../gateway-infra/in-memory-webinaire-repository';
 import { Cancel } from './cancel';
 describe('Feature: canceling a webinaire', () => {
-  const createParticipant = (name: string) =>
-    ParticipationFactory.createViewModel({
+  function createParticipant(name: string) {
+    return ParticipationFactory.createViewModel({
       id: `user-${name}`,
       name: name,
       emailAddress: `${name}@gmail.com`,
     });
+  }
 
   let webinaireGateway: InMemoryWebinaireRepository;
   let participantQuery: InMemoryParticipantQuery;

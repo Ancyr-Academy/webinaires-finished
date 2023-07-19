@@ -1,10 +1,21 @@
 import { UserFactory } from '../../../auth/entity/user.factory';
+import { LoopbackMailer } from '../../../mailer/gateway-infra/loopback-mailer';
+import { ParticipationFactory } from '../../../participants/entities/participation.factory';
+import { InMemoryParticipantQuery } from '../../../participants/gateway-infra/in-memory-participant-query';
 import { FixedDateProvider } from '../../../system/date/fixed-date-provider';
 import { WebinaireFactory } from '../../entities/webinaire.factory';
 import { InMemoryWebinaireRepository } from '../../gateway-infra/in-memory-webinaire-repository';
 import { ChangeDates } from './change-dates';
 
 describe('Feature: Changing the dates of a webinaire', () => {
+  function createParticipant(name: string) {
+    return ParticipationFactory.createViewModel({
+      id: `user-${name}`,
+      name: name,
+      emailAddress: `${name}@gmail.com`,
+    });
+  }
+
   async function getWebinaireById(id: string) {
     const updatedWebinaireOption = await webinaireGateway.getWebinaireById(id);
     return updatedWebinaireOption.getOrThrow();
@@ -35,8 +46,13 @@ describe('Feature: Changing the dates of a webinaire', () => {
     endAt,
   });
 
+  const jack = createParticipant('jack');
+  const jill = createParticipant('jill');
+
   let dateProvider: FixedDateProvider;
   let webinaireGateway: InMemoryWebinaireRepository;
+  let participantQuery: InMemoryParticipantQuery;
+  let mailer: LoopbackMailer;
   let useCase: ChangeDates;
 
   beforeEach(() => {
@@ -44,7 +60,18 @@ describe('Feature: Changing the dates of a webinaire', () => {
     webinaireGateway = new InMemoryWebinaireRepository();
     webinaireGateway.create(webinaire.cloneInitial());
 
-    useCase = new ChangeDates(dateProvider, webinaireGateway);
+    participantQuery = new InMemoryParticipantQuery({
+      [webinaire.id]: [jack, jill],
+    });
+
+    mailer = new LoopbackMailer();
+
+    useCase = new ChangeDates(
+      dateProvider,
+      webinaireGateway,
+      participantQuery,
+      mailer,
+    );
   });
 
   describe('Scenario: Changing the dates', () => {
@@ -68,6 +95,23 @@ describe('Feature: Changing the dates of a webinaire', () => {
       expect(updatedWebinaire.data.endAt).toEqual(
         new Date('2023-01-29T12:00:00.000Z'),
       );
+    });
+
+    it('should send an email to all participants', async () => {
+      await useCase.execute(payload);
+      const sentEmails = mailer.getSentEmails();
+
+      expect(sentEmails).toContainEqual({
+        to: 'jack@gmail.com',
+        subject: 'Changement de dates',
+        body: 'Les dates du webinaire ont été modifiées.',
+      });
+
+      expect(sentEmails).toContainEqual({
+        to: 'jill@gmail.com',
+        subject: 'Changement de dates',
+        body: 'Les dates du webinaire ont été modifiées.',
+      });
     });
   });
 

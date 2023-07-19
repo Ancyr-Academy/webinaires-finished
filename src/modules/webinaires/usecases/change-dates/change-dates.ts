@@ -1,4 +1,6 @@
 import { UserEntity } from '../../../auth/entity/user.entity';
+import { IMailer } from '../../../mailer/gateway/mailer.interface';
+import { IParticipantQuery } from '../../../participants/gateway/participant.query';
 import { DomainException } from '../../../shared/domain-exception';
 import { AbstractExecutable } from '../../../shared/executable';
 import { IDateProvider } from '../../../system/date/date-provider';
@@ -17,6 +19,8 @@ export class ChangeDates extends AbstractExecutable<Request, Response> {
   constructor(
     private readonly dateProvider: IDateProvider,
     private readonly webinaireGateway: IWebinaireRepository,
+    private readonly participantQuery: IParticipantQuery,
+    private readonly mailer: IMailer,
   ) {
     super();
   }
@@ -55,5 +59,22 @@ export class ChangeDates extends AbstractExecutable<Request, Response> {
     }
 
     await this.webinaireGateway.update(webinaire);
+    await this.notifyParticipants(webinaireId);
+  }
+
+  async notifyParticipants(webinaireId: string): Promise<void> {
+    const participants = await this.participantQuery.findAllParticipants(
+      webinaireId,
+    );
+
+    await Promise.all(
+      participants.map(async (participant) => {
+        return this.mailer.sendMail({
+          to: participant.data.emailAddress,
+          subject: 'Changement de dates',
+          body: 'Les dates du webinaire ont été modifiées.',
+        });
+      }),
+    );
   }
 }
