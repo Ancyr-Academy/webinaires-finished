@@ -1,7 +1,9 @@
 import { UserEntity } from '../../../auth/entity/user.entity';
+import { IMailerService } from '../../../mailer/services/mailer/mailer-service.interface';
 import { DomainException } from '../../../shared/domain-exception';
 import { AbstractExecutable } from '../../../shared/executable';
 import { IIDProvider } from '../../../system/id/id-provider';
+import { WebinaireViewModel } from '../../../webinaires/entities/webinaire.viewmodel';
 import { IWebinaireQuery } from '../../../webinaires/gateway/webinaire.query';
 import { ParticipationEntity } from '../../entities/participation.entity';
 import { IParticipationRepository } from '../../gateway/participation.repository';
@@ -18,6 +20,7 @@ export class ReserveSeat extends AbstractExecutable<Request, Response> {
     private readonly idProvider: IIDProvider,
     private readonly webinaireQuery: IWebinaireQuery,
     private readonly participationRepository: IParticipationRepository,
+    private readonly mailerService: IMailerService,
   ) {
     super();
   }
@@ -51,5 +54,24 @@ export class ReserveSeat extends AbstractExecutable<Request, Response> {
     });
 
     await this.participationRepository.create(participation);
+
+    await this.notifyOrganizer(webinaire);
+    await this.notifyParticipant(user);
+  }
+
+  private async notifyOrganizer(webinaire: WebinaireViewModel) {
+    await this.mailerService.sendMail({
+      to: webinaire.data.organizer.emailAddress,
+      subject: 'Nouvelle participation à votre webinaire',
+      body: 'Une nouvelle personne participe à votre webinaire.',
+    });
+  }
+
+  private async notifyParticipant(user: UserEntity) {
+    await this.mailerService.sendMail({
+      to: user.data.emailAddress,
+      subject: 'Votre participation',
+      body: 'Votre participation au webinaire a bien été pris en compte.',
+    });
   }
 }

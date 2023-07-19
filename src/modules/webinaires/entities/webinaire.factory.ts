@@ -22,7 +22,11 @@ export class WebinaireFactory {
   ): WebinaireViewModel {
     return new WebinaireViewModel({
       id: 'webinaire-1',
-      organizerId: 'organizer-1',
+      organizer: {
+        id: 'organizer-1',
+        name: 'The Organizer',
+        emailAddress: 'the-organizer@gmail.com',
+      },
       seats: {
         available: 100,
         total: 100,

@@ -1,6 +1,10 @@
 export type WebinaireViewModelType = {
   id: string;
-  organizerId: string;
+  organizer: {
+    id: string;
+    name: string;
+    emailAddress: string;
+  };
   seats: {
     available: number;
     total: number;

@@ -5,6 +5,7 @@ import { InMemoryWebinaireQuery } from '../../../webinaires/gateway-infra/in-mem
 import { FixedIdProvider } from '../../../system/id/fixed-id-provider';
 import { WebinaireFactory } from '../../../webinaires/entities/webinaire.factory';
 import { ParticipationFactory } from '../../entities/participation.factory';
+import { LoopbackMailerService } from '../../../mailer/services/mailer/loopback-mailer-service';
 
 describe('Feature: reserving a seat', () => {
   async function expectParticipationNotToBeCreated() {
@@ -17,14 +18,25 @@ describe('Feature: reserving a seat', () => {
 
   const alice = UserFactory.create({
     id: 'alice',
+    emailAddress: 'alice@gmail.com',
   });
 
   const webinaire = WebinaireFactory.createViewModel({
     id: 'webinaire-id-1',
+    organizer: {
+      id: 'organizer-1',
+      name: 'The Organizer 1',
+      emailAddress: 'organizer-1@gmail.com',
+    },
   });
 
   const webinaireInWhichAliceParticipate = WebinaireFactory.createViewModel({
     id: 'webinaire-id-2',
+    organizer: {
+      id: 'organizer-2',
+      name: 'The Organizer 2',
+      emailAddress: 'organizer-2@gmail.com',
+    },
   });
 
   const fullWebinaire = WebinaireFactory.createViewModel({
@@ -45,6 +57,7 @@ describe('Feature: reserving a seat', () => {
   let participationRepository: InMemoryParticipationRepository;
   let webinaireQuery: InMemoryWebinaireQuery;
   let useCase: ReserveSeat;
+  let mailer: LoopbackMailerService;
 
   beforeEach(() => {
     idProvider = new FixedIdProvider('participation-id');
@@ -56,11 +69,13 @@ describe('Feature: reserving a seat', () => {
       'webinaire-id-2': webinaireInWhichAliceParticipate,
       'full-webinaire-id': fullWebinaire,
     });
+    mailer = new LoopbackMailerService();
 
     useCase = new ReserveSeat(
       idProvider,
       webinaireQuery,
       participationRepository,
+      mailer,
     );
   });
 
@@ -83,6 +98,28 @@ describe('Feature: reserving a seat', () => {
         id: 'participation-id',
         webinaireId: 'webinaire-id-1',
         userId: alice.id,
+      });
+    });
+
+    it('should an email to the organizer', async () => {
+      await useCase.execute(payload);
+      const sentEmails = mailer.getSentEmails();
+
+      expect(sentEmails).toContainEqual({
+        to: 'organizer-1@gmail.com',
+        subject: 'Nouvelle participation à votre webinaire',
+        body: 'Une nouvelle personne participe à votre webinaire.',
+      });
+    });
+
+    it('should an email to the participant', async () => {
+      await useCase.execute(payload);
+      const sentEmails = mailer.getSentEmails();
+
+      expect(sentEmails).toContainEqual({
+        to: 'alice@gmail.com',
+        subject: 'Votre participation',
+        body: 'Votre participation au webinaire a bien été pris en compte.',
       });
     });
   });
