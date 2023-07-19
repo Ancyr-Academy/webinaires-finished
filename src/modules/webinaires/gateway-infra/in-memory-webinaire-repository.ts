@@ -3,10 +3,10 @@ import { WebinaireEntity } from '../entities/webinaire.entity';
 import { IWebinaireRepository } from '../gateway/webinaire.repository';
 
 export class InMemoryWebinaireRepository implements IWebinaireRepository {
-  private webinaires = new Map<string, WebinaireEntity>();
+  private database = new Map<string, WebinaireEntity>();
 
   async getWebinaireById(id: string): Promise<Optional<WebinaireEntity>> {
-    const webinaire = this.webinaires.get(id);
+    const webinaire = this.database.get(id);
     if (!webinaire) {
       return Optional.empty();
     }
@@ -16,22 +16,22 @@ export class InMemoryWebinaireRepository implements IWebinaireRepository {
   }
 
   async create(entity: WebinaireEntity): Promise<void> {
-    this.webinaires.set(entity.id, entity);
+    this.database.set(entity.id, entity);
     return;
   }
 
   async update(entity: WebinaireEntity): Promise<void> {
-    this.webinaires.set(entity.id, entity);
+    this.database.set(entity.id, entity);
     entity.commit();
     return;
   }
 
   async delete(entity: WebinaireEntity): Promise<void> {
-    this.webinaires.delete(entity.id);
+    this.database.delete(entity.id);
     return;
   }
 
   count() {
-    return this.webinaires.size;
+    return this.database.size;
   }
 }

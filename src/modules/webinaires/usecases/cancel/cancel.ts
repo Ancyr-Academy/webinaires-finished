@@ -1,4 +1,5 @@
 import { UserEntity } from '../../../auth/entity/user.entity';
+import { IMailer } from '../../../mailer/gateway/mailer.interface';
 import { DomainException } from '../../../shared/domain-exception';
 import { AbstractExecutable } from '../../../shared/executable';
 import { IWebinaireRepository } from '../../gateway/webinaire.repository';
@@ -11,7 +12,10 @@ type Request = {
 type Response = void;
 
 export class Cancel extends AbstractExecutable<Request, Response> {
-  constructor(private readonly webinaireGateway: IWebinaireRepository) {
+  constructor(
+    private readonly webinaireGateway: IWebinaireRepository,
+    private readonly mailer: IMailer,
+  ) {
     super();
   }
 

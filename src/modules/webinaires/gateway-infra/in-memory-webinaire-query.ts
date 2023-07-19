@@ -3,10 +3,10 @@ import { WebinaireViewModel } from '../entities/webinaire.viewmodel';
 import { IWebinaireQuery } from '../gateway/webinaire.query';
 
 export class InMemoryWebinaireQuery implements IWebinaireQuery {
-  constructor(private webinaires: Record<string, WebinaireViewModel> = {}) {}
+  constructor(private database: Record<string, WebinaireViewModel> = {}) {}
 
   async findById(id: string): Promise<Optional<WebinaireViewModel>> {
-    const webinaire = this.webinaires[id];
+    const webinaire = this.database[id];
     if (!webinaire) {
       return Optional.empty();
     }

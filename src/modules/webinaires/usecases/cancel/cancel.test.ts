@@ -1,9 +1,11 @@
 import { UserFactory } from '../../../auth/entity/user.factory';
+import { LoopbackMailer } from '../../../mailer/gateway-infra/loopback-mailer';
 import { WebinaireFactory } from '../../entities/webinaire.factory';
 import { InMemoryWebinaireRepository } from '../../gateway-infra/in-memory-webinaire-repository';
 import { Cancel } from './cancel';
 describe('Feature: canceling a webinaire', () => {
   let webinaireGateway: InMemoryWebinaireRepository;
+  let mailer: LoopbackMailer;
   let useCase: Cancel;
 
   const alice = UserFactory.create({
@@ -23,10 +25,11 @@ describe('Feature: canceling a webinaire', () => {
     webinaireGateway = new InMemoryWebinaireRepository();
     webinaireGateway.create(webinaire.cloneInitial());
 
-    useCase = new Cancel(webinaireGateway);
+    mailer = new LoopbackMailer();
+    useCase = new Cancel(webinaireGateway, mailer);
   });
 
-  describe('Scénario: canceling a webinaire', () => {
+  describe('Scenario: canceling a webinaire', () => {
     it('should delete the webinaire', async () => {
       await useCase.execute({
         user: alice,
@@ -41,7 +44,7 @@ describe('Feature: canceling a webinaire', () => {
     });
   });
 
-  describe('Scénario: canceling a webinaire that does not exist', () => {
+  describe('Scenario: canceling a webinaire that does not exist', () => {
     it('should fail', async () => {
       await expect(
         useCase.execute({
@@ -52,7 +55,7 @@ describe('Feature: canceling a webinaire', () => {
     });
   });
 
-  describe('Scénario: canceling a webinaire the user does not own', () => {
+  describe('Scenario: canceling a webinaire the user does not own', () => {
     it('should fail', async () => {
       await expect(
         useCase.execute({

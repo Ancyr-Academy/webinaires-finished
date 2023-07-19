@@ -5,12 +5,10 @@ import { IParticipationRepository } from '../gateway/participation.repository';
 export class InMemoryParticipationRepository
   implements IParticipationRepository
 {
-  constructor(
-    private participations: Record<string, ParticipationEntity> = {},
-  ) {}
+  constructor(private database: Record<string, ParticipationEntity> = {}) {}
 
   async findById(id: string): Promise<Optional<ParticipationEntity>> {
-    const participation = this.participations[id];
+    const participation = this.database[id];
     if (!participation) {
       return Optional.empty();
     }
@@ -22,7 +20,7 @@ export class InMemoryParticipationRepository
     webinaireId: string,
     userId: string,
   ): Promise<Optional<ParticipationEntity>> {
-    const participation = Object.values(this.participations).find(
+    const participation = Object.values(this.database).find(
       (p) => p.data.webinaireId === webinaireId && p.data.userId === userId,
     );
 
@@ -30,14 +28,14 @@ export class InMemoryParticipationRepository
   }
 
   async create(participation: ParticipationEntity): Promise<void> {
-    if (this.participations[participation.data.id]) {
+    if (this.database[participation.data.id]) {
       throw new Error('Participation already exists');
     }
 
-    this.participations[participation.data.id] = participation;
+    this.database[participation.data.id] = participation;
   }
 
   async delete(participation: ParticipationEntity): Promise<void> {
-    delete this.participations[participation.data.id];
+    delete this.database[participation.data.id];
   }
 }
