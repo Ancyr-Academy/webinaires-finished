@@ -5,7 +5,7 @@ import { InMemoryWebinaireQuery } from '../../../webinaires/gateway-infra/in-mem
 import { FixedIdProvider } from '../../../system/id/fixed-id-provider';
 import { WebinaireFactory } from '../../../webinaires/entities/webinaire.factory';
 import { ParticipationFactory } from '../../entities/participation.factory';
-import { LoopbackMailerService } from '../../../mailer/services/mailer/loopback-mailer-service';
+import { LoopbackMailer } from '../../../mailer/gateway-infra/loopback-mailer';
 
 describe('Feature: reserving a seat', () => {
   async function expectParticipationNotToBeCreated() {
@@ -57,7 +57,7 @@ describe('Feature: reserving a seat', () => {
   let participationRepository: InMemoryParticipationRepository;
   let webinaireQuery: InMemoryWebinaireQuery;
   let useCase: ReserveSeat;
-  let mailer: LoopbackMailerService;
+  let mailer: LoopbackMailer;
 
   beforeEach(() => {
     idProvider = new FixedIdProvider('participation-id');
@@ -69,7 +69,7 @@ describe('Feature: reserving a seat', () => {
       'webinaire-id-2': webinaireInWhichAliceParticipate,
       'full-webinaire-id': fullWebinaire,
     });
-    mailer = new LoopbackMailerService();
+    mailer = new LoopbackMailer();
 
     useCase = new ReserveSeat(
       idProvider,

@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { LoopbackMailerService } from '../services/mailer/loopback-mailer-service';
-import { I_MAILER_SERVICE } from '../services/mailer/mailer-service.interface';
+import { LoopbackMailer } from '../gateway-infra/loopback-mailer';
+import { I_MAILER_SERVICE } from '../gateway/mailer.interface';
 
 const services = [
   {
     provide: I_MAILER_SERVICE,
     useFactory: () => {
-      return new LoopbackMailerService();
+      return new LoopbackMailer();
     },
   },
 ];

@@ -6,7 +6,7 @@ import { IIDProvider } from '../../../system/id/id-provider';
 import { UserEntity } from '../../entity/user.entity';
 import { IAuthGateway } from '../../gateway/auth.gateway';
 import { IPasswordHasher } from '../../services/password-hasher/password-hasher.interface';
-import { IMailerService } from '../../../mailer/services/mailer/mailer-service.interface';
+import { IMailer } from '../../../mailer/gateway/mailer.interface';
 
 type Request = {
   emailAddress: string;
@@ -29,7 +29,7 @@ export class CreateAccount extends AbstractExecutable<Request, Response> {
     private readonly idProvider: IIDProvider,
     private readonly authGateway: IAuthGateway,
     private readonly passwordHasher: IPasswordHasher,
-    private readonly mailerService: IMailerService,
+    private readonly mailerService: IMailer,
   ) {
     super();
   }

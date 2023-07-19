@@ -1,5 +1,5 @@
 import { UserFactory } from '../../../auth/entity/user.factory';
-import { LoopbackMailerService } from '../../../mailer/services/mailer/loopback-mailer-service';
+import { LoopbackMailer } from '../../../mailer/gateway-infra/loopback-mailer';
 import { WebinaireFactory } from '../../../webinaires/entities/webinaire.factory';
 import { InMemoryWebinaireQuery } from '../../../webinaires/gateway-infra/in-memory-webinaire-query';
 import { ParticipationFactory } from '../../entities/participation.factory';
@@ -29,7 +29,7 @@ describe('Feature: canceling a participation', () => {
 
   let participationRepository: InMemoryParticipationRepository;
   let webinaireQuery: InMemoryWebinaireQuery;
-  let mailer: LoopbackMailerService;
+  let mailer: LoopbackMailer;
   let useCase: CancelReservation;
 
   beforeEach(() => {
@@ -39,7 +39,7 @@ describe('Feature: canceling a participation', () => {
     webinaireQuery = new InMemoryWebinaireQuery({
       'webinaire-id-1': webinaire,
     });
-    mailer = new LoopbackMailerService();
+    mailer = new LoopbackMailer();
 
     useCase = new CancelReservation(
       participationRepository,

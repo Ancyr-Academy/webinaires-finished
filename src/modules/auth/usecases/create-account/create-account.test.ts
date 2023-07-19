@@ -1,4 +1,4 @@
-import { LoopbackMailerService } from '../../../mailer/services/mailer/loopback-mailer-service';
+import { LoopbackMailer } from '../../../mailer/gateway-infra/loopback-mailer';
 import { FixedIdProvider } from '../../../system/id/fixed-id-provider';
 import { UserFactory } from '../../entity/user.factory';
 import { InMemoryAuthGateway } from '../../gateway-infra/in-memory-auth-gateway';
@@ -8,13 +8,13 @@ import { CreateAccount } from './create-account';
 describe('Create account', () => {
   let authGateway: InMemoryAuthGateway;
   let passwordHasher: PassthroughPasswordHasher;
-  let mailerService: LoopbackMailerService;
+  let mailerService: LoopbackMailer;
   let useCase: CreateAccount;
 
   beforeEach(() => {
     authGateway = new InMemoryAuthGateway();
     passwordHasher = new PassthroughPasswordHasher();
-    mailerService = new LoopbackMailerService();
+    mailerService = new LoopbackMailer();
 
     useCase = new CreateAccount(
       new FixedIdProvider(),

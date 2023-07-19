@@ -1,5 +1,5 @@
 import { UserEntity } from '../../../auth/entity/user.entity';
-import { IMailerService } from '../../../mailer/services/mailer/mailer-service.interface';
+import { IMailer } from '../../../mailer/gateway/mailer.interface';
 import { DomainException } from '../../../shared/domain-exception';
 import { AbstractExecutable } from '../../../shared/executable';
 import { IIDProvider } from '../../../system/id/id-provider';
@@ -20,7 +20,7 @@ export class ReserveSeat extends AbstractExecutable<Request, Response> {
     private readonly idProvider: IIDProvider,
     private readonly webinaireQuery: IWebinaireQuery,
     private readonly participationRepository: IParticipationRepository,
-    private readonly mailerService: IMailerService,
+    private readonly mailer: IMailer,
   ) {
     super();
   }
@@ -60,7 +60,7 @@ export class ReserveSeat extends AbstractExecutable<Request, Response> {
   }
 
   private async notifyOrganizer(webinaire: WebinaireViewModel) {
-    await this.mailerService.sendMail({
+    await this.mailer.sendMail({
       to: webinaire.data.organizer.emailAddress,
       subject: 'Nouvelle participation à votre webinaire',
       body: 'Une nouvelle personne participe à votre webinaire.',
@@ -68,7 +68,7 @@ export class ReserveSeat extends AbstractExecutable<Request, Response> {
   }
 
   private async notifyParticipant(user: UserEntity) {
-    await this.mailerService.sendMail({
+    await this.mailer.sendMail({
       to: user.data.emailAddress,
       subject: 'Votre participation',
       body: 'Votre participation au webinaire a bien été pris en compte.',

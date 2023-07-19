@@ -1,5 +1,5 @@
 import { UserEntity } from '../../../auth/entity/user.entity';
-import { IMailerService } from '../../../mailer/services/mailer/mailer-service.interface';
+import { IMailer } from '../../../mailer/gateway/mailer.interface';
 import { DomainException } from '../../../shared/domain-exception';
 import { AbstractExecutable } from '../../../shared/executable';
 import { IWebinaireQuery } from '../../../webinaires/gateway/webinaire.query';
@@ -16,7 +16,7 @@ export class CancelReservation extends AbstractExecutable<Request, Response> {
   constructor(
     private readonly participationRepository: IParticipationRepository,
     private readonly webinaireQuery: IWebinaireQuery,
-    private readonly mailerService: IMailerService,
+    private readonly mailer: IMailer,
   ) {
     super();
   }
@@ -41,7 +41,7 @@ export class CancelReservation extends AbstractExecutable<Request, Response> {
     const webinaireOption = await this.webinaireQuery.findById(webinaireId);
     const webinaire = webinaireOption.getOrThrow();
 
-    await this.mailerService.sendMail({
+    await this.mailer.sendMail({
       to: webinaire.data.organizer.emailAddress,
       subject: 'Annulation de participation',
       body: 'Une personne a annulé sa participation à votre webinaire.',
@@ -49,7 +49,7 @@ export class CancelReservation extends AbstractExecutable<Request, Response> {
   }
 
   private async notifyParticipant(user: UserEntity) {
-    await this.mailerService.sendMail({
+    await this.mailer.sendMail({
       to: user.data.emailAddress,
       subject: 'Annulation de votre participation',
       body: 'Votre participation au webinaire a bien été annulée.',
