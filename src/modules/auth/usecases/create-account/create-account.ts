@@ -29,7 +29,7 @@ export class CreateAccount extends AbstractExecutable<Request, Response> {
     private readonly idProvider: IIDProvider,
     private readonly authGateway: IAuthGateway,
     private readonly passwordHasher: IPasswordHasher,
-    private readonly mailerService: IMailer,
+    private readonly mailer: IMailer,
   ) {
     super();
   }
@@ -55,7 +55,7 @@ export class CreateAccount extends AbstractExecutable<Request, Response> {
     });
 
     await this.authGateway.createUser(user);
-    await this.mailerService.sendMail({
+    await this.mailer.sendMail({
       to: emailAddress,
       subject: 'Bienvenue à Webinaires !',
       body: 'Votre compte a bien été créé.',
