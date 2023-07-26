@@ -6,16 +6,22 @@ import {
   IAuthGateway,
   I_AUTH_GATEWAY,
 } from '../../modules/auth/ports/auth.gateway';
+import { INestApplication } from '@nestjs/common';
+
 describe('Feature: create account', () => {
   describe('Scenario: happy path', () => {
-    it('should create an account', async () => {
+    let app: INestApplication;
+
+    beforeEach(async () => {
       const module = await Test.createTestingModule({
         imports: [AppModule],
       }).compile();
 
-      const app = module.createNestApplication();
+      app = module.createNestApplication();
       await app.init();
+    });
 
+    it('should create an account', async () => {
       const result = await request(app.getHttpServer())
         .post('/auth/create-account')
         .send({
@@ -34,7 +40,9 @@ describe('Feature: create account', () => {
 
       const user = userQuery.get();
       expect(user.data.emailAddress).toEqual('johndoe@gmail.com');
+    });
 
+    afterEach(async () => {
       await app.close();
     });
   });
