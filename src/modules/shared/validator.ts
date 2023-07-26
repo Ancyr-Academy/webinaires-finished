@@ -11,6 +11,10 @@ export class Validator<T> {
 
     throw ValidationException.fromZod(result.error);
   }
+
+  parse(payload: T): T {
+    return this.schema.parse(payload);
+  }
 }
 
 export class ValidationException extends Error {

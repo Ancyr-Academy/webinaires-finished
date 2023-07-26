@@ -9,6 +9,6 @@ export class ZodValidationPipe implements PipeTransform {
   transform(payload: any) {
     const validator = new Validator(this.schema);
     validator.validate(payload);
-    return payload;
+    return validator.parse(payload);
   }
 }

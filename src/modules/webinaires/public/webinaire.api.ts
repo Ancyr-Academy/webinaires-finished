@@ -11,8 +11,8 @@ export namespace WebinaireAPI {
 
   export namespace ChangeDates {
     export const schema = z.object({
-      startAt: z.date(),
-      endAt: z.date(),
+      startAt: z.coerce.date(),
+      endAt: z.coerce.date(),
     });
 
     export type Request = z.infer<typeof schema>;
@@ -30,8 +30,8 @@ export namespace WebinaireAPI {
 
   export namespace Organize {
     export const schema = z.object({
-      startAt: z.date(),
-      endAt: z.date(),
+      startAt: z.coerce.date(),
+      endAt: z.coerce.date(),
       seats: z.number(),
     });
 

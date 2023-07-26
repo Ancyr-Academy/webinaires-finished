@@ -4,6 +4,7 @@ import * as request from 'supertest';
 
 import { AppModule } from '../../adapters/nest/app/app.module';
 import { Nullable } from '../../modules/shared/types';
+import { CreateAccount } from '../../modules/auth/usecases/create-account/create-account';
 
 export class TestApp {
   private app: Nullable<INestApplication> = null;
@@ -17,18 +18,32 @@ export class TestApp {
     await this.app.init();
   }
 
-  request() {
-    return request(this.app!.getHttpServer());
-  }
-
-  get<T>(token: string | symbol) {
-    return this.app!.get<T>(token);
-  }
-
   async teardown() {
     if (this.app) {
       await this.app.close();
       this.app = null;
     }
+  }
+
+  request() {
+    return request(this.app!.getHttpServer());
+  }
+
+  get<T>(token: string | symbol | any) {
+    return this.app!.get<T>(token);
+  }
+
+  async registerUser(emailAddress: string, password: string) {
+    const authGateway = this.app!.get<CreateAccount>(CreateAccount);
+    await authGateway.execute({
+      emailAddress,
+      password,
+    });
+  }
+
+  createAuthorizationToken(emailAddress: string, password: string) {
+    return `Basic ${Buffer.from(`${emailAddress}:${password}`).toString(
+      'base64',
+    )}`;
   }
 }
