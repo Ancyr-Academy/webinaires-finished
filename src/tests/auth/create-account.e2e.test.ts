@@ -1,24 +1,18 @@
-import { Test } from '@nestjs/testing';
 import * as request from 'supertest';
 
-import { AppModule } from '../../adapters/nest/app/app.module';
 import {
   IAuthGateway,
   I_AUTH_GATEWAY,
 } from '../../modules/auth/ports/auth.gateway';
-import { INestApplication } from '@nestjs/common';
+import { TestApp } from '../setup/test-app';
 
 describe('Feature: create account', () => {
   describe('Scenario: happy path', () => {
-    let app: INestApplication;
+    let app: TestApp;
 
     beforeEach(async () => {
-      const module = await Test.createTestingModule({
-        imports: [AppModule],
-      }).compile();
-
-      app = module.createNestApplication();
-      await app.init();
+      app = new TestApp();
+      await app.setup();
     });
 
     it('should create an account', async () => {
@@ -43,7 +37,7 @@ describe('Feature: create account', () => {
     });
 
     afterEach(async () => {
-      await app.close();
+      await app.teardown();
     });
   });
 });
