@@ -1,9 +1,9 @@
 import { InMemoryParticipationRepository } from '../../gateway-infra/in-memory-participation-gateway';
 import { ReserveSeat } from './reserve-seat';
 import { UserFactory } from '../../../auth/entity/user.factory';
-import { InMemoryWebinaireQuery } from '../../../webinaires/gateway-infra/in-memory-webinaire-query';
+import { InMemoryWebinaireQuery } from '../../gateway-infra/in-memory-webinaire-query';
 import { FixedIdProvider } from '../../../system/id/fixed-id-provider';
-import { WebinaireFactory } from '../../../webinaires/entities/webinaire.factory';
+import { WebinaireFactory } from '../../entities/webinaire.factory';
 import { ParticipationFactory } from '../../entities/participation.factory';
 import { LoopbackMailer } from '../../../mailer/gateway-infra/loopback-mailer';
 

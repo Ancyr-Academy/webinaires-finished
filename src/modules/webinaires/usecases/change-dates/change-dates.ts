@@ -1,6 +1,6 @@
 import { UserEntity } from '../../../auth/entity/user.entity';
 import { IMailer } from '../../../mailer/gateway/mailer.interface';
-import { IParticipantQuery } from '../../../participants/gateway/participant.query';
+import { IParticipantQuery } from '../../gateway/participant.query';
 import { DomainException } from '../../../shared/domain-exception';
 import { AbstractExecutable } from '../../../shared/executable';
 import { IDateProvider } from '../../../system/date/date-provider';
@@ -18,7 +18,7 @@ type Response = void;
 export class ChangeDates extends AbstractExecutable<Request, Response> {
   constructor(
     private readonly dateProvider: IDateProvider,
-    private readonly webinaireGateway: IWebinaireRepository,
+    private readonly webinaireRepository: IWebinaireRepository,
     private readonly participantQuery: IParticipantQuery,
     private readonly mailer: IMailer,
   ) {
@@ -31,7 +31,7 @@ export class ChangeDates extends AbstractExecutable<Request, Response> {
     startAt,
     endAt,
   }: Request): Promise<Response> {
-    const webinaireOption = await this.webinaireGateway.getWebinaireById(
+    const webinaireOption = await this.webinaireRepository.getWebinaireById(
       webinaireId,
     );
 
@@ -58,7 +58,7 @@ export class ChangeDates extends AbstractExecutable<Request, Response> {
       );
     }
 
-    await this.webinaireGateway.update(webinaire);
+    await this.webinaireRepository.update(webinaire);
     await this.notifyParticipants(webinaireId);
   }
 

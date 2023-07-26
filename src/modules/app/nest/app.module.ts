@@ -6,9 +6,10 @@ import { AppService } from './app.service';
 import { SystemModule } from '../../system/nest/system.module';
 import { AuthModule } from '../../auth/nest/auth.module';
 import { CatchAllFilter } from './catch-all.filter';
+import { WebinaireModule } from '../../../nest/webinaires/webinaire.module';
 
 @Module({
-  imports: [SystemModule, AuthModule],
+  imports: [SystemModule, AuthModule, WebinaireModule],
   controllers: [AppController],
   providers: [
     AppService,

@@ -1,6 +1,6 @@
 import { UserEntity } from '../../../auth/entity/user.entity';
 import { IMailer } from '../../../mailer/gateway/mailer.interface';
-import { IParticipantQuery } from '../../../participants/gateway/participant.query';
+import { IParticipantQuery } from '../../gateway/participant.query';
 import { DomainException } from '../../../shared/domain-exception';
 import { AbstractExecutable } from '../../../shared/executable';
 import { IWebinaireRepository } from '../../gateway/webinaire.repository';
@@ -12,9 +12,9 @@ type Request = {
 
 type Response = void;
 
-export class Cancel extends AbstractExecutable<Request, Response> {
+export class CancelWebinaire extends AbstractExecutable<Request, Response> {
   constructor(
-    private readonly webinaireGateway: IWebinaireRepository,
+    private readonly webinaireRepository: IWebinaireRepository,
     private readonly participantQuery: IParticipantQuery,
     private readonly mailer: IMailer,
   ) {
@@ -22,7 +22,7 @@ export class Cancel extends AbstractExecutable<Request, Response> {
   }
 
   async handle({ user, webinaireId }: Request): Promise<Response> {
-    const webinaireOption = await this.webinaireGateway.getWebinaireById(
+    const webinaireOption = await this.webinaireRepository.getWebinaireById(
       webinaireId,
     );
 
@@ -37,7 +37,7 @@ export class Cancel extends AbstractExecutable<Request, Response> {
       );
     }
 
-    await this.webinaireGateway.delete(webinaire);
+    await this.webinaireRepository.delete(webinaire);
     await this.notifyParticipants(webinaireId);
   }
 

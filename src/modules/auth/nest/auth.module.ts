@@ -7,7 +7,7 @@ import { I_AUTH_GATEWAY } from '../gateway/auth.gateway';
 import { InMemoryAuthGateway } from '../gateway-infra/in-memory-auth-gateway';
 import { AuthController } from './auth.controller';
 import { MailerModule } from '../../mailer/nest/mailer.module';
-import { I_MAILER_SERVICE } from '../../mailer/gateway/mailer.interface';
+import { I_MAILER } from '../../mailer/gateway/mailer.interface';
 import { AuthGuard } from './auth.guard';
 import { APP_GUARD, Reflector } from '@nestjs/core';
 import { I_AUTHENTICATOR } from '../services/authenticator/authenticator.interface';
@@ -41,12 +41,7 @@ const gateways = [
 const useCases = [
   {
     provide: CreateAccount,
-    inject: [
-      I_ID_PROVIDER,
-      I_AUTH_GATEWAY,
-      I_PASSWORD_HASHER,
-      I_MAILER_SERVICE,
-    ],
+    inject: [I_ID_PROVIDER, I_AUTH_GATEWAY, I_PASSWORD_HASHER, I_MAILER],
     useFactory: (idProvider, authGateway, passwordHasher, mailerService) => {
       return new CreateAccount(
         idProvider,

@@ -1,7 +1,7 @@
 import { UserFactory } from '../../../auth/entity/user.factory';
 import { LoopbackMailer } from '../../../mailer/gateway-infra/loopback-mailer';
-import { ParticipationFactory } from '../../../participants/entities/participation.factory';
-import { InMemoryParticipantQuery } from '../../../participants/gateway-infra/in-memory-participant-query';
+import { ParticipationFactory } from '../../entities/participation.factory';
+import { InMemoryParticipantQuery } from '../../gateway-infra/in-memory-participant-query';
 import { FixedDateProvider } from '../../../system/date/fixed-date-provider';
 import { WebinaireFactory } from '../../entities/webinaire.factory';
 import { InMemoryWebinaireRepository } from '../../gateway-infra/in-memory-webinaire-repository';

@@ -12,12 +12,12 @@ type Request = {
 type Response = void;
 
 export class ChangeSeats extends AbstractExecutable<Request, Response> {
-  constructor(private readonly webinaireGateway: IWebinaireRepository) {
+  constructor(private readonly webinaireRepository: IWebinaireRepository) {
     super();
   }
 
   async handle({ user, webinaireId, seats }: Request): Promise<Response> {
-    const webinaireOption = await this.webinaireGateway.getWebinaireById(
+    const webinaireOption = await this.webinaireRepository.getWebinaireById(
       webinaireId,
     );
 
@@ -50,6 +50,6 @@ export class ChangeSeats extends AbstractExecutable<Request, Response> {
       );
     }
 
-    await this.webinaireGateway.update(webinaire);
+    await this.webinaireRepository.update(webinaire);
   }
 }

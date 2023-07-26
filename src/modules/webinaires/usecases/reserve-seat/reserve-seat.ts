@@ -3,8 +3,8 @@ import { IMailer } from '../../../mailer/gateway/mailer.interface';
 import { DomainException } from '../../../shared/domain-exception';
 import { AbstractExecutable } from '../../../shared/executable';
 import { IIDProvider } from '../../../system/id/id-provider';
-import { WebinaireViewModel } from '../../../webinaires/entities/webinaire.viewmodel';
-import { IWebinaireQuery } from '../../../webinaires/gateway/webinaire.query';
+import { WebinaireViewModel } from '../../entities/webinaire.viewmodel';
+import { IWebinaireQuery } from '../../gateway/webinaire.query';
 import { ParticipationEntity } from '../../entities/participation.entity';
 import { IParticipationRepository } from '../../gateway/participation.repository';
 

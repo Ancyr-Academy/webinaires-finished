@@ -1,10 +1,10 @@
 import { UserFactory } from '../../../auth/entity/user.factory';
 import { LoopbackMailer } from '../../../mailer/gateway-infra/loopback-mailer';
-import { ParticipationFactory } from '../../../participants/entities/participation.factory';
-import { InMemoryParticipantQuery } from '../../../participants/gateway-infra/in-memory-participant-query';
+import { ParticipationFactory } from '../../entities/participation.factory';
+import { InMemoryParticipantQuery } from '../../gateway-infra/in-memory-participant-query';
 import { WebinaireFactory } from '../../entities/webinaire.factory';
 import { InMemoryWebinaireRepository } from '../../gateway-infra/in-memory-webinaire-repository';
-import { Cancel } from './cancel';
+import { CancelWebinaire } from './cancel-webinaire';
 describe('Feature: canceling a webinaire', () => {
   function createParticipant(name: string) {
     return ParticipationFactory.createViewModel({
@@ -17,7 +17,7 @@ describe('Feature: canceling a webinaire', () => {
   let webinaireGateway: InMemoryWebinaireRepository;
   let participantQuery: InMemoryParticipantQuery;
   let mailer: LoopbackMailer;
-  let useCase: Cancel;
+  let useCase: CancelWebinaire;
 
   const alice = UserFactory.create({
     id: 'alice',
@@ -44,7 +44,7 @@ describe('Feature: canceling a webinaire', () => {
     });
 
     mailer = new LoopbackMailer();
-    useCase = new Cancel(webinaireGateway, participantQuery, mailer);
+    useCase = new CancelWebinaire(webinaireGateway, participantQuery, mailer);
   });
 
   describe('Scenario: canceling a webinaire', () => {

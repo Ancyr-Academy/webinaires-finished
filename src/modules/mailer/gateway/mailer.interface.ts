@@ -1,4 +1,4 @@
-export const I_MAILER_SERVICE = Symbol('I_MAILER_SERVICE');
+export const I_MAILER = Symbol('I_MAILER');
 
 export interface IMailer {
   sendMail(email: Email): Promise<void>;
