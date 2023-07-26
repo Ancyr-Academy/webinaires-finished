@@ -2,7 +2,7 @@ import { Body, Controller, Post } from '@nestjs/common';
 
 import { CreateAccount } from '../../../modules/auth/usecases/create-account/create-account';
 import { ZodValidationPipe } from '../app/zod-validation.pipe';
-import { AuthAPI } from './auth.api';
+import { AuthAPI } from '../../../modules/auth/public/auth.api';
 
 @Controller('auth')
 export class AuthController {

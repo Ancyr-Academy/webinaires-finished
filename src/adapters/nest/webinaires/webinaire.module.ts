@@ -18,6 +18,7 @@ import { ChangeDates } from '../../../modules/webinaires/usecases/change-dates/c
 import { ChangeSeats } from '../../../modules/webinaires/usecases/change-seats/change-seats';
 import { ReserveSeat } from '../../../modules/webinaires/usecases/reserve-seat/reserve-seat';
 import { MailerModule } from '../mailer/mailer.module';
+import { WebinaireController } from './webinaire.controller';
 
 const gateways = [
   {
@@ -127,7 +128,7 @@ const useCases = [
 
 @Module({
   imports: [MailerModule],
-  controllers: [],
+  controllers: [WebinaireController],
   providers: [...gateways, ...useCases],
   exports: [],
 })

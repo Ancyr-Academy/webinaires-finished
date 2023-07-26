@@ -22,12 +22,12 @@ export class CancelReservation extends AbstractExecutable<Request, Response> {
   }
 
   async handle({ user, webinaireId }: Request): Promise<Response> {
-    const participationOption = await this.participationRepository.find(
+    const participationQuery = await this.participationRepository.find(
       webinaireId,
       user.id,
     );
 
-    const participation = participationOption.getOrThrow(
+    const participation = participationQuery.getOrThrow(
       new DomainException('NOT_FOUND', 'Participation not found'),
     );
 

@@ -26,8 +26,8 @@ export class ReserveSeat extends AbstractExecutable<Request, Response> {
   }
 
   async handle({ user, webinaireId }: Request): Promise<Response> {
-    const webinaireOption = await this.webinaireQuery.findById(webinaireId);
-    const webinaire = webinaireOption.getOrThrow(
+    const webinaireQuery = await this.webinaireQuery.findById(webinaireId);
+    const webinaire = webinaireQuery.getOrThrow(
       new DomainException('NOT_FOUND', 'Webinaire not found'),
     );
 
@@ -35,12 +35,12 @@ export class ReserveSeat extends AbstractExecutable<Request, Response> {
       throw new DomainException('WEBINAIRE_FULL', 'Webinaire is full');
     }
 
-    const existingParticipation = await this.participationRepository.find(
+    const participationQuery = await this.participationRepository.find(
       webinaireId,
       user.id,
     );
 
-    if (existingParticipation.isNull() === false) {
+    if (participationQuery.isNull() === false) {
       throw new DomainException(
         'ALREADY_RESERVED',
         'You already participate in this webinaire',

@@ -31,11 +31,11 @@ export class ChangeDates extends AbstractExecutable<Request, Response> {
     startAt,
     endAt,
   }: Request): Promise<Response> {
-    const webinaireOption = await this.webinaireRepository.getWebinaireById(
+    const webinaireQuery = await this.webinaireRepository.getWebinaireById(
       webinaireId,
     );
 
-    const webinaire = webinaireOption.getOrThrow(
+    const webinaire = webinaireQuery.getOrThrow(
       new DomainException('WEBINAIRE_NOT_FOUND', 'Webinaire not found'),
     );
 
