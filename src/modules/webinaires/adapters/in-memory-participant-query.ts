@@ -1,5 +1,5 @@
 import { ParticipantViewModel } from '../entities/participant.viewmodel';
-import { IParticipantQuery } from '../gateway/participant.query';
+import { IParticipantQuery } from '../ports/participant.query';
 
 export class InMemoryParticipantQuery implements IParticipantQuery {
   constructor(private database: Record<string, ParticipantViewModel[]> = {}) {}

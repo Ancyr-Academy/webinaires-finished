@@ -1,7 +1,7 @@
 import { UserEntity } from '../../../auth/entity/user.entity';
 import { DomainException } from '../../../shared/domain-exception';
 import { AbstractExecutable } from '../../../shared/executable';
-import { IWebinaireRepository } from '../../gateway/webinaire.repository';
+import { IWebinaireRepository } from '../../ports/webinaire.repository';
 
 type Request = {
   webinaireId: string;

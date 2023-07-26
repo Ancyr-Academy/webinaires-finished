@@ -1,17 +1,17 @@
 import { Module } from '@nestjs/common';
-import { I_PASSWORD_HASHER } from '../services/password-hasher/password-hasher.interface';
-import { Argon2PasswordHasher } from '../services/password-hasher/argon2-password-hasher';
-import { CreateAccount } from '../usecases/create-account/create-account';
-import { I_ID_PROVIDER } from '../../system/id/id-provider';
-import { I_AUTH_GATEWAY } from '../gateway/auth.gateway';
-import { InMemoryAuthGateway } from '../gateway-infra/in-memory-auth-gateway';
+import { I_PASSWORD_HASHER } from '../../../modules/auth/services/password-hasher/password-hasher.interface';
+import { Argon2PasswordHasher } from '../../../modules/auth/services/password-hasher/argon2-password-hasher';
+import { CreateAccount } from '../../../modules/auth/usecases/create-account/create-account';
+import { I_ID_PROVIDER } from '../../../modules/system/id/id-provider';
+import { I_AUTH_GATEWAY } from '../../../modules/auth/ports/auth.gateway';
+import { InMemoryAuthGateway } from '../../../modules/auth/adapters/in-memory-auth-gateway';
 import { AuthController } from './auth.controller';
-import { MailerModule } from '../../mailer/nest/mailer.module';
-import { I_MAILER } from '../../mailer/gateway/mailer.interface';
+import { MailerModule } from '../mailer/mailer.module';
+import { I_MAILER } from '../../../modules/mailer/ports/mailer.interface';
 import { AuthGuard } from './auth.guard';
 import { APP_GUARD, Reflector } from '@nestjs/core';
-import { I_AUTHENTICATOR } from '../services/authenticator/authenticator.interface';
-import { Authenticator } from '../services/authenticator/authenticator';
+import { I_AUTHENTICATOR } from '../../../modules/auth/services/authenticator/authenticator.interface';
+import { Authenticator } from '../../../modules/auth/services/authenticator/authenticator';
 
 const services = [
   {

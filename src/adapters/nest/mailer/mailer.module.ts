@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { LoopbackMailer } from '../gateway-infra/loopback-mailer';
-import { I_MAILER } from '../gateway/mailer.interface';
+import { LoopbackMailer } from '../../../modules/mailer/adapters/loopback-mailer';
+import { I_MAILER } from '../../../modules/mailer/ports/mailer.interface';
 
 const services = [
   {

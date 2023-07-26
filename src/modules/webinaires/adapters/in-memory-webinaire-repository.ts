@@ -1,6 +1,6 @@
 import { Optional } from '../../shared/optional';
 import { WebinaireEntity } from '../entities/webinaire.entity';
-import { IWebinaireRepository } from '../gateway/webinaire.repository';
+import { IWebinaireRepository } from '../ports/webinaire.repository';
 
 export class InMemoryWebinaireRepository implements IWebinaireRepository {
   private database = new Map<string, WebinaireEntity>();

@@ -1,12 +1,12 @@
 import { UserEntity } from '../../../auth/entity/user.entity';
-import { IMailer } from '../../../mailer/gateway/mailer.interface';
+import { IMailer } from '../../../mailer/ports/mailer.interface';
 import { DomainException } from '../../../shared/domain-exception';
 import { AbstractExecutable } from '../../../shared/executable';
 import { IIDProvider } from '../../../system/id/id-provider';
 import { WebinaireViewModel } from '../../entities/webinaire.viewmodel';
-import { IWebinaireQuery } from '../../gateway/webinaire.query';
+import { IWebinaireQuery } from '../../ports/webinaire.query';
 import { ParticipationEntity } from '../../entities/participation.entity';
-import { IParticipationRepository } from '../../gateway/participation.repository';
+import { IParticipationRepository } from '../../ports/participation.repository';
 
 type Request = {
   user: UserEntity;

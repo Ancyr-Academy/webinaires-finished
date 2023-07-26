@@ -1,10 +1,10 @@
 import { UserEntity } from '../../../auth/entity/user.entity';
-import { IMailer } from '../../../mailer/gateway/mailer.interface';
-import { IParticipantQuery } from '../../gateway/participant.query';
+import { IMailer } from '../../../mailer/ports/mailer.interface';
+import { IParticipantQuery } from '../../ports/participant.query';
 import { DomainException } from '../../../shared/domain-exception';
 import { AbstractExecutable } from '../../../shared/executable';
 import { IDateProvider } from '../../../system/date/date-provider';
-import { IWebinaireRepository } from '../../gateway/webinaire.repository';
+import { IWebinaireRepository } from '../../ports/webinaire.repository';
 
 type Request = {
   user: UserEntity;

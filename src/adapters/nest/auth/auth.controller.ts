@@ -1,7 +1,7 @@
 import { Body, Controller, Post } from '@nestjs/common';
 
-import { CreateAccount } from '../usecases/create-account/create-account';
-import { ZodValidationPipe } from '../../app/nest/zod-validation.pipe';
+import { CreateAccount } from '../../../modules/auth/usecases/create-account/create-account';
+import { ZodValidationPipe } from '../app/zod-validation.pipe';
 import { AuthAPI } from './auth.api';
 
 @Controller('auth')

@@ -1,7 +1,7 @@
 import { UserFactory } from '../../../auth/entity/user.factory';
 import { FixedDateProvider } from '../../../system/date/fixed-date-provider';
 import { FixedIdProvider } from '../../../system/id/fixed-id-provider';
-import { InMemoryWebinaireRepository } from '../../gateway-infra/in-memory-webinaire-repository';
+import { InMemoryWebinaireRepository } from '../../adapters/in-memory-webinaire-repository';
 import { Organize } from './organize';
 
 describe('Feature: Organizing webinaires', () => {

@@ -1,6 +1,6 @@
 import { Optional } from '../../shared/optional';
 import { ParticipationEntity } from '../entities/participation.entity';
-import { IParticipationRepository } from '../gateway/participation.repository';
+import { IParticipationRepository } from '../ports/participation.repository';
 
 export class InMemoryParticipationRepository
   implements IParticipationRepository

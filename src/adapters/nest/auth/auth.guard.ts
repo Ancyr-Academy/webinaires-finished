@@ -4,7 +4,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { IAuthenticator } from '../services/authenticator/authenticator.interface';
+import { IAuthenticator } from '../../../modules/auth/services/authenticator/authenticator.interface';
 import { IS_PUBLIC_KEY } from './auth.metadata';
 import { Request } from 'express';
 

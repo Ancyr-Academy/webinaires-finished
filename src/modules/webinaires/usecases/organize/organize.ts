@@ -4,7 +4,7 @@ import { AbstractExecutable } from '../../../shared/executable';
 import { IDateProvider } from '../../../system/date/date-provider';
 import { IIDProvider } from '../../../system/id/id-provider';
 import { WebinaireEntity } from '../../entities/webinaire.entity';
-import { IWebinaireRepository } from '../../gateway/webinaire.repository';
+import { IWebinaireRepository } from '../../ports/webinaire.repository';
 
 type Request = {
   user: UserEntity;

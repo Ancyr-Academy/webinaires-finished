@@ -1,6 +1,6 @@
 import { Injectable, PipeTransform } from '@nestjs/common';
 import { z } from 'zod';
-import { Validator } from '../../shared/validator';
+import { Validator } from '../../../modules/shared/validator';
 
 @Injectable()
 export class ZodValidationPipe implements PipeTransform {

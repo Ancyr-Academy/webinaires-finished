@@ -1,8 +1,8 @@
 import { Global, Module } from '@nestjs/common';
-import { I_DATE_PROVIDER } from '../date/date-provider';
-import { CurrentDateProvider } from '../date/current-date-provider';
-import { I_ID_PROVIDER } from '../id/id-provider';
-import { NanoidProvider } from '../id/nanoid-provider';
+import { I_DATE_PROVIDER } from '../../../modules/system/date/date-provider';
+import { CurrentDateProvider } from '../../../modules/system/date/current-date-provider';
+import { I_ID_PROVIDER } from '../../../modules/system/id/id-provider';
+import { NanoidProvider } from '../../../modules/system/id/nanoid-provider';
 
 @Global()
 @Module({

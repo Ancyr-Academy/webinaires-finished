@@ -1,7 +1,7 @@
-import { LoopbackMailer } from '../../../mailer/gateway-infra/loopback-mailer';
+import { LoopbackMailer } from '../../../mailer/adapters/loopback-mailer';
 import { FixedIdProvider } from '../../../system/id/fixed-id-provider';
 import { UserFactory } from '../../entity/user.factory';
-import { InMemoryAuthGateway } from '../../gateway-infra/in-memory-auth-gateway';
+import { InMemoryAuthGateway } from '../../adapters/in-memory-auth-gateway';
 import { PassthroughPasswordHasher } from '../../services/password-hasher/passthrough-password-hasher';
 import { CreateAccount } from './create-account';
 

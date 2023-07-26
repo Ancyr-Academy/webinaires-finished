@@ -1,6 +1,6 @@
 import { UserFactory } from '../../../auth/entity/user.factory';
 import { WebinaireFactory } from '../../entities/webinaire.factory';
-import { InMemoryWebinaireRepository } from '../../gateway-infra/in-memory-webinaire-repository';
+import { InMemoryWebinaireRepository } from '../../adapters/in-memory-webinaire-repository';
 import { ChangeSeats } from './change-seats';
 
 describe('Feature: Changing the number of seats of a webinaire', () => {

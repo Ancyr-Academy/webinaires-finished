@@ -4,8 +4,8 @@ import {
   ExceptionFilter,
   HttpException,
 } from '@nestjs/common';
-import { DomainException } from '../../shared/domain-exception';
-import { ValidationException } from '../../shared/validator';
+import { DomainException } from '../../../modules/shared/domain-exception';
+import { ValidationException } from '../../../modules/shared/validator';
 
 @Catch()
 export class CatchAllFilter implements ExceptionFilter {

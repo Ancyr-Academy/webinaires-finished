@@ -1,5 +1,5 @@
 import { UserEntity } from '../../entity/user.entity';
-import { IAuthGateway } from '../../gateway/auth.gateway';
+import { IAuthGateway } from '../../ports/auth.gateway';
 import { IPasswordHasher } from '../password-hasher/password-hasher.interface';
 import { AuthenticationException } from './authentication.exception';
 import { IAuthenticator } from './authenticator.interface';

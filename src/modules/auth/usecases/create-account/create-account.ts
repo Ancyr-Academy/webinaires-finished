@@ -4,9 +4,9 @@ import { AbstractExecutable } from '../../../shared/executable';
 import { Validator } from '../../../shared/validator';
 import { IIDProvider } from '../../../system/id/id-provider';
 import { UserEntity } from '../../entity/user.entity';
-import { IAuthGateway } from '../../gateway/auth.gateway';
+import { IAuthGateway } from '../../ports/auth.gateway';
 import { IPasswordHasher } from '../../services/password-hasher/password-hasher.interface';
-import { IMailer } from '../../../mailer/gateway/mailer.interface';
+import { IMailer } from '../../../mailer/ports/mailer.interface';
 
 type Request = {
   emailAddress: string;

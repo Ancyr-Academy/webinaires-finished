@@ -1,9 +1,9 @@
 import { UserFactory } from '../../../auth/entity/user.factory';
-import { LoopbackMailer } from '../../../mailer/gateway-infra/loopback-mailer';
+import { LoopbackMailer } from '../../../mailer/adapters/loopback-mailer';
 import { ParticipationFactory } from '../../entities/participation.factory';
-import { InMemoryParticipantQuery } from '../../gateway-infra/in-memory-participant-query';
+import { InMemoryParticipantQuery } from '../../adapters/in-memory-participant-query';
 import { WebinaireFactory } from '../../entities/webinaire.factory';
-import { InMemoryWebinaireRepository } from '../../gateway-infra/in-memory-webinaire-repository';
+import { InMemoryWebinaireRepository } from '../../adapters/in-memory-webinaire-repository';
 import { CancelWebinaire } from './cancel-webinaire';
 describe('Feature: canceling a webinaire', () => {
   function createParticipant(name: string) {

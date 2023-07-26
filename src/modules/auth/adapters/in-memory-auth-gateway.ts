@@ -1,6 +1,6 @@
 import { Optional } from '../../shared/optional';
 import { UserEntity } from '../entity/user.entity';
-import { IAuthGateway } from '../gateway/auth.gateway';
+import { IAuthGateway } from '../ports/auth.gateway';
 
 export class InMemoryAuthGateway implements IAuthGateway {
   private users = new Map<string, UserEntity>();

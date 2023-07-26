@@ -1,4 +1,4 @@
-import { Email, IMailer } from '../gateway/mailer.interface';
+import { Email, IMailer } from '../ports/mailer.interface';
 
 export class LoopbackMailer implements IMailer {
   private sentEmails: Email[] = [];

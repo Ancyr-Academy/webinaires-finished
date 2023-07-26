@@ -1,11 +1,11 @@
-import { InMemoryParticipationRepository } from '../../gateway-infra/in-memory-participation-gateway';
+import { InMemoryParticipationRepository } from '../../adapters/in-memory-participation-gateway';
 import { ReserveSeat } from './reserve-seat';
 import { UserFactory } from '../../../auth/entity/user.factory';
-import { InMemoryWebinaireQuery } from '../../gateway-infra/in-memory-webinaire-query';
+import { InMemoryWebinaireQuery } from '../../adapters/in-memory-webinaire-query';
 import { FixedIdProvider } from '../../../system/id/fixed-id-provider';
 import { WebinaireFactory } from '../../entities/webinaire.factory';
 import { ParticipationFactory } from '../../entities/participation.factory';
-import { LoopbackMailer } from '../../../mailer/gateway-infra/loopback-mailer';
+import { LoopbackMailer } from '../../../mailer/adapters/loopback-mailer';
 
 describe('Feature: reserving a seat', () => {
   async function expectParticipationNotToBeCreated() {
