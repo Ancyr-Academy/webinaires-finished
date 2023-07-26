@@ -1,5 +1,7 @@
 import { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
+import * as request from 'supertest';
+
 import { AppModule } from '../../adapters/nest/app/app.module';
 import { Nullable } from '../../modules/shared/types';
 
@@ -15,8 +17,8 @@ export class TestApp {
     await this.app.init();
   }
 
-  getHttpServer() {
-    return this.app!.getHttpServer();
+  request() {
+    return request(this.app!.getHttpServer());
   }
 
   get<T>(token: string | symbol) {

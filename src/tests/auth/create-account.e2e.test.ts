@@ -1,5 +1,3 @@
-import * as request from 'supertest';
-
 import {
   IAuthGateway,
   I_AUTH_GATEWAY,
@@ -7,37 +5,40 @@ import {
 import { TestApp } from '../setup/test-app';
 
 describe('Feature: create account', () => {
-  describe('Scenario: happy path', () => {
-    let app: TestApp;
+  let app: TestApp;
 
-    beforeEach(async () => {
-      app = new TestApp();
-      await app.setup();
-    });
+  beforeEach(async () => {
+    app = new TestApp();
+    await app.setup();
+  });
+
+  describe('Scenario: happy path', () => {
+    const user = {
+      emailAddress: 'johndoe@gmail.com',
+      password: 'azerty',
+    };
 
     it('should create an account', async () => {
-      const result = await request(app.getHttpServer())
+      const result = await app
+        .request()
         .post('/auth/create-account')
-        .send({
-          emailAddress: 'johndoe@gmail.com',
-          password: 'azerty',
-        });
+        .send(user);
 
       expect(result.status).toEqual(201);
 
       const authRepository = app.get<IAuthGateway>(I_AUTH_GATEWAY);
       const userQuery = await authRepository.findByEmailAddress(
-        'johndoe@gmail.com',
+        user.emailAddress,
       );
 
       expect(userQuery.isNull()).toEqual(false);
 
-      const user = userQuery.get();
-      expect(user.data.emailAddress).toEqual('johndoe@gmail.com');
+      const createdUser = userQuery.get();
+      expect(createdUser.data.emailAddress).toEqual(user.emailAddress);
     });
+  });
 
-    afterEach(async () => {
-      await app.teardown();
-    });
+  afterEach(async () => {
+    await app.teardown();
   });
 });
