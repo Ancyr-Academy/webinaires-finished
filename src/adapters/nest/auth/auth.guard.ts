@@ -15,17 +15,20 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext) {
-    if (!this.acceptsUnauthenticatedRequest(context)) {
-      return false;
+    try {
+      const request = context.switchToHttp().getRequest();
+      const token = this.extractTokenFromHeader(request);
+      const user = await this.authenticate(token);
+
+      request.user = user;
+      return true;
+    } catch (e) {
+      if (this.acceptsUnauthenticatedRequest(context)) {
+        return true;
+      }
+
+      throw e;
     }
-
-    const request = context.switchToHttp().getRequest();
-    const token = this.extractTokenFromHeader(request);
-    const user = await this.authenticate(token);
-
-    request.user = user;
-
-    return true;
   }
 
   private acceptsUnauthenticatedRequest(context: ExecutionContext) {
@@ -40,12 +43,12 @@ export class AuthGuard implements CanActivate {
   private extractTokenFromHeader(request: Request) {
     const authorizationHeader = request.headers.authorization;
     if (!authorizationHeader) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException("Missing 'Authorization' header");
     }
 
     const [type, token] = authorizationHeader.split(' ');
     if (type !== 'Basic') {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException("Invalid 'Authorization' header");
     }
 
     return token;
@@ -56,7 +59,7 @@ export class AuthGuard implements CanActivate {
       const authenticatedUser = await this.authenticator.fromBasicAuth(token);
       return authenticatedUser;
     } catch (e) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Failed to authenticate user');
     }
   }
 }

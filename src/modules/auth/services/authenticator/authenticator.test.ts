@@ -1,5 +1,5 @@
 import { UserFactory } from '../../entity/user.factory';
-import { InMemoryAuthGateway } from '../../adapters/in-memory-auth-gateway';
+import { InMemoryAuthGateway } from '../../adapters/in-memory/in-memory-auth-gateway';
 import { PassthroughPasswordHasher } from '../password-hasher/passthrough-password-hasher';
 import { Authenticator } from './authenticator';
 

@@ -4,7 +4,7 @@ import { Argon2PasswordHasher } from '../../../modules/auth/services/password-ha
 import { CreateAccount } from '../../../modules/auth/usecases/create-account/create-account';
 import { I_ID_PROVIDER } from '../../../modules/system/id/id-provider';
 import { I_AUTH_GATEWAY } from '../../../modules/auth/ports/auth.gateway';
-import { InMemoryAuthGateway } from '../../../modules/auth/adapters/in-memory-auth-gateway';
+import { InMemoryAuthGateway } from '../../../modules/auth/adapters/in-memory/in-memory-auth-gateway';
 import { AuthController } from './auth.controller';
 import { MailerModule } from '../mailer/mailer.module';
 import { I_MAILER } from '../../../modules/mailer/ports/mailer.interface';
