@@ -62,7 +62,7 @@ export class CreateAccount extends AbstractExecutable<Request, Response> {
     });
 
     return {
-      id: this.idProvider.getId(),
+      id: user.data.id,
     };
   }
 }

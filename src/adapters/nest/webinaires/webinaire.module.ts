@@ -61,7 +61,7 @@ const useCases = [
   },
   {
     provide: CancelWebinaire,
-    inject: [I_WEBINAIRE_REPOSITORY, I_PARTICIPATION_REPOSITORY, I_MAILER],
+    inject: [I_WEBINAIRE_REPOSITORY, I_PARTICIPANT_QUERY, I_MAILER],
     useFactory: (webinaireRepository, participantQuery, mailer) => {
       return new CancelWebinaire(webinaireRepository, participantQuery, mailer);
     },

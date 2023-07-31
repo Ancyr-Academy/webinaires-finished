@@ -35,10 +35,12 @@ export class TestApp {
 
   async registerUser(emailAddress: string, password: string) {
     const authGateway = this.app!.get<CreateAccount>(CreateAccount);
-    await authGateway.execute({
+    const result = await authGateway.execute({
       emailAddress,
       password,
     });
+
+    return result;
   }
 
   createAuthorizationToken(emailAddress: string, password: string) {
