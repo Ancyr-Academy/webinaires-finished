@@ -4,9 +4,10 @@ import * as request from 'supertest';
 
 import { AppModule } from '../../adapters/nest/app/app.module';
 import { Nullable } from '../../modules/shared/types';
-import { CreateAccount } from '../../modules/auth/usecases/create-account/create-account';
+import { ITestApp } from './test-app.interface';
+import { IFixture } from './fixture';
 
-export class TestApp {
+export class TestApp implements ITestApp {
   private app: Nullable<INestApplication> = null;
 
   async setup() {
@@ -33,19 +34,7 @@ export class TestApp {
     return this.app!.get<T>(token);
   }
 
-  async registerUser(emailAddress: string, password: string) {
-    const authGateway = this.app!.get<CreateAccount>(CreateAccount);
-    const result = await authGateway.execute({
-      emailAddress,
-      password,
-    });
-
-    return result;
-  }
-
-  createAuthorizationToken(emailAddress: string, password: string) {
-    return `Basic ${Buffer.from(`${emailAddress}:${password}`).toString(
-      'base64',
-    )}`;
+  loadFixtures(fixtures: IFixture[]) {
+    return Promise.all(fixtures.map((fixture) => fixture.save(this)));
   }
 }

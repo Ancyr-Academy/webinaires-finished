@@ -4,26 +4,20 @@ import {
   IWebinaireRepository,
   I_WEBINAIRE_REPOSITORY,
 } from '../../modules/webinaires/ports/webinaire.repository';
+import { UserFixture } from '../auth/user.fixture';
 
 describe('Feature: organizing a webinaire', () => {
   let app: TestApp;
-  let authorization: string;
   let webinaireRepository: IWebinaireRepository;
 
-  const johnDoe = {
-    emailAddress: 'johndoe@gmail.com',
-    password: 'azerty',
-  };
+  let johnDoe: UserFixture;
 
   beforeEach(async () => {
+    johnDoe = new UserFixture('johndoe@gmail.com', 'azerty');
+
     app = new TestApp();
     await app.setup();
-
-    await app.registerUser(johnDoe.emailAddress, johnDoe.password);
-    authorization = app.createAuthorizationToken(
-      johnDoe.emailAddress,
-      johnDoe.password,
-    );
+    await app.loadFixtures([johnDoe]);
 
     webinaireRepository = app.get<IWebinaireRepository>(I_WEBINAIRE_REPOSITORY);
   });
@@ -39,7 +33,7 @@ describe('Feature: organizing a webinaire', () => {
       const result = await app
         .request()
         .post('/webinaires')
-        .set('Authorization', authorization)
+        .set('Authorization', johnDoe.getAuthorizationToken())
         .send(payload);
 
       expect(result.status).toEqual(201);

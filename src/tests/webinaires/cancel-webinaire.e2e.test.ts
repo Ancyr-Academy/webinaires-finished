@@ -6,36 +6,25 @@ import {
 } from '../../modules/webinaires/ports/webinaire.repository';
 import { WebinaireFactory } from '../../modules/webinaires/entities/webinaire.factory';
 import { WebinaireEntity } from '../../modules/webinaires/entities/webinaire.entity';
+import { UserFixture } from '../auth/user.fixture';
 
 describe('Feature: canceling a webinaire', () => {
   let app: TestApp;
-  let authorization: string;
   let webinaireRepository: IWebinaireRepository;
 
-  const johnDoe = {
-    emailAddress: 'johndoe@gmail.com',
-    password: 'azerty',
-  };
-
+  let johnDoe: UserFixture;
   let johnDoeWebinaire: WebinaireEntity;
 
   beforeEach(async () => {
+    johnDoe = new UserFixture('johndoe@gmail.com', 'azerty');
+
     app = new TestApp();
     await app.setup();
-
-    const createdUser = await app.registerUser(
-      johnDoe.emailAddress,
-      johnDoe.password,
-    );
-
-    authorization = app.createAuthorizationToken(
-      johnDoe.emailAddress,
-      johnDoe.password,
-    );
+    await app.loadFixtures([johnDoe]);
 
     johnDoeWebinaire = WebinaireFactory.create({
       id: 'john-doe-webinaire',
-      organizerId: createdUser.id,
+      organizerId: johnDoe.getId(),
       startAt: addDays(new Date(), 4),
       endAt: addDays(new Date(), 5),
       seats: 100,
@@ -50,7 +39,7 @@ describe('Feature: canceling a webinaire', () => {
       const result = await app
         .request()
         .delete(`/webinaires/${johnDoeWebinaire.data.id}`)
-        .set('Authorization', authorization);
+        .set('Authorization', johnDoe.getAuthorizationToken());
 
       expect(result.status).toEqual(200);
 
