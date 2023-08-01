@@ -5,6 +5,10 @@ import { IWebinaireQuery } from '../ports/webinaire.query';
 export class InMemoryWebinaireQuery implements IWebinaireQuery {
   constructor(private database: Record<string, WebinaireViewModel> = {}) {}
 
+  setWebinaire(webinaire: WebinaireViewModel) {
+    this.database[webinaire.data.id] = webinaire;
+  }
+
   async findById(id: string): Promise<Optional<WebinaireViewModel>> {
     const webinaire = this.database[id];
     if (!webinaire) {

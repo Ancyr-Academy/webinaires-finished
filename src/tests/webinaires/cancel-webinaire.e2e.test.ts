@@ -84,7 +84,7 @@ describe('Feature: canceling a webinaire', () => {
     it('should fail to cancel the webinaire', async () => {
       const result = await app
         .request()
-        .delete('/webinaires/john-doe-webinaire');
+        .delete(`/webinaires/${johnDoeWebinaire.getId()}`);
 
       expect(result.status).toEqual(401);
     });

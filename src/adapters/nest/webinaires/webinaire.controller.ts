@@ -87,7 +87,7 @@ export class WebinaireController {
     });
   }
 
-  @Post('/:webinaireId/reservation')
+  @Post('/:webinaireId/reservations')
   async reserveSeatHandler(
     @User() user: UserEntity,
     @Param('webinaireId') webinaireId: string,
