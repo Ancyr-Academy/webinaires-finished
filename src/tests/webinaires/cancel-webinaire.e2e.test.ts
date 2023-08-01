@@ -11,6 +11,11 @@ import { WebinaireFixture } from './webinaire.fixture';
 describe('Feature: canceling a webinaire', () => {
   async function expectWebinaireToExist(id: string) {
     const currentWebinaire = await webinaireRepository.getWebinaireById(id);
+    expect(currentWebinaire.isNull()).toEqual(false);
+  }
+
+  async function expectWebinaireNotToExist(id: string) {
+    const currentWebinaire = await webinaireRepository.getWebinaireById(id);
     expect(currentWebinaire.isNull()).toEqual(true);
   }
 
@@ -27,6 +32,8 @@ describe('Feature: canceling a webinaire', () => {
     app = new TestApp();
     await app.setup();
     await app.loadFixtures([johnDoe, alice]);
+
+    webinaireRepository = app.get<IWebinaireRepository>(I_WEBINAIRE_REPOSITORY);
 
     johnDoeWebinaire = new WebinaireFixture(
       WebinaireFactory.create({
@@ -47,8 +54,6 @@ describe('Feature: canceling a webinaire', () => {
     );
 
     await app.loadFixtures([johnDoeWebinaire, aliceWebinaire]);
-
-    webinaireRepository = app.get<IWebinaireRepository>(I_WEBINAIRE_REPOSITORY);
   });
 
   describe('Scenario: happy path', () => {
@@ -59,7 +64,7 @@ describe('Feature: canceling a webinaire', () => {
         .set('Authorization', johnDoe.getAuthorizationToken());
 
       expect(result.status).toEqual(200);
-      await expectWebinaireToExist(result.body.id);
+      await expectWebinaireNotToExist(johnDoeWebinaire.getId());
     });
   });
 
@@ -71,7 +76,7 @@ describe('Feature: canceling a webinaire', () => {
         .set('Authorization', johnDoe.getAuthorizationToken());
 
       expect(result.status).toEqual(400);
-      await expectWebinaireToExist(result.body.id);
+      await expectWebinaireToExist(aliceWebinaire.getId());
     });
   });
 

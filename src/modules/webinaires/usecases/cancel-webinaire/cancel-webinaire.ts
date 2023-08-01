@@ -30,6 +30,8 @@ export class CancelWebinaire extends AbstractExecutable<Request, Response> {
       new DomainException('WEBINAIRE_NOT_FOUND', 'Webinaire not found'),
     );
 
+    console.log(webinaire, user.id, user.data.emailAddress);
+
     if (webinaire.isOrganizer(user.id) === false) {
       throw new DomainException(
         'NOT_ORGANIZER',
