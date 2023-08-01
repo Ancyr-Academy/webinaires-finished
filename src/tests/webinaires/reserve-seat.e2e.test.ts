@@ -8,7 +8,7 @@ import {
   I_PARTICIPATION_REPOSITORY,
 } from '../../modules/webinaires/ports/participation.repository';
 
-describe('Feature: canceling a webinaire', () => {
+describe('Feature: reserving a seat', () => {
   async function expectSeatToBeReserved(webinaireId: string, userId: string) {
     const currentParticipation = await participationRepository.find(
       webinaireId,

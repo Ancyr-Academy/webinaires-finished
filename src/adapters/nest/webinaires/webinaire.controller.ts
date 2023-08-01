@@ -1,4 +1,11 @@
-import { Body, Controller, Delete, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  HttpCode,
+  Param,
+  Post,
+} from '@nestjs/common';
 
 import { CancelReservation } from '../../../modules/webinaires/usecases/cancel-reservation/cancel-reservation';
 import { CancelWebinaire } from '../../../modules/webinaires/usecases/cancel-webinaire/cancel-webinaire';
@@ -44,6 +51,7 @@ export class WebinaireController {
     });
   }
 
+  @HttpCode(200)
   @Post('/:webinaireId/dates')
   async changeDatesHandler(
     @User() user: UserEntity,
@@ -59,6 +67,7 @@ export class WebinaireController {
     });
   }
 
+  @HttpCode(200)
   @Post('/:webinaireId/seats')
   async changeSeatsHandler(
     @User() user: UserEntity,
