@@ -29,7 +29,7 @@ export class WebinaireController {
     private readonly reserveSeat: ReserveSeat,
   ) {}
 
-  @Delete('/:webinaireId/reservation')
+  @Delete('/:webinaireId/reservations')
   async cancelReservationHandler(
     @User() user: UserEntity,
     @Param('webinaireId') webinaireId: string,
