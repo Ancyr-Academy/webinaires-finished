@@ -10,13 +10,13 @@ import { WebinaireFixture } from './webinaire.fixture';
 
 describe('Feature: canceling a webinaire', () => {
   async function expectWebinaireToExist(id: string) {
-    const currentWebinaire = await webinaireRepository.getWebinaireById(id);
-    expect(currentWebinaire.isNull()).toEqual(false);
+    const webinaireQuery = await webinaireRepository.getWebinaireById(id);
+    expect(webinaireQuery.isNull()).toEqual(false);
   }
 
   async function expectWebinaireNotToExist(id: string) {
-    const currentWebinaire = await webinaireRepository.getWebinaireById(id);
-    expect(currentWebinaire.isNull()).toEqual(true);
+    const webinaireQuery = await webinaireRepository.getWebinaireById(id);
+    expect(webinaireQuery.isNull()).toEqual(true);
   }
 
   let app: TestApp;

@@ -6,7 +6,25 @@ import {
 } from '../../modules/webinaires/ports/webinaire.repository';
 import { UserFixture } from '../auth/user.fixture';
 
+type Payload = {
+  startAt: Date;
+  endAt: Date;
+  seats: number;
+};
+
 describe('Feature: organizing a webinaire', () => {
+  async function expectWebinaireToBeOrganized(id: string, payload: Payload) {
+    const webinaireQuery = await webinaireRepository.getWebinaireById(id);
+
+    expect(webinaireQuery.isNull()).toEqual(false);
+
+    const webinaire = webinaireQuery.get();
+
+    expect(webinaire.data.startAt).toEqual(payload.startAt);
+    expect(webinaire.data.endAt).toEqual(payload.endAt);
+    expect(webinaire.data.seats).toEqual(payload.seats);
+  }
+
   let app: TestApp;
   let webinaireRepository: IWebinaireRepository;
 
@@ -23,7 +41,7 @@ describe('Feature: organizing a webinaire', () => {
   });
 
   describe('Scenario: happy path', () => {
-    const payload = {
+    const payload: Payload = {
       startAt: addDays(new Date(), 4),
       endAt: addDays(new Date(), 5),
       seats: 100,
@@ -37,23 +55,12 @@ describe('Feature: organizing a webinaire', () => {
         .send(payload);
 
       expect(result.status).toEqual(201);
-
-      const webinaire = await webinaireRepository.getWebinaireById(
-        result.body.id,
-      );
-
-      expect(webinaire.isNull()).toEqual(false);
-
-      const createdWebinaire = webinaire.get();
-
-      expect(createdWebinaire.data.startAt).toEqual(payload.startAt);
-      expect(createdWebinaire.data.endAt).toEqual(payload.endAt);
-      expect(createdWebinaire.data.seats).toEqual(payload.seats);
+      await expectWebinaireToBeOrganized(result.body.id, payload);
     });
   });
 
   describe('Scenario: the user is not authenticated', () => {
-    const payload = {
+    const payload: Payload = {
       startAt: addDays(new Date(), 4),
       endAt: addDays(new Date(), 5),
       seats: 100,

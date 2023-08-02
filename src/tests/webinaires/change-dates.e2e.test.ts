@@ -16,25 +16,19 @@ describe('Feature: changing the dates of a webinaire', () => {
     startAt: Date,
     endAt: Date,
   ) {
-    const currentWebinaireQuery = await webinaireRepository.getWebinaireById(
-      id,
-    );
+    const webinaireQuery = await webinaireRepository.getWebinaireById(id);
+    const webinaire = webinaireQuery.getOrThrow();
 
-    const currentWebinaire = currentWebinaireQuery.getOrThrow();
-
-    expect(currentWebinaire.data.startAt).toEqual(startAt);
-    expect(currentWebinaire.data.endAt).toEqual(endAt);
+    expect(webinaire.data.startAt).toEqual(startAt);
+    expect(webinaire.data.endAt).toEqual(endAt);
   }
 
   async function expectDatesNotToBeChanged(id: string) {
-    const currentWebinaireQuery = await webinaireRepository.getWebinaireById(
-      id,
-    );
+    const webinaireQuery = await webinaireRepository.getWebinaireById(id);
+    const webinaire = webinaireQuery.getOrThrow();
 
-    const currentWebinaire = currentWebinaireQuery.getOrThrow();
-
-    expect(currentWebinaire.data.startAt).toEqual(bobWebinaireData.startAt);
-    expect(currentWebinaire.data.endAt).toEqual(bobWebinaireData.endAt);
+    expect(webinaire.data.startAt).toEqual(bobWebinaireData.startAt);
+    expect(webinaire.data.endAt).toEqual(bobWebinaireData.endAt);
   }
 
   let app: TestApp;

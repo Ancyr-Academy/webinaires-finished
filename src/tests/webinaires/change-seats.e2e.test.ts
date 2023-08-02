@@ -11,22 +11,17 @@ import { WebinaireEntity } from '../../modules/webinaires/entities/webinaire.ent
 
 describe('Feature: changing the seats of a webinaire', () => {
   async function expectDatesToBeChanged(id: string, seats: number) {
-    const currentWebinaireQuery = await webinaireRepository.getWebinaireById(
-      id,
-    );
+    const webinaireQuery = await webinaireRepository.getWebinaireById(id);
+    const webinaire = webinaireQuery.getOrThrow();
 
-    const currentWebinaire = currentWebinaireQuery.getOrThrow();
-    expect(currentWebinaire.data.seats).toEqual(seats);
+    expect(webinaire.data.seats).toEqual(seats);
   }
 
   async function expectDatesNotToBeChanged(id: string) {
-    const currentWebinaireQuery = await webinaireRepository.getWebinaireById(
-      id,
-    );
+    const webinaireQuery = await webinaireRepository.getWebinaireById(id);
+    const webinaire = webinaireQuery.getOrThrow();
 
-    const currentWebinaire = currentWebinaireQuery.getOrThrow();
-
-    expect(currentWebinaire.data.seats).toEqual(bobWebinaireData.seats);
+    expect(webinaire.data.seats).toEqual(bobWebinaireData.seats);
   }
 
   let app: TestApp;
