@@ -7,15 +7,15 @@ import {
   Post,
 } from '@nestjs/common';
 
-import { CancelReservation } from '../../../modules/webinaires/usecases/cancel-reservation/cancel-reservation';
-import { CancelWebinaire } from '../../../modules/webinaires/usecases/cancel-webinaire/cancel-webinaire';
-import { ChangeDates } from '../../../modules/webinaires/usecases/change-dates/change-dates';
-import { ChangeSeats } from '../../../modules/webinaires/usecases/change-seats/change-seats';
-import { Organize } from '../../../modules/webinaires/usecases/organize/organize';
-import { ReserveSeat } from '../../../modules/webinaires/usecases/reserve-seat/reserve-seat';
+import { CancelReservation } from '../../../modules/webinaires/write/usecases/cancel-reservation/cancel-reservation';
+import { CancelWebinaire } from '../../../modules/webinaires/write/usecases/cancel-webinaire/cancel-webinaire';
+import { ChangeDates } from '../../../modules/webinaires/write/usecases/change-dates/change-dates';
+import { ChangeSeats } from '../../../modules/webinaires/write/usecases/change-seats/change-seats';
+import { Organize } from '../../../modules/webinaires/write/usecases/organize/organize';
+import { ReserveSeat } from '../../../modules/webinaires/write/usecases/reserve-seat/reserve-seat';
 import { User } from '../auth/user.decorator';
 import { UserEntity } from '../../../modules/auth/entity/user.entity';
-import { WebinaireAPI } from '../../../modules/webinaires/public/webinaire.api';
+import { WebinaireAPI } from '../../../modules/webinaires/write/contract/webinaire.api';
 import { ZodValidationPipe } from '../app/zod-validation.pipe';
 
 @Controller('webinaires')

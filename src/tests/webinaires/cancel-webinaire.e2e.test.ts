@@ -3,8 +3,8 @@ import { TestApp } from '../setup/test-app';
 import {
   IWebinaireRepository,
   I_WEBINAIRE_REPOSITORY,
-} from '../../modules/webinaires/ports/webinaire.repository';
-import { WebinaireFactory } from '../../modules/webinaires/entities/webinaire.factory';
+} from '../../modules/webinaires/write/ports/webinaire.repository';
+import { WebinaireFactory } from '../../modules/webinaires/write/model/webinaire.factory';
 import { UserFixture } from '../auth/user.fixture';
 import { WebinaireFixture } from './webinaire.fixture';
 

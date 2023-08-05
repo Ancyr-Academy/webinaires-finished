@@ -1,16 +1,16 @@
 import { IFixture } from '../setup/fixture';
 import { ITestApp } from '../setup/test-app.interface';
-import { WebinaireEntity } from '../../modules/webinaires/entities/webinaire.entity';
+import { WebinaireEntity } from '../../modules/webinaires/write/model/webinaire.entity';
 import {
   IWebinaireRepository,
   I_WEBINAIRE_REPOSITORY,
-} from '../../modules/webinaires/ports/webinaire.repository';
+} from '../../modules/webinaires/write/ports/webinaire.repository';
 import {
   IWebinaireQuery,
   I_WEBINAIRE_QUERY,
-} from '../../modules/webinaires/ports/webinaire.query';
-import { InMemoryWebinaireQuery } from '../../modules/webinaires/adapters/in-memory-webinaire-query';
-import { WebinaireViewModel } from '../../modules/webinaires/entities/webinaire.viewmodel';
+} from '../../modules/webinaires/read/ports/webinaire.query';
+import { InMemoryWebinaireQuery } from '../../modules/webinaires/read/adapters/in-memory-webinaire-query';
+import { WebinaireViewModel } from '../../modules/webinaires/read/model/webinaire.viewmodel';
 
 export class WebinaireFixture implements IFixture {
   constructor(public entity: WebinaireEntity) {}

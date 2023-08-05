@@ -1,6 +1,6 @@
 import { UserFactory } from '../../entity/user.factory';
 import { InMemoryAuthGateway } from '../../adapters/in-memory/in-memory-auth-gateway';
-import { PrefixPasswordHasher } from '../password-hasher/prefix-password-hasher';
+import { PrefixPasswordHasher } from '../password-hasher/passthrough-password-hasher';
 import { Authenticator } from './authenticator';
 
 describe('Authenticating', () => {

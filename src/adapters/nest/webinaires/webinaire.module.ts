@@ -1,22 +1,22 @@
 import { Module } from '@nestjs/common';
 
-import { I_WEBINAIRE_QUERY } from '../../../modules/webinaires/ports/webinaire.query';
-import { InMemoryWebinaireQuery } from '../../../modules/webinaires/adapters/in-memory-webinaire-query';
-import { I_WEBINAIRE_REPOSITORY } from '../../../modules/webinaires/ports/webinaire.repository';
-import { InMemoryWebinaireRepository } from '../../../modules/webinaires/adapters/in-memory-webinaire-repository';
-import { I_PARTICIPANT_QUERY } from '../../../modules/webinaires/ports/participant.query';
-import { InMemoryParticipantQuery } from '../../../modules/webinaires/adapters/in-memory-participant-query';
-import { I_PARTICIPATION_REPOSITORY } from '../../../modules/webinaires/ports/participation.repository';
-import { InMemoryParticipationRepository } from '../../../modules/webinaires/adapters/in-memory-participation-gateway';
-import { Organize } from '../../../modules/webinaires/usecases/organize/organize';
+import { I_WEBINAIRE_QUERY } from '../../../modules/webinaires/read/ports/webinaire.query';
+import { InMemoryWebinaireQuery } from '../../../modules/webinaires/read/adapters/in-memory-webinaire-query';
+import { I_WEBINAIRE_REPOSITORY } from '../../../modules/webinaires/write/ports/webinaire.repository';
+import { InMemoryWebinaireRepository } from '../../../modules/webinaires/write/adapters/in-memory-webinaire-repository';
+import { I_PARTICIPANT_QUERY } from '../../../modules/webinaires/read/ports/participant.query';
+import { InMemoryParticipantQuery } from '../../../modules/webinaires/read/adapters/in-memory-participant-query';
+import { I_PARTICIPATION_REPOSITORY } from '../../../modules/webinaires/write/ports/participation.repository';
+import { InMemoryParticipationRepository } from '../../../modules/webinaires/write/adapters/in-memory-participation-repository';
+import { Organize } from '../../../modules/webinaires/write/usecases/organize/organize';
 import { I_ID_PROVIDER } from '../../../modules/system/id/id-provider';
 import { I_DATE_PROVIDER } from '../../../modules/system/date/date-provider';
-import { CancelReservation } from '../../../modules/webinaires/usecases/cancel-reservation/cancel-reservation';
+import { CancelReservation } from '../../../modules/webinaires/write/usecases/cancel-reservation/cancel-reservation';
 import { I_MAILER } from '../../../modules/mailer/ports/mailer.interface';
-import { CancelWebinaire } from '../../../modules/webinaires/usecases/cancel-webinaire/cancel-webinaire';
-import { ChangeDates } from '../../../modules/webinaires/usecases/change-dates/change-dates';
-import { ChangeSeats } from '../../../modules/webinaires/usecases/change-seats/change-seats';
-import { ReserveSeat } from '../../../modules/webinaires/usecases/reserve-seat/reserve-seat';
+import { CancelWebinaire } from '../../../modules/webinaires/write/usecases/cancel-webinaire/cancel-webinaire';
+import { ChangeDates } from '../../../modules/webinaires/write/usecases/change-dates/change-dates';
+import { ChangeSeats } from '../../../modules/webinaires/write/usecases/change-seats/change-seats';
+import { ReserveSeat } from '../../../modules/webinaires/write/usecases/reserve-seat/reserve-seat';
 import { MailerModule } from '../mailer/mailer.module';
 import { WebinaireController } from './webinaire.controller';
 
