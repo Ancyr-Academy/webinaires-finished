@@ -25,12 +25,7 @@ export class ChangeDates extends AbstractExecutable<Request, Response> {
     super();
   }
 
-  async handle({
-    user,
-    webinaireId,
-    startAt,
-    endAt,
-  }: Request): Promise<Response> {
+  async run({ user, webinaireId, startAt, endAt }: Request): Promise<Response> {
     const webinaireQuery = await this.webinaireRepository.getWebinaireById(
       webinaireId,
     );

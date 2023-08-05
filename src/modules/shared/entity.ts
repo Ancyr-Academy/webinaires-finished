@@ -15,14 +15,23 @@ export abstract class AbstractEntity<TData extends { id: string }> {
     return this.currentState.id;
   }
 
+  /**
+   * The current state of the entity
+   */
   get current() {
     return this.currentState;
   }
 
+  /**
+   * The data the entity was created with
+   */
   get initial() {
     return this.initialState;
   }
 
+  /**
+   * Alias for `current` with a different semantic
+   */
   get data() {
     return this.currentState;
   }

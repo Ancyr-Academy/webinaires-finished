@@ -10,7 +10,7 @@ export class Authenticator implements IAuthenticator {
     private readonly passwordHasher: IPasswordHasher,
   ) {}
 
-  async fromBasicAuth(token: string): Promise<UserEntity> {
+  async basicAuth(token: string): Promise<UserEntity> {
     const decoded = Buffer.from(token, 'base64').toString('utf-8');
     const [emailAddress, password] = decoded.split(':');
 

@@ -1,5 +1,17 @@
 import z from 'zod';
 
+type ValidationExceptionPayload = {
+  errors: ValidationError[];
+};
+
+type ValidationError = {
+  message: string;
+  path: (string | number)[];
+};
+
+/**
+ * Validate a payload against a pre-determiend schema
+ */
 export class Validator<T> {
   constructor(private schema: z.Schema<any>) {}
 
@@ -17,6 +29,9 @@ export class Validator<T> {
   }
 }
 
+/**
+ * Hold validation errors
+ */
 export class ValidationException extends Error {
   static fromZod(zodError: z.ZodError) {
     return new ValidationException({
@@ -35,12 +50,3 @@ export class ValidationException extends Error {
     this.errors = data.errors;
   }
 }
-
-type ValidationExceptionPayload = {
-  errors: ValidationError[];
-};
-
-type ValidationError = {
-  message: string;
-  path: (string | number)[];
-};

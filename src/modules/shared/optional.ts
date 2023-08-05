@@ -17,14 +17,6 @@ export class Optional<T> {
     return this.value;
   }
 
-  public getOrNull(): T | null {
-    if (this.value === null || this.value === undefined) {
-      return null;
-    }
-
-    return this.value;
-  }
-
   public getOrThrow(error = new Error('Option was null')): T {
     if (this.value === null || this.value === undefined) {
       throw error;

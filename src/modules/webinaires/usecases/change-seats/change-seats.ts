@@ -16,7 +16,7 @@ export class ChangeSeats extends AbstractExecutable<Request, Response> {
     super();
   }
 
-  async handle({ user, webinaireId, seats }: Request): Promise<Response> {
+  async run({ user, webinaireId, seats }: Request): Promise<Response> {
     const webinaireQuery = await this.webinaireRepository.getWebinaireById(
       webinaireId,
     );

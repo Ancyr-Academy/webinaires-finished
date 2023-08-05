@@ -56,7 +56,7 @@ export class AuthGuard implements CanActivate {
 
   private async authenticate(token: string) {
     try {
-      const authenticatedUser = await this.authenticator.fromBasicAuth(token);
+      const authenticatedUser = await this.authenticator.basicAuth(token);
       return authenticatedUser;
     } catch (e) {
       throw new UnauthorizedException('Failed to authenticate user');

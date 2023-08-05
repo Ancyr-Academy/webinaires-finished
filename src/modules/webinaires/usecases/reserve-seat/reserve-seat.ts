@@ -25,7 +25,7 @@ export class ReserveSeat extends AbstractExecutable<Request, Response> {
     super();
   }
 
-  async handle({ user, webinaireId }: Request): Promise<Response> {
+  async run({ user, webinaireId }: Request): Promise<Response> {
     const webinaireQuery = await this.webinaireQuery.findById(webinaireId);
     const webinaire = webinaireQuery.getOrThrow(
       new DomainException('NOT_FOUND', 'Webinaire not found'),

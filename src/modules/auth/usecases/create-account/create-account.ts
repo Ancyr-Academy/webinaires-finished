@@ -38,7 +38,7 @@ export class CreateAccount extends AbstractExecutable<Request, Response> {
     await this.validator.validate(payload);
   }
 
-  async handle({ emailAddress, password }: Request): Promise<Response> {
+  async run({ emailAddress, password }: Request): Promise<Response> {
     const isEmailAddressAvailable =
       await this.authGateway.isEmailAddressAvailable(emailAddress);
 

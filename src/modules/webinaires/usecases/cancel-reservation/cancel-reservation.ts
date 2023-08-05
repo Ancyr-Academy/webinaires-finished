@@ -21,7 +21,7 @@ export class CancelReservation extends AbstractExecutable<Request, Response> {
     super();
   }
 
-  async handle({ user, webinaireId }: Request): Promise<Response> {
+  async run({ user, webinaireId }: Request): Promise<Response> {
     const participationQuery = await this.participationRepository.find(
       webinaireId,
       user.id,

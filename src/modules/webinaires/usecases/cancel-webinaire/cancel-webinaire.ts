@@ -21,7 +21,7 @@ export class CancelWebinaire extends AbstractExecutable<Request, Response> {
     super();
   }
 
-  async handle({ user, webinaireId }: Request): Promise<Response> {
+  async run({ user, webinaireId }: Request): Promise<Response> {
     const webinaireQuery = await this.webinaireRepository.getWebinaireById(
       webinaireId,
     );
