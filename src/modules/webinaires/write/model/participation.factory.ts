@@ -1,8 +1,4 @@
 import { EntityType } from '../../../shared/entity';
-import {
-  ParticipantViewModel,
-  ParticipantViewModelType,
-} from '../../read/model/participant.viewmodel';
 import { ParticipationEntity } from './participation.entity';
 
 export class ParticipationFactory {
