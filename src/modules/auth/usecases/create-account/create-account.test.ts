@@ -11,10 +11,18 @@ describe('Feature: Creating an account', () => {
   let mailerService: LoopbackMailer;
   let useCase: CreateAccount;
 
-  beforeEach(() => {
+  const alice = UserFactory.create({
+    id: 'user-1',
+    emailAddress: 'alice@gmail.com',
+    password: 'azerty',
+  });
+
+  beforeEach(async () => {
     authGateway = new InMemoryAuthGateway();
     passwordHasher = new PrefixPasswordHasher();
     mailerService = new LoopbackMailer();
+
+    await authGateway.createUser(alice);
 
     useCase = new CreateAccount(
       new FixedIdProvider(),
@@ -24,58 +32,56 @@ describe('Feature: Creating an account', () => {
     );
   });
 
-  test('save the user', async () => {
-    const result = await useCase.execute({
+  describe('Scenario: happy path', () => {
+    const payload = {
       emailAddress: 'johndoe@gmail.com',
       password: 'azerty',
-    });
+    };
 
-    const createdUserOption = await authGateway.getUserById(result.id);
-    const createdUser = createdUserOption.getOrThrow();
+    it('should return the ID of the user', async () => {
+      const result = await useCase.execute(payload);
 
-    expect(result).toEqual({
-      id: 'stub-id',
-    });
-
-    expect(createdUser.data).toEqual({
-      id: 'stub-id',
-      emailAddress: 'johndoe@gmail.com',
-      password: 'hashed_azerty',
-    });
-  });
-
-  test('should fail because the e-mail address is already taken', async () => {
-    await authGateway.createUser(
-      UserFactory.create({
-        id: 'user-1',
-        emailAddress: 'johndoe@gmail.com',
-        password: 'azerty',
-      }),
-    );
-
-    expect(async () => {
-      await useCase.execute({
-        emailAddress: 'johndoe@gmail.com',
-        password: 'azerty',
+      expect(result).toEqual({
+        id: 'stub-id',
       });
-    }).rejects.toThrowError('Email address is not available');
-  });
-
-  test('sending a confirmation e-mail', async () => {
-    await useCase.execute({
-      emailAddress: 'johndoe@gmail.com',
-      password: 'azerty',
     });
 
-    const sentEmails = mailerService.getSentEmails();
+    it('should save the user', async () => {
+      const result = await useCase.execute(payload);
 
-    expect(sentEmails).toEqual([
-      {
-        to: 'johndoe@gmail.com',
-        subject: 'Bienvenue à Webinaires !',
-        body: 'Votre compte a bien été créé.',
-      },
-    ]);
+      const createdUserOption = await authGateway.getUserById(result.id);
+      const createdUser = createdUserOption.getOrThrow();
+
+      expect(createdUser.data).toEqual({
+        id: 'stub-id',
+        emailAddress: 'johndoe@gmail.com',
+        password: 'hashed_azerty',
+      });
+    });
+
+    it('should send a confirmation e-mail', async () => {
+      await useCase.execute(payload);
+      const sentEmails = mailerService.getSentEmails();
+
+      expect(sentEmails).toEqual([
+        {
+          to: 'johndoe@gmail.com',
+          subject: 'Bienvenue à Webinaires !',
+          body: 'Votre compte a bien été créé.',
+        },
+      ]);
+    });
+  });
+
+  describe('Scenario: the e-mail is already taken', () => {
+    it('should fail to create the user', async () => {
+      expect(async () => {
+        await useCase.execute({
+          emailAddress: 'alice@gmail.com',
+          password: 'azerty',
+        });
+      }).rejects.toThrowError('Email address is not available');
+    });
   });
 
   describe('Validations', () => {
