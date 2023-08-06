@@ -1,4 +1,6 @@
 import { Module } from '@nestjs/common';
+import { APP_GUARD, Reflector } from '@nestjs/core';
+
 import { I_PASSWORD_HASHER } from '../../../modules/auth/services/password-hasher/password-hasher.interface';
 import { Argon2PasswordHasher } from '../../../modules/auth/services/password-hasher/argon2-password-hasher';
 import { CreateAccount } from '../../../modules/auth/usecases/create-account/create-account';
@@ -9,7 +11,6 @@ import { AuthController } from './auth.controller';
 import { MailerModule } from '../mailer/mailer.module';
 import { I_MAILER } from '../../../modules/mailer/ports/mailer.interface';
 import { AuthGuard } from './auth.guard';
-import { APP_GUARD, Reflector } from '@nestjs/core';
 import { I_AUTHENTICATOR } from '../../../modules/auth/services/authenticator/authenticator.interface';
 import { Authenticator } from '../../../modules/auth/services/authenticator/authenticator';
 
