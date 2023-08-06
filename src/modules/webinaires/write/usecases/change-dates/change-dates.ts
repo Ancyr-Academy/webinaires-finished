@@ -2,7 +2,7 @@ import { UserEntity } from '../../../../auth/entity/user.entity';
 import { IMailer } from '../../../../mailer/ports/mailer.interface';
 import { IParticipantQuery } from '../../../read/ports/participant.query';
 import { DomainException } from '../../../../shared/domain-exception';
-import { AbstractExecutable } from '../../../../shared/executable';
+import { Executable } from '../../../../shared/executable';
 import { IDateProvider } from '../../../../system/date/date-provider';
 import { IWebinaireRepository } from '../../ports/webinaire.repository';
 
@@ -15,7 +15,7 @@ type Request = {
 
 type Response = void;
 
-export class ChangeDates extends AbstractExecutable<Request, Response> {
+export class ChangeDates extends Executable<Request, Response> {
   constructor(
     private readonly dateProvider: IDateProvider,
     private readonly webinaireRepository: IWebinaireRepository,

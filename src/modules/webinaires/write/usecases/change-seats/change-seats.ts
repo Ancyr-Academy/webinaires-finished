@@ -1,6 +1,6 @@
 import { UserEntity } from '../../../../auth/entity/user.entity';
 import { DomainException } from '../../../../shared/domain-exception';
-import { AbstractExecutable } from '../../../../shared/executable';
+import { Executable } from '../../../../shared/executable';
 import { IWebinaireRepository } from '../../ports/webinaire.repository';
 
 type Request = {
@@ -11,7 +11,7 @@ type Request = {
 
 type Response = void;
 
-export class ChangeSeats extends AbstractExecutable<Request, Response> {
+export class ChangeSeats extends Executable<Request, Response> {
   constructor(private readonly webinaireRepository: IWebinaireRepository) {
     super();
   }

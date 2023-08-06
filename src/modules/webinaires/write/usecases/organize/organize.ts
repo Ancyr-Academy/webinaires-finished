@@ -1,6 +1,6 @@
 import { UserEntity } from '../../../../auth/entity/user.entity';
 import { DomainException } from '../../../../shared/domain-exception';
-import { AbstractExecutable } from '../../../../shared/executable';
+import { Executable } from '../../../../shared/executable';
 import { IDateProvider } from '../../../../system/date/date-provider';
 import { IIDProvider } from '../../../../system/id/id-provider';
 import { WebinaireEntity } from '../../model/webinaire.entity';
@@ -18,7 +18,7 @@ type Response = {
   id: string;
 };
 
-export class Organize extends AbstractExecutable<Request, Response> {
+export class Organize extends Executable<Request, Response> {
   constructor(
     private readonly idProvider: IIDProvider,
     private readonly dateProvider: IDateProvider,

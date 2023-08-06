@@ -1,6 +1,6 @@
 import * as deepObjectDiff from 'deep-object-diff';
 
-export abstract class AbstractEntity<TData extends { id: string }> {
+export abstract class Entity<TData extends { id: string }> {
   private initialState: TData;
   private currentState: TData;
 
@@ -43,7 +43,7 @@ export abstract class AbstractEntity<TData extends { id: string }> {
     };
   }
 
-  equals(entity: AbstractEntity<TData>) {
+  equals(entity: Entity<TData>) {
     return this.currentState.id === entity.currentState.id;
   }
 
@@ -69,4 +69,4 @@ export abstract class AbstractEntity<TData extends { id: string }> {
   }
 }
 
-export type EntityType<T> = T extends AbstractEntity<infer P> ? P : never;
+export type EntityType<T> = T extends Entity<infer P> ? P : never;

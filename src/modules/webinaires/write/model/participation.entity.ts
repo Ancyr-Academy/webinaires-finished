@@ -1,4 +1,4 @@
-import { AbstractEntity } from '../../../shared/entity';
+import { Entity } from '../../../shared/entity';
 
 type ParticipantData = {
   id: string;
@@ -6,4 +6,4 @@ type ParticipantData = {
   userId: string;
 };
 
-export class ParticipationEntity extends AbstractEntity<ParticipantData> {}
+export class ParticipationEntity extends Entity<ParticipantData> {}

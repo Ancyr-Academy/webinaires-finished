@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { DomainException } from '../../../shared/domain-exception';
-import { AbstractExecutable } from '../../../shared/executable';
+import { Executable } from '../../../shared/executable';
 import { Validator } from '../../../shared/validator';
 import { IIDProvider } from '../../../system/id/id-provider';
 import { UserEntity } from '../../entity/user.entity';
@@ -17,7 +17,7 @@ type Response = {
   id: string;
 };
 
-export class CreateAccount extends AbstractExecutable<Request, Response> {
+export class CreateAccount extends Executable<Request, Response> {
   private validator = new Validator(
     z.object({
       emailAddress: z.string().email(),

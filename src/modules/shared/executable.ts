@@ -1,4 +1,4 @@
-export abstract class AbstractExecutable<TRequest, TResponse> {
+export abstract class Executable<TRequest, TResponse> {
   abstract run(payload: TRequest): Promise<TResponse>;
 
   protected validate(payload: TRequest): Promise<void> {

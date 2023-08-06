@@ -1,7 +1,7 @@
 import { UserEntity } from '../../../../auth/entity/user.entity';
 import { IMailer } from '../../../../mailer/ports/mailer.interface';
 import { DomainException } from '../../../../shared/domain-exception';
-import { AbstractExecutable } from '../../../../shared/executable';
+import { Executable } from '../../../../shared/executable';
 import { IWebinaireQuery } from '../../../read/ports/webinaire.query';
 import { IParticipationRepository } from '../../ports/participation.repository';
 
@@ -12,7 +12,7 @@ type Request = {
 
 type Response = void;
 
-export class CancelReservation extends AbstractExecutable<Request, Response> {
+export class CancelReservation extends Executable<Request, Response> {
   constructor(
     private readonly participationRepository: IParticipationRepository,
     private readonly webinaireQuery: IWebinaireQuery,

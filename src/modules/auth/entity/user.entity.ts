@@ -1,4 +1,4 @@
-import { AbstractEntity } from '../../shared/entity';
+import { Entity } from '../../shared/entity';
 
 type UserData = {
   id: string;
@@ -6,4 +6,4 @@ type UserData = {
   password: string;
 };
 
-export class UserEntity extends AbstractEntity<UserData> {}
+export class UserEntity extends Entity<UserData> {}

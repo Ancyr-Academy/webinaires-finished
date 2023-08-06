@@ -1,5 +1,5 @@
 import { differenceInDays } from 'date-fns';
-import { AbstractEntity } from '../../../shared/entity';
+import { Entity } from '../../../shared/entity';
 
 type WebinaireData = {
   id: string;
@@ -9,7 +9,7 @@ type WebinaireData = {
   endAt: Date;
 };
 
-export class WebinaireEntity extends AbstractEntity<WebinaireData> {
+export class WebinaireEntity extends Entity<WebinaireData> {
   static MAX_SEATS = 1000;
   static DAYS_BEFORE_TOO_CLOSE = 3;
 

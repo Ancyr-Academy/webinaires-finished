@@ -1,7 +1,7 @@
 import { UserEntity } from '../../../../auth/entity/user.entity';
 import { IMailer } from '../../../../mailer/ports/mailer.interface';
 import { DomainException } from '../../../../shared/domain-exception';
-import { AbstractExecutable } from '../../../../shared/executable';
+import { Executable } from '../../../../shared/executable';
 import { IIDProvider } from '../../../../system/id/id-provider';
 import { WebinaireViewModel } from '../../../read/model/webinaire.viewmodel';
 import { IWebinaireQuery } from '../../../read/ports/webinaire.query';
@@ -15,7 +15,7 @@ type Request = {
 
 type Response = void;
 
-export class ReserveSeat extends AbstractExecutable<Request, Response> {
+export class ReserveSeat extends Executable<Request, Response> {
   constructor(
     private readonly idProvider: IIDProvider,
     private readonly webinaireQuery: IWebinaireQuery,
