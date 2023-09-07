@@ -49,7 +49,7 @@ describe('Feature: Creating an account', () => {
     it('should save the user', async () => {
       const result = await useCase.execute(payload);
 
-      const createdUserOption = await authGateway.getUserById(result.id);
+      const createdUserOption = await authGateway.findById(result.id);
       const createdUser = createdUserOption.getOrThrow();
 
       expect(createdUser.data).toEqual({

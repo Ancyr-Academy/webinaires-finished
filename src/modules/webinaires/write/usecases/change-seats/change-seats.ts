@@ -16,7 +16,7 @@ export class ChangeSeats extends Executable<Request, Response> {
     super();
   }
 
-  async run({ user, webinaireId, seats }: Request): Promise<Response> {
+  async execute({ user, webinaireId, seats }: Request): Promise<Response> {
     const webinaireQuery = await this.webinaireRepository.getWebinaireById(
       webinaireId,
     );

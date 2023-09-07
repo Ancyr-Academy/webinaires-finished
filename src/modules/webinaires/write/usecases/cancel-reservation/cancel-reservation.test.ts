@@ -1,10 +1,11 @@
 import { UserFactory } from '../../../../auth/entity/user.factory';
 import { LoopbackMailer } from '../../../../mailer/adapters/loopback-mailer';
 import { WebinaireFactory } from '../../model/webinaire.factory';
-import { InMemoryWebinaireQuery } from '../../../read/adapters/in-memory-webinaire-query';
 import { ParticipationFactory } from '../../model/participation.factory';
 import { InMemoryParticipationRepository } from '../../adapters/in-memory-participation-repository';
 import { CancelReservation } from './cancel-reservation';
+import { InMemoryWebinaireRepository } from '../../adapters/in-memory-webinaire-repository';
+import { InMemoryUserRepository } from '../../../../auth/adapters/in-memory/in-memory-user-repository';
 
 describe('Feature: canceling a participation', () => {
   const alice = UserFactory.create({
@@ -12,13 +13,14 @@ describe('Feature: canceling a participation', () => {
     emailAddress: 'alice@gmail.com',
   });
 
-  const webinaire = WebinaireFactory.createViewModel({
+  const bob = UserFactory.create({
+    id: 'bob',
+    emailAddress: 'bob@gmail.com',
+  });
+
+  const webinaire = WebinaireFactory.create({
     id: 'webinaire-id-1',
-    organizer: {
-      id: 'organizer-1',
-      name: 'The Organizer 1',
-      emailAddress: 'organizer-1@gmail.com',
-    },
+    organizerId: 'bob',
   });
 
   const participation = ParticipationFactory.create({
@@ -27,24 +29,26 @@ describe('Feature: canceling a participation', () => {
     userId: alice.id,
   });
 
+  let userRepository: InMemoryUserRepository;
   let participationRepository: InMemoryParticipationRepository;
-  let webinaireQuery: InMemoryWebinaireQuery;
+  let webinaireRepository: InMemoryWebinaireRepository;
   let mailer: LoopbackMailer;
   let useCase: CancelReservation;
 
   beforeEach(() => {
+    userRepository = new InMemoryUserRepository([alice, bob]);
+
     participationRepository = new InMemoryParticipationRepository([
       participation,
     ]);
 
-    webinaireQuery = new InMemoryWebinaireQuery({
-      'webinaire-id-1': webinaire,
-    });
+    webinaireRepository = new InMemoryWebinaireRepository([webinaire]);
     mailer = new LoopbackMailer();
 
     useCase = new CancelReservation(
+      userRepository,
       participationRepository,
-      webinaireQuery,
+      webinaireRepository,
       mailer,
     );
   });
@@ -70,7 +74,7 @@ describe('Feature: canceling a participation', () => {
       const sentEmails = mailer.getSentEmails();
 
       expect(sentEmails).toContainEqual({
-        to: 'organizer-1@gmail.com',
+        to: 'bob@gmail.com',
         subject: 'Annulation de participation',
         body: 'Une personne a annulé sa participation à votre webinaire.',
       });

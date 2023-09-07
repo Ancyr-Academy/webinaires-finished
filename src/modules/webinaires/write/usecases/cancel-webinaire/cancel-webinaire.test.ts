@@ -1,24 +1,12 @@
 import { UserFactory } from '../../../../auth/entity/user.factory';
 import { LoopbackMailer } from '../../../../mailer/adapters/loopback-mailer';
-import { InMemoryParticipantQuery } from '../../../read/adapters/in-memory-participant-query';
 import { WebinaireFactory } from '../../model/webinaire.factory';
 import { InMemoryWebinaireRepository } from '../../adapters/in-memory-webinaire-repository';
 import { CancelWebinaire } from './cancel-webinaire';
-import { ParticipantFactory } from '../../../read/model/participant.factory';
+import { ParticipationFactory } from '../../model/participation.factory';
+import { InMemoryParticipationRepository } from '../../adapters/in-memory-participation-repository';
+import { InMemoryUserRepository } from '../../../../auth/adapters/in-memory/in-memory-user-repository';
 describe('Feature: canceling a webinaire', () => {
-  function createParticipant(name: string) {
-    return ParticipantFactory.create({
-      id: `user-${name}`,
-      name: name,
-      emailAddress: `${name}@gmail.com`,
-    });
-  }
-
-  let webinaireGateway: InMemoryWebinaireRepository;
-  let participantQuery: InMemoryParticipantQuery;
-  let mailer: LoopbackMailer;
-  let useCase: CancelWebinaire;
-
   const alice = UserFactory.create({
     id: 'alice',
   });
@@ -32,17 +20,49 @@ describe('Feature: canceling a webinaire', () => {
     organizerId: alice.id,
   });
 
-  const jack = createParticipant('jack');
-  const jill = createParticipant('jill');
+  const jack = UserFactory.create({
+    id: 'jack',
+    emailAddress: 'jack@gmail.com',
+  });
+
+  const jill = UserFactory.create({
+    id: 'jill',
+    emailAddress: 'jill@gmail.com',
+  });
+
+  const jackParticipation = ParticipationFactory.create({
+    id: 'jack-participation',
+    webinaireId: webinaire.id,
+    userId: jack.id,
+  });
+
+  const jillParticipation = ParticipationFactory.create({
+    id: 'jill-participation',
+    webinaireId: webinaire.id,
+    userId: jill.id,
+  });
+
+  let userRepository: InMemoryUserRepository;
+  let webinaireRepository: InMemoryWebinaireRepository;
+  let participationRepository: InMemoryParticipationRepository;
+  let mailer: LoopbackMailer;
+  let useCase: CancelWebinaire;
 
   beforeEach(() => {
-    webinaireGateway = new InMemoryWebinaireRepository([webinaire]);
-    participantQuery = new InMemoryParticipantQuery({
-      [webinaire.id]: [jack, jill],
-    });
+    userRepository = new InMemoryUserRepository([alice, bob, jill, jack]);
+    webinaireRepository = new InMemoryWebinaireRepository([webinaire]);
+    participationRepository = new InMemoryParticipationRepository([
+      jackParticipation,
+      jillParticipation,
+    ]);
 
     mailer = new LoopbackMailer();
-    useCase = new CancelWebinaire(webinaireGateway, participantQuery, mailer);
+    useCase = new CancelWebinaire(
+      userRepository,
+      webinaireRepository,
+      participationRepository,
+      mailer,
+    );
   });
 
   describe('Scenario: canceling a webinaire', () => {
@@ -54,7 +74,7 @@ describe('Feature: canceling a webinaire', () => {
     it('should delete the webinaire', async () => {
       await useCase.execute(payload);
 
-      const updatedWebinaireOption = await webinaireGateway.getWebinaireById(
+      const updatedWebinaireOption = await webinaireRepository.getWebinaireById(
         'webinaire-id',
       );
 

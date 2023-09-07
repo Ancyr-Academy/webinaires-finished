@@ -25,7 +25,7 @@ describe('Authenticating', () => {
     test('authenticating an existing user with the correct password', async () => {
       const basicAuth = toBase64('johndoe@gmail.com', 'azerty');
       const result = await authenticator.basicAuth(basicAuth);
-      expect(result).toBe(storedUser);
+      expect(result).toEqual(storedUser);
     });
 
     test('authenticating an existing user with the wrong password', async () => {

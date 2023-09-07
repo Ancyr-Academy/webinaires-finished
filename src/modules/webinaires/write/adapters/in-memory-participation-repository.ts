@@ -35,6 +35,16 @@ export class InMemoryParticipationRepository
     return participations.length;
   }
 
+  async findParticipations(
+    webinaireId: string,
+  ): Promise<ParticipationEntity[]> {
+    const participations = this.database.filter(
+      (p) => p.data.webinaireId === webinaireId,
+    );
+
+    return participations.map((p) => p.clone());
+  }
+
   async create(participation: ParticipationEntity): Promise<void> {
     const isAlreadyInDatabase = this.database.some(
       (p) => p.data.id === participation.data.id,

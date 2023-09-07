@@ -1,9 +1,10 @@
 import { UserEntity } from '../../../../auth/entity/user.entity';
+import { IUserRepository } from '../../../../auth/ports/auth.gateway';
 import { IMailer } from '../../../../mailer/ports/mailer.interface';
 import { DomainException } from '../../../../shared/domain-exception';
 import { Executable } from '../../../../shared/executable';
-import { IWebinaireQuery } from '../../../read/ports/webinaire.query';
 import { IParticipationRepository } from '../../ports/participation.repository';
+import { IWebinaireRepository } from '../../ports/webinaire.repository';
 
 type Request = {
   user: UserEntity;
@@ -14,14 +15,15 @@ type Response = void;
 
 export class CancelReservation extends Executable<Request, Response> {
   constructor(
+    private readonly userRepository: IUserRepository,
     private readonly participationRepository: IParticipationRepository,
-    private readonly webinaireQuery: IWebinaireQuery,
+    private readonly webinaireRepository: IWebinaireRepository,
     private readonly mailer: IMailer,
   ) {
     super();
   }
 
-  async run({ user, webinaireId }: Request): Promise<Response> {
+  async execute({ user, webinaireId }: Request): Promise<Response> {
     const participationQuery = await this.participationRepository.find(
       webinaireId,
       user.id,
@@ -38,11 +40,20 @@ export class CancelReservation extends Executable<Request, Response> {
   }
 
   private async notifyOrganizer(webinaireId: string) {
-    const webinaireOption = await this.webinaireQuery.findById(webinaireId);
-    const webinaire = webinaireOption.getOrThrow();
+    const webinaireQuery = await this.webinaireRepository.getWebinaireById(
+      webinaireId,
+    );
+
+    const webinaire = webinaireQuery.getOrThrow();
+
+    const userQuery = await this.userRepository.findById(
+      webinaire.data.organizerId,
+    );
+
+    const user = userQuery.getOrThrow();
 
     await this.mailer.sendMail({
-      to: webinaire.data.organizer.emailAddress,
+      to: user.data.emailAddress,
       subject: 'Annulation de participation',
       body: 'Une personne a annulé sa participation à votre webinaire.',
     });

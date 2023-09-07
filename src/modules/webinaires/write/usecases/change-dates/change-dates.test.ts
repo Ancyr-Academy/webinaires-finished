@@ -1,23 +1,18 @@
 import { UserFactory } from '../../../../auth/entity/user.factory';
 import { LoopbackMailer } from '../../../../mailer/adapters/loopback-mailer';
-import { InMemoryParticipantQuery } from '../../../read/adapters/in-memory-participant-query';
 import { FixedDateProvider } from '../../../../system/date/fixed-date-provider';
 import { WebinaireFactory } from '../../model/webinaire.factory';
 import { InMemoryWebinaireRepository } from '../../adapters/in-memory-webinaire-repository';
 import { ChangeDates } from './change-dates';
-import { ParticipantFactory } from '../../../read/model/participant.factory';
+import { InMemoryUserRepository } from '../../../../auth/adapters/in-memory/in-memory-user-repository';
+import { InMemoryParticipationRepository } from '../../adapters/in-memory-participation-repository';
+import { ParticipationFactory } from '../../model/participation.factory';
 
 describe('Feature: Changing the dates of a webinaire', () => {
-  function createParticipant(name: string) {
-    return ParticipantFactory.create({
-      id: `user-${name}`,
-      name: name,
-      emailAddress: `${name}@gmail.com`,
-    });
-  }
-
   async function getWebinaireById(id: string) {
-    const updatedWebinaireOption = await webinaireGateway.getWebinaireById(id);
+    const updatedWebinaireOption = await webinaireRepository.getWebinaireById(
+      id,
+    );
     return updatedWebinaireOption.getOrThrow();
   }
 
@@ -46,28 +41,51 @@ describe('Feature: Changing the dates of a webinaire', () => {
     endAt,
   });
 
-  const jack = createParticipant('jack');
-  const jill = createParticipant('jill');
+  const jack = UserFactory.create({
+    id: 'jack',
+    emailAddress: 'jack@gmail.com',
+  });
+
+  const jill = UserFactory.create({
+    id: 'jill',
+    emailAddress: 'jill@gmail.com',
+  });
+
+  const jackParticipation = ParticipationFactory.create({
+    id: 'jack-participation',
+    webinaireId: webinaire.id,
+    userId: jack.id,
+  });
+
+  const jillParticipation = ParticipationFactory.create({
+    id: 'jill-participation',
+    webinaireId: webinaire.id,
+    userId: jill.id,
+  });
 
   let dateProvider: FixedDateProvider;
-  let webinaireGateway: InMemoryWebinaireRepository;
-  let participantQuery: InMemoryParticipantQuery;
+  let userRepository: InMemoryUserRepository;
+  let webinaireRepository: InMemoryWebinaireRepository;
+  let participationRepository: InMemoryParticipationRepository;
   let mailer: LoopbackMailer;
   let useCase: ChangeDates;
 
   beforeEach(() => {
     dateProvider = new FixedDateProvider(todayIs);
-    webinaireGateway = new InMemoryWebinaireRepository([webinaire]);
-    participantQuery = new InMemoryParticipantQuery({
-      [webinaire.id]: [jack, jill],
-    });
+    userRepository = new InMemoryUserRepository([alice, bob, jill, jack]);
+    webinaireRepository = new InMemoryWebinaireRepository([webinaire]);
+    participationRepository = new InMemoryParticipationRepository([
+      jackParticipation,
+      jillParticipation,
+    ]);
 
     mailer = new LoopbackMailer();
 
     useCase = new ChangeDates(
       dateProvider,
-      webinaireGateway,
-      participantQuery,
+      userRepository,
+      webinaireRepository,
+      participationRepository,
       mailer,
     );
   });

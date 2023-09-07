@@ -9,7 +9,7 @@ export class InMemoryUserRepository implements IUserRepository {
     this.database.push(user);
   }
 
-  async getUserById(id: string): Promise<Optional<UserEntity>> {
+  async findById(id: string): Promise<Optional<UserEntity>> {
     const user = this.database.find((user) => user.data.id === id);
     return user ? Optional.of(user.clone()) : Optional.empty();
   }
@@ -27,6 +27,12 @@ export class InMemoryUserRepository implements IUserRepository {
       (user) => user.data.emailAddress === emailAddress,
     );
 
-    return user ? Optional.of(user) : Optional.empty();
+    return user ? Optional.of(user.clone()) : Optional.empty();
+  }
+
+  async findByIds(ids: string[]): Promise<UserEntity[]> {
+    return this.database
+      .filter((user) => ids.includes(user.data.id))
+      .map((user) => user.clone());
   }
 }

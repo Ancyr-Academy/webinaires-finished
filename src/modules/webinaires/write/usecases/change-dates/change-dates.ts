@@ -1,10 +1,11 @@
 import { UserEntity } from '../../../../auth/entity/user.entity';
 import { IMailer } from '../../../../mailer/ports/mailer.interface';
-import { IParticipantQuery } from '../../../read/ports/participant.query';
 import { DomainException } from '../../../../shared/domain-exception';
 import { Executable } from '../../../../shared/executable';
 import { IDateProvider } from '../../../../system/date/date-provider';
 import { IWebinaireRepository } from '../../ports/webinaire.repository';
+import { IParticipationRepository } from '../../ports/participation.repository';
+import { IUserRepository } from '../../../../auth/ports/auth.gateway';
 
 type Request = {
   user: UserEntity;
@@ -18,14 +19,20 @@ type Response = void;
 export class ChangeDates extends Executable<Request, Response> {
   constructor(
     private readonly dateProvider: IDateProvider,
+    private readonly userRepository: IUserRepository,
     private readonly webinaireRepository: IWebinaireRepository,
-    private readonly participantQuery: IParticipantQuery,
+    private readonly participationRepository: IParticipationRepository,
     private readonly mailer: IMailer,
   ) {
     super();
   }
 
-  async run({ user, webinaireId, startAt, endAt }: Request): Promise<Response> {
+  async execute({
+    user,
+    webinaireId,
+    startAt,
+    endAt,
+  }: Request): Promise<Response> {
     const webinaireQuery = await this.webinaireRepository.getWebinaireById(
       webinaireId,
     );
@@ -58,14 +65,17 @@ export class ChangeDates extends Executable<Request, Response> {
   }
 
   async notifyParticipants(webinaireId: string): Promise<void> {
-    const participants = await this.participantQuery.findAllParticipants(
-      webinaireId,
+    const participations =
+      await this.participationRepository.findParticipations(webinaireId);
+
+    const users = await this.userRepository.findByIds(
+      participations.map((p) => p.data.userId),
     );
 
     await Promise.all(
-      participants.map(async (participant) => {
+      users.map(async (user) => {
         return this.mailer.sendMail({
-          to: participant.data.emailAddress,
+          to: user.data.emailAddress,
           subject: 'Changement de dates',
           body: 'Les dates du webinaire ont été modifiées.',
         });

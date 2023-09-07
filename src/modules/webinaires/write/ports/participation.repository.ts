@@ -9,6 +9,7 @@ export interface IParticipationRepository {
     userId: string,
   ): Promise<Optional<ParticipationEntity>>;
   findParticipationCount(webinaireId: string): Promise<number>;
+  findParticipations(webinaireId: string): Promise<ParticipationEntity[]>;
   create(participation: ParticipationEntity): Promise<void>;
   delete(participation: ParticipationEntity): Promise<void>;
 }

@@ -27,7 +27,7 @@ export class ReserveSeat extends Executable<Request, Response> {
     super();
   }
 
-  async run({ user, webinaireId }: Request): Promise<Response> {
+  async execute({ user, webinaireId }: Request): Promise<Response> {
     const webinaireQuery = await this.webinaireRepository.getWebinaireById(
       webinaireId,
     );
@@ -68,7 +68,7 @@ export class ReserveSeat extends Executable<Request, Response> {
   }
 
   private async notifyOrganizer(webinaire: WebinaireEntity) {
-    const organizerQuery = await this.authGateway.getUserById(
+    const organizerQuery = await this.authGateway.findById(
       webinaire.data.organizerId,
     );
 

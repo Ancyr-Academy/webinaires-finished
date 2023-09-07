@@ -34,11 +34,10 @@ export class CreateAccount extends Executable<Request, Response> {
     super();
   }
 
-  protected async validate(payload: Request): Promise<void> {
+  async execute(payload: Request): Promise<Response> {
     await this.validator.validate(payload);
-  }
+    const { emailAddress, password } = payload;
 
-  async run({ emailAddress, password }: Request): Promise<Response> {
     const isEmailAddressAvailable =
       await this.authGateway.isEmailAddressAvailable(emailAddress);
 

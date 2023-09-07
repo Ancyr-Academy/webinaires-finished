@@ -27,7 +27,7 @@ export class Organize extends Executable<Request, Response> {
     super();
   }
 
-  async run({ user, startAt, endAt, seats }: Request): Promise<Response> {
+  async execute({ user, startAt, endAt, seats }: Request): Promise<Response> {
     const webinaire = new WebinaireEntity({
       id: this.idProvider.getId(),
       organizerId: user.id,
