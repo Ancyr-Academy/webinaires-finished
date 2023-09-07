@@ -57,9 +57,7 @@ describe('Feature: Changing the dates of a webinaire', () => {
 
   beforeEach(() => {
     dateProvider = new FixedDateProvider(todayIs);
-    webinaireGateway = new InMemoryWebinaireRepository();
-    webinaireGateway.create(webinaire.cloneInitial());
-
+    webinaireGateway = new InMemoryWebinaireRepository([webinaire]);
     participantQuery = new InMemoryParticipantQuery({
       [webinaire.id]: [jack, jill],
     });

@@ -1,11 +1,12 @@
 import { InMemoryParticipationRepository } from '../../adapters/in-memory-participation-repository';
 import { ReserveSeat } from './reserve-seat';
 import { UserFactory } from '../../../../auth/entity/user.factory';
-import { InMemoryWebinaireQuery } from '../../../read/adapters/in-memory-webinaire-query';
 import { FixedIdProvider } from '../../../../system/id/fixed-id-provider';
 import { WebinaireFactory } from '../../model/webinaire.factory';
 import { ParticipationFactory } from '../../model/participation.factory';
 import { LoopbackMailer } from '../../../../mailer/adapters/loopback-mailer';
+import { InMemoryWebinaireRepository } from '../../adapters/in-memory-webinaire-repository';
+import { InMemoryUserRepository } from '../../../../auth/adapters/in-memory/in-memory-user-repository';
 
 describe('Feature: reserving a seat', () => {
   async function expectParticipationNotToBeCreated() {
@@ -21,59 +22,71 @@ describe('Feature: reserving a seat', () => {
     emailAddress: 'alice@gmail.com',
   });
 
-  const webinaire = WebinaireFactory.createViewModel({
+  const bob = UserFactory.create({
+    id: 'bob',
+    emailAddress: 'bob@gmail.com',
+  });
+
+  const chad = UserFactory.create({
+    id: 'chad',
+    emailAddress: 'chad@gmail.com',
+  });
+
+  const webinaire = WebinaireFactory.create({
     id: 'webinaire-id-1',
-    organizer: {
-      id: 'organizer-1',
-      name: 'The Organizer 1',
-      emailAddress: 'organizer-1@gmail.com',
-    },
+    organizerId: 'bob',
   });
 
-  const webinaireInWhichAliceParticipate = WebinaireFactory.createViewModel({
+  const webinaireInWhichAliceParticipate = WebinaireFactory.create({
     id: 'webinaire-id-2',
-    organizer: {
-      id: 'organizer-2',
-      name: 'The Organizer 2',
-      emailAddress: 'organizer-2@gmail.com',
-    },
+    organizerId: 'bob',
   });
 
-  const fullWebinaire = WebinaireFactory.createViewModel({
+  const fullWebinaire = WebinaireFactory.create({
     id: 'full-webinaire-id',
-    seats: {
-      available: 0,
-      total: 10,
-    },
+    organizerId: 'bob',
+    seats: 1,
   });
 
   const aliceParticipationInWebinaire = ParticipationFactory.create({
-    id: 'alice-participation-id',
+    id: 'alice-full-webinaire-id',
     webinaireId: webinaireInWhichAliceParticipate.data.id,
     userId: alice.id,
   });
 
+  const chadParticipationInFullWebinaire = ParticipationFactory.create({
+    id: 'chad-full-webinaire-id',
+    webinaireId: fullWebinaire.data.id,
+    userId: chad.id,
+  });
+
   let idProvider: FixedIdProvider;
+  let userRepository: InMemoryUserRepository;
   let participationRepository: InMemoryParticipationRepository;
-  let webinaireQuery: InMemoryWebinaireQuery;
+  let webinaireRepository: InMemoryWebinaireRepository;
   let useCase: ReserveSeat;
   let mailer: LoopbackMailer;
 
   beforeEach(() => {
     idProvider = new FixedIdProvider('participation-id');
-    participationRepository = new InMemoryParticipationRepository({
-      'alice-participation-id': aliceParticipationInWebinaire,
-    });
-    webinaireQuery = new InMemoryWebinaireQuery({
-      'webinaire-id-1': webinaire,
-      'webinaire-id-2': webinaireInWhichAliceParticipate,
-      'full-webinaire-id': fullWebinaire,
-    });
+    userRepository = new InMemoryUserRepository([alice, bob, chad]);
+
+    participationRepository = new InMemoryParticipationRepository([
+      aliceParticipationInWebinaire,
+      chadParticipationInFullWebinaire,
+    ]);
+
+    webinaireRepository = new InMemoryWebinaireRepository([
+      webinaire,
+      webinaireInWhichAliceParticipate,
+      fullWebinaire,
+    ]);
     mailer = new LoopbackMailer();
 
     useCase = new ReserveSeat(
       idProvider,
-      webinaireQuery,
+      userRepository,
+      webinaireRepository,
       participationRepository,
       mailer,
     );
@@ -106,7 +119,7 @@ describe('Feature: reserving a seat', () => {
       const sentEmails = mailer.getSentEmails();
 
       expect(sentEmails).toContainEqual({
-        to: 'organizer-1@gmail.com',
+        to: 'bob@gmail.com',
         subject: 'Nouvelle participation à votre webinaire',
         body: 'Une nouvelle personne participe à votre webinaire.',
       });

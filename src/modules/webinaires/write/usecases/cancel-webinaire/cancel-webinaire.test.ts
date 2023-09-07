@@ -36,9 +36,7 @@ describe('Feature: canceling a webinaire', () => {
   const jill = createParticipant('jill');
 
   beforeEach(() => {
-    webinaireGateway = new InMemoryWebinaireRepository();
-    webinaireGateway.create(webinaire.cloneInitial());
-
+    webinaireGateway = new InMemoryWebinaireRepository([webinaire]);
     participantQuery = new InMemoryParticipantQuery({
       [webinaire.id]: [jack, jill],
     });

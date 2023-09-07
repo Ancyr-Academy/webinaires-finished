@@ -27,8 +27,7 @@ describe('Feature: Changing the number of seats of a webinaire', () => {
   let useCase: ChangeSeats;
 
   beforeEach(() => {
-    webinaireGateway = new InMemoryWebinaireRepository();
-    webinaireGateway.create(webinaire.cloneInitial());
+    webinaireGateway = new InMemoryWebinaireRepository([webinaire]);
 
     useCase = new ChangeSeats(webinaireGateway);
   });

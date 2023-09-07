@@ -33,9 +33,10 @@ describe('Feature: canceling a participation', () => {
   let useCase: CancelReservation;
 
   beforeEach(() => {
-    participationRepository = new InMemoryParticipationRepository({
-      'alice-participation-id': participation,
-    });
+    participationRepository = new InMemoryParticipationRepository([
+      participation,
+    ]);
+
     webinaireQuery = new InMemoryWebinaireQuery({
       'webinaire-id-1': webinaire,
     });

@@ -4,7 +4,7 @@ import { Executable } from '../../../shared/executable';
 import { Validator } from '../../../shared/validator';
 import { IIDProvider } from '../../../system/id/id-provider';
 import { UserEntity } from '../../entity/user.entity';
-import { IAuthGateway } from '../../ports/auth.gateway';
+import { IUserRepository } from '../../ports/auth.gateway';
 import { IPasswordHasher } from '../../services/password-hasher/password-hasher.interface';
 import { IMailer } from '../../../mailer/ports/mailer.interface';
 
@@ -27,7 +27,7 @@ export class CreateAccount extends Executable<Request, Response> {
 
   constructor(
     private readonly idProvider: IIDProvider,
-    private readonly authGateway: IAuthGateway,
+    private readonly authGateway: IUserRepository,
     private readonly passwordHasher: IPasswordHasher,
     private readonly mailer: IMailer,
   ) {

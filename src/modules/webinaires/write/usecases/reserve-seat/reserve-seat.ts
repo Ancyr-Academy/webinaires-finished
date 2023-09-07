@@ -1,12 +1,13 @@
 import { UserEntity } from '../../../../auth/entity/user.entity';
+import { IUserRepository } from '../../../../auth/ports/auth.gateway';
 import { IMailer } from '../../../../mailer/ports/mailer.interface';
 import { DomainException } from '../../../../shared/domain-exception';
 import { Executable } from '../../../../shared/executable';
 import { IIDProvider } from '../../../../system/id/id-provider';
-import { WebinaireViewModel } from '../../../read/model/webinaire.viewmodel';
-import { IWebinaireQuery } from '../../../read/ports/webinaire.query';
 import { ParticipationEntity } from '../../model/participation.entity';
+import { WebinaireEntity } from '../../model/webinaire.entity';
 import { IParticipationRepository } from '../../ports/participation.repository';
+import { IWebinaireRepository } from '../../ports/webinaire.repository';
 
 type Request = {
   user: UserEntity;
@@ -18,7 +19,8 @@ type Response = void;
 export class ReserveSeat extends Executable<Request, Response> {
   constructor(
     private readonly idProvider: IIDProvider,
-    private readonly webinaireQuery: IWebinaireQuery,
+    private readonly authGateway: IUserRepository,
+    private readonly webinaireRepository: IWebinaireRepository,
     private readonly participationRepository: IParticipationRepository,
     private readonly mailer: IMailer,
   ) {
@@ -26,12 +28,18 @@ export class ReserveSeat extends Executable<Request, Response> {
   }
 
   async run({ user, webinaireId }: Request): Promise<Response> {
-    const webinaireQuery = await this.webinaireQuery.findById(webinaireId);
+    const webinaireQuery = await this.webinaireRepository.getWebinaireById(
+      webinaireId,
+    );
+
     const webinaire = webinaireQuery.getOrThrow(
       new DomainException('NOT_FOUND', 'Webinaire not found'),
     );
 
-    if (webinaire.isFull()) {
+    const participationsCount =
+      await this.participationRepository.findParticipationCount(webinaireId);
+
+    if (participationsCount >= webinaire.data.seats) {
       throw new DomainException('WEBINAIRE_FULL', 'Webinaire is full');
     }
 
@@ -59,9 +67,15 @@ export class ReserveSeat extends Executable<Request, Response> {
     await this.notifyParticipant(user);
   }
 
-  private async notifyOrganizer(webinaire: WebinaireViewModel) {
+  private async notifyOrganizer(webinaire: WebinaireEntity) {
+    const organizerQuery = await this.authGateway.getUserById(
+      webinaire.data.organizerId,
+    );
+
+    const organizer = organizerQuery.getOrThrow();
+
     await this.mailer.sendMail({
-      to: webinaire.data.organizer.emailAddress,
+      to: organizer.data.emailAddress,
       subject: 'Nouvelle participation à votre webinaire',
       body: 'Une nouvelle personne participe à votre webinaire.',
     });

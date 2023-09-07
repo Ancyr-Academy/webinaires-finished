@@ -1,12 +1,12 @@
 import { UserEntity } from '../../entity/user.entity';
-import { IAuthGateway } from '../../ports/auth.gateway';
+import { IUserRepository } from '../../ports/auth.gateway';
 import { IPasswordHasher } from '../password-hasher/password-hasher.interface';
 import { AuthenticationException } from './authentication.exception';
 import { IAuthenticator } from './authenticator.interface';
 
 export class Authenticator implements IAuthenticator {
   constructor(
-    private readonly authGateway: IAuthGateway,
+    private readonly authGateway: IUserRepository,
     private readonly passwordHasher: IPasswordHasher,
   ) {}
 

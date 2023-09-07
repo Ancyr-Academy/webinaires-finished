@@ -5,10 +5,10 @@ import { IParticipationRepository } from '../ports/participation.repository';
 export class InMemoryParticipationRepository
   implements IParticipationRepository
 {
-  constructor(private database: Record<string, ParticipationEntity> = {}) {}
+  constructor(private database: ParticipationEntity[] = []) {}
 
   async findById(id: string): Promise<Optional<ParticipationEntity>> {
-    const participation = this.database[id];
+    const participation = this.database.find((p) => p.data.id === id);
     if (!participation) {
       return Optional.empty();
     }
@@ -20,22 +20,36 @@ export class InMemoryParticipationRepository
     webinaireId: string,
     userId: string,
   ): Promise<Optional<ParticipationEntity>> {
-    const participation = Object.values(this.database).find(
+    const participation = this.database.find(
       (p) => p.data.webinaireId === webinaireId && p.data.userId === userId,
     );
 
     return participation ? Optional.of(participation) : Optional.empty();
   }
 
+  async findParticipationCount(webinaireId: string): Promise<number> {
+    const participations = this.database.filter(
+      (p) => p.data.webinaireId === webinaireId,
+    );
+
+    return participations.length;
+  }
+
   async create(participation: ParticipationEntity): Promise<void> {
-    if (this.database[participation.data.id]) {
+    const isAlreadyInDatabase = this.database.some(
+      (p) => p.data.id === participation.data.id,
+    );
+
+    if (isAlreadyInDatabase) {
       throw new Error('Participation already exists');
     }
 
-    this.database[participation.data.id] = participation;
+    this.database.push(participation);
   }
 
   async delete(participation: ParticipationEntity): Promise<void> {
-    delete this.database[participation.data.id];
+    this.database = this.database.filter(
+      (p) => p.data.id !== participation.data.id,
+    );
   }
 }

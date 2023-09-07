@@ -1,6 +1,6 @@
 import {
-  IAuthGateway,
-  I_AUTH_GATEWAY,
+  IUserRepository,
+  I_USER_REPOSITORY,
 } from '../../modules/auth/ports/auth.gateway';
 import { TestApp } from '../setup/test-app';
 
@@ -26,7 +26,7 @@ describe('Feature: create account', () => {
 
       expect(result.status).toEqual(201);
 
-      const authRepository = app.get<IAuthGateway>(I_AUTH_GATEWAY);
+      const authRepository = app.get<IUserRepository>(I_USER_REPOSITORY);
       const userQuery = await authRepository.findByEmailAddress(
         user.emailAddress,
       );

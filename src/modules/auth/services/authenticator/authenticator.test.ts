@@ -1,10 +1,10 @@
 import { UserFactory } from '../../entity/user.factory';
-import { InMemoryAuthGateway } from '../../adapters/in-memory/in-memory-auth-gateway';
+import { InMemoryUserRepository } from '../../adapters/in-memory/in-memory-user-repository';
 import { PrefixPasswordHasher } from '../password-hasher/passthrough-password-hasher';
 import { Authenticator } from './authenticator';
 
 describe('Authenticating', () => {
-  let authGateway: InMemoryAuthGateway;
+  let authGateway: InMemoryUserRepository;
   let passwordHasher: PrefixPasswordHasher;
   let authenticator: Authenticator;
 
@@ -15,7 +15,7 @@ describe('Authenticating', () => {
   });
 
   beforeEach(() => {
-    authGateway = new InMemoryAuthGateway();
+    authGateway = new InMemoryUserRepository();
     passwordHasher = new PrefixPasswordHasher();
     authenticator = new Authenticator(authGateway, passwordHasher);
 

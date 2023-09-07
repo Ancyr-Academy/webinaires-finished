@@ -3,35 +3,34 @@ import { WebinaireEntity } from '../model/webinaire.entity';
 import { IWebinaireRepository } from '../ports/webinaire.repository';
 
 export class InMemoryWebinaireRepository implements IWebinaireRepository {
-  private database = new Map<string, WebinaireEntity>();
+  constructor(private database: WebinaireEntity[] = []) {}
 
   async getWebinaireById(id: string): Promise<Optional<WebinaireEntity>> {
-    const webinaire = this.database.get(id);
+    const webinaire = this.database.find((w) => w.data.id === id);
     if (!webinaire) {
       return Optional.empty();
     }
 
-    webinaire.reset();
-    return Optional.of(webinaire);
+    return Optional.of(webinaire.clone());
   }
 
   async create(entity: WebinaireEntity): Promise<void> {
-    this.database.set(entity.id, entity);
+    this.database.push(entity);
     return;
   }
 
   async update(entity: WebinaireEntity): Promise<void> {
-    this.database.set(entity.id, entity);
+    const index = this.database.findIndex((w) => w.data.id === entity.id);
+    this.database[index] = entity;
     entity.commit();
     return;
   }
 
   async delete(entity: WebinaireEntity): Promise<void> {
-    this.database.delete(entity.id);
-    return;
+    this.database = this.database.filter((w) => w.data.id !== entity.id);
   }
 
   count() {
-    return this.database.size;
+    return this.database.length;
   }
 }

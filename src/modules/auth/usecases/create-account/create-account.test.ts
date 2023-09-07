@@ -1,12 +1,12 @@
 import { LoopbackMailer } from '../../../mailer/adapters/loopback-mailer';
 import { FixedIdProvider } from '../../../system/id/fixed-id-provider';
 import { UserFactory } from '../../entity/user.factory';
-import { InMemoryAuthGateway } from '../../adapters/in-memory/in-memory-auth-gateway';
+import { InMemoryUserRepository } from '../../adapters/in-memory/in-memory-user-repository';
 import { PrefixPasswordHasher } from '../../services/password-hasher/passthrough-password-hasher';
 import { CreateAccount } from './create-account';
 
 describe('Feature: Creating an account', () => {
-  let authGateway: InMemoryAuthGateway;
+  let authGateway: InMemoryUserRepository;
   let passwordHasher: PrefixPasswordHasher;
   let mailerService: LoopbackMailer;
   let useCase: CreateAccount;
@@ -18,7 +18,7 @@ describe('Feature: Creating an account', () => {
   });
 
   beforeEach(async () => {
-    authGateway = new InMemoryAuthGateway();
+    authGateway = new InMemoryUserRepository();
     passwordHasher = new PrefixPasswordHasher();
     mailerService = new LoopbackMailer();
 

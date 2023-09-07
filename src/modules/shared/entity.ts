@@ -55,7 +55,7 @@ export abstract class Entity<TData extends { id: string }> {
     return deepObjectDiff.diff(this.initialState, this.currentState);
   }
 
-  cloneInitial() {
+  clone() {
     return new (this.constructor as any)(this.initialState);
   }
 

@@ -5,8 +5,8 @@ import { I_PASSWORD_HASHER } from '../../../modules/auth/services/password-hashe
 import { Argon2PasswordHasher } from '../../../modules/auth/services/password-hasher/argon2-password-hasher';
 import { CreateAccount } from '../../../modules/auth/usecases/create-account/create-account';
 import { I_ID_PROVIDER } from '../../../modules/system/id/id-provider';
-import { I_AUTH_GATEWAY } from '../../../modules/auth/ports/auth.gateway';
-import { InMemoryAuthGateway } from '../../../modules/auth/adapters/in-memory/in-memory-auth-gateway';
+import { I_USER_REPOSITORY } from '../../../modules/auth/ports/auth.gateway';
+import { InMemoryUserRepository } from '../../../modules/auth/adapters/in-memory/in-memory-user-repository';
 import { AuthController } from './auth.controller';
 import { MailerModule } from '../mailer/mailer.module';
 import { I_MAILER } from '../../../modules/mailer/ports/mailer.interface';
@@ -23,7 +23,7 @@ const services = [
   },
   {
     provide: I_AUTHENTICATOR,
-    inject: [I_AUTH_GATEWAY, I_PASSWORD_HASHER],
+    inject: [I_USER_REPOSITORY, I_PASSWORD_HASHER],
     useFactory: (authGateway, passwordHasher) => {
       return new Authenticator(authGateway, passwordHasher);
     },
@@ -32,9 +32,9 @@ const services = [
 
 const gateways = [
   {
-    provide: I_AUTH_GATEWAY,
+    provide: I_USER_REPOSITORY,
     useFactory: () => {
-      return new InMemoryAuthGateway();
+      return new InMemoryUserRepository();
     },
   },
 ];
@@ -42,7 +42,7 @@ const gateways = [
 const useCases = [
   {
     provide: CreateAccount,
-    inject: [I_ID_PROVIDER, I_AUTH_GATEWAY, I_PASSWORD_HASHER, I_MAILER],
+    inject: [I_ID_PROVIDER, I_USER_REPOSITORY, I_PASSWORD_HASHER, I_MAILER],
     useFactory: (idProvider, authGateway, passwordHasher, mailerService) => {
       return new CreateAccount(
         idProvider,
