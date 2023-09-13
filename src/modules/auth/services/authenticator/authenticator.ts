@@ -10,9 +10,8 @@ export class Authenticator implements IAuthenticator {
     private readonly passwordHasher: IPasswordHasher,
   ) {}
 
-  async basicAuth(token: string): Promise<UserEntity> {
-    const decoded = Buffer.from(token, 'base64').toString('utf-8');
-    const [emailAddress, password] = decoded.split(':');
+  async authenticate(token: string): Promise<UserEntity> {
+    const [emailAddress, password] = this.extractCredentials(token);
 
     const userOption = await this.authGateway.findByEmailAddress(emailAddress);
     const user = userOption.getOrThrow(
@@ -29,5 +28,11 @@ export class Authenticator implements IAuthenticator {
     }
 
     return user;
+  }
+
+  private extractCredentials(token: string): [string, string] {
+    const decoded = Buffer.from(token, 'base64').toString('utf-8');
+    const [emailAddress, password] = decoded.split(':');
+    return [emailAddress, password];
   }
 }

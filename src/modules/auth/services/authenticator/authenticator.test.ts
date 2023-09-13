@@ -24,14 +24,14 @@ describe('Authenticating', () => {
   describe('basic authentication', () => {
     test('authenticating an existing user with the correct password', async () => {
       const basicAuth = toBase64('johndoe@gmail.com', 'azerty');
-      const result = await authenticator.basicAuth(basicAuth);
+      const result = await authenticator.authenticate(basicAuth);
       expect(result).toEqual(storedUser);
     });
 
     test('authenticating an existing user with the wrong password', async () => {
       const basicAuth = toBase64('johndoe@gmail.com', 'not a valid password');
       await expect(async () => {
-        await authenticator.basicAuth(basicAuth);
+        await authenticator.authenticate(basicAuth);
       }).rejects.toThrow("Password doesn't match");
     });
 
@@ -42,7 +42,7 @@ describe('Authenticating', () => {
       );
 
       await expect(async () => {
-        await authenticator.basicAuth(basicAuth);
+        await authenticator.authenticate(basicAuth);
       }).rejects.toThrow("User doesn't exist");
     });
   });
