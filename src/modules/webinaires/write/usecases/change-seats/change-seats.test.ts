@@ -1,4 +1,4 @@
-import { UserFactory } from '../../../../auth/entity/user.factory';
+import { UserFactory } from '../../../../auth/core/user.factory';
 import { WebinaireFactory } from '../../model/webinaire.factory';
 import { InMemoryWebinaireRepository } from '../../adapters/in-memory-webinaire-repository';
 import { ChangeSeats } from './change-seats';

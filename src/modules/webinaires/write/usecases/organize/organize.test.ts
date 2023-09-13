@@ -1,4 +1,4 @@
-import { UserFactory } from '../../../../auth/entity/user.factory';
+import { UserFactory } from '../../../../auth/core/user.factory';
 import { FixedDateProvider } from '../../../../system/date/fixed-date-provider';
 import { FixedIdProvider } from '../../../../system/id/fixed-id-provider';
 import { InMemoryWebinaireRepository } from '../../adapters/in-memory-webinaire-repository';

@@ -1,10 +1,10 @@
-import { UserFactory } from '../../../../auth/entity/user.factory';
+import { UserFactory } from '../../../../auth/core/user.factory';
 import { LoopbackMailer } from '../../../../mailer/adapters/loopback-mailer';
 import { FixedDateProvider } from '../../../../system/date/fixed-date-provider';
 import { WebinaireFactory } from '../../model/webinaire.factory';
 import { InMemoryWebinaireRepository } from '../../adapters/in-memory-webinaire-repository';
 import { ChangeDates } from './change-dates';
-import { InMemoryUserRepository } from '../../../../auth/adapters/in-memory/in-memory-user-repository';
+import { InMemoryUserRepository } from '../../../../auth/adapters/in-memory-user-repository';
 import { InMemoryParticipationRepository } from '../../adapters/in-memory-participation-repository';
 import { ParticipationFactory } from '../../model/participation.factory';
 

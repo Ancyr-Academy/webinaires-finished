@@ -1,4 +1,4 @@
-import { UserEntity } from '../../../../auth/entity/user.entity';
+import { UserEntity } from '../../../../auth/core/user.entity';
 import { IMailer } from '../../../../mailer/ports/mailer.interface';
 import { DomainException } from '../../../../shared/domain-exception';
 import { Executable } from '../../../../shared/executable';

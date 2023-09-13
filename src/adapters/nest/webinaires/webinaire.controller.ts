@@ -14,7 +14,7 @@ import { ChangeSeats } from '../../../modules/webinaires/write/usecases/change-s
 import { Organize } from '../../../modules/webinaires/write/usecases/organize/organize';
 import { ReserveSeat } from '../../../modules/webinaires/write/usecases/reserve-seat/reserve-seat';
 import { User } from '../auth/user.decorator';
-import { UserEntity } from '../../../modules/auth/entity/user.entity';
+import { UserEntity } from '../../../modules/auth/core/user.entity';
 import { WebinaireAPI } from '../../../modules/webinaires/write/contract/webinaire.api';
 import { ZodValidationPipe } from '../app/zod-validation.pipe';
 

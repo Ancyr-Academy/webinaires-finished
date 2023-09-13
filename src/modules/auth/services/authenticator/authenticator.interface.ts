@@ -1,4 +1,4 @@
-import { UserEntity } from '../../entity/user.entity';
+import { UserEntity } from '../../core/user.entity';
 
 export const I_AUTHENTICATOR = Symbol('I_AUTHENTICATOR');
 

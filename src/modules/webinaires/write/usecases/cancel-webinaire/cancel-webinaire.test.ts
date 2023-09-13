@@ -1,11 +1,11 @@
-import { UserFactory } from '../../../../auth/entity/user.factory';
+import { UserFactory } from '../../../../auth/core/user.factory';
 import { LoopbackMailer } from '../../../../mailer/adapters/loopback-mailer';
 import { WebinaireFactory } from '../../model/webinaire.factory';
 import { InMemoryWebinaireRepository } from '../../adapters/in-memory-webinaire-repository';
 import { CancelWebinaire } from './cancel-webinaire';
 import { ParticipationFactory } from '../../model/participation.factory';
 import { InMemoryParticipationRepository } from '../../adapters/in-memory-participation-repository';
-import { InMemoryUserRepository } from '../../../../auth/adapters/in-memory/in-memory-user-repository';
+import { InMemoryUserRepository } from '../../../../auth/adapters/in-memory-user-repository';
 describe('Feature: canceling a webinaire', () => {
   const alice = UserFactory.create({
     id: 'alice',

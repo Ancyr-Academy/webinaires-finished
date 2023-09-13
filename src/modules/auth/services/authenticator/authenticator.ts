@@ -1,4 +1,4 @@
-import { UserEntity } from '../../entity/user.entity';
+import { UserEntity } from '../../core/user.entity';
 import { IUserRepository } from '../../ports/auth.gateway';
 import { IPasswordHasher } from '../password-hasher/password-hasher.interface';
 import { AuthenticationException } from './authentication.exception';

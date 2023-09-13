@@ -1,6 +1,6 @@
-import { Optional } from '../../../shared/optional';
-import { UserEntity } from '../../entity/user.entity';
-import { IUserRepository } from '../../ports/auth.gateway';
+import { Optional } from '../../shared/optional';
+import { UserEntity } from '../core/user.entity';
+import { IUserRepository } from '../ports/auth.gateway';
 
 export class InMemoryUserRepository implements IUserRepository {
   constructor(private database: UserEntity[] = []) {}

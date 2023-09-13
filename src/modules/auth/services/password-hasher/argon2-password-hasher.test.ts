@@ -1,6 +1,6 @@
 import { Argon2PasswordHasher } from './argon2-password-hasher';
 
-describe('Password hash', () => {
+describe('Argon2 password hash', () => {
   test('hashing and verifying the password', async () => {
     const passwordHasher = new Argon2PasswordHasher();
     const password = 'azerty';

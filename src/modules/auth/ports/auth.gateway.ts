@@ -1,5 +1,5 @@
 import { Optional } from '../../shared/optional';
-import { UserEntity } from '../entity/user.entity';
+import { UserEntity } from '../core/user.entity';
 
 export const I_USER_REPOSITORY = Symbol('I_USER_REPOSITORY');
 

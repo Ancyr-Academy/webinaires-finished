@@ -1,8 +1,8 @@
 import { LoopbackMailer } from '../../../mailer/adapters/loopback-mailer';
 import { FixedIdProvider } from '../../../system/id/fixed-id-provider';
-import { UserFactory } from '../../entity/user.factory';
-import { InMemoryUserRepository } from '../../adapters/in-memory/in-memory-user-repository';
-import { PrefixPasswordHasher } from '../../services/password-hasher/passthrough-password-hasher';
+import { UserFactory } from '../../core/user.factory';
+import { InMemoryUserRepository } from '../../adapters/in-memory-user-repository';
+import { PrefixPasswordHasher } from '../../services/password-hasher/prefix-password-hasher';
 import { CreateAccount } from './create-account';
 
 describe('Feature: Creating an account', () => {
