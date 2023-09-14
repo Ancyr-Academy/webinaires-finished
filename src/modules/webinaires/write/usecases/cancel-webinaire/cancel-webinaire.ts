@@ -4,7 +4,7 @@ import { DomainException } from '../../../../shared/domain-exception';
 import { Executable } from '../../../../shared/executable';
 import { IWebinaireRepository } from '../../ports/webinaire.repository';
 import { IParticipationRepository } from '../../ports/participation.repository';
-import { IUserRepository } from '../../../../auth/ports/auth.gateway';
+import { IUserRepository } from '../../../../auth/ports/user-repository';
 
 type Request = {
   user: UserEntity;

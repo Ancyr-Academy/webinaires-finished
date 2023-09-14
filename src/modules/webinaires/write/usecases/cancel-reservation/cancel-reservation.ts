@@ -1,5 +1,5 @@
 import { UserEntity } from '../../../../auth/core/user.entity';
-import { IUserRepository } from '../../../../auth/ports/auth.gateway';
+import { IUserRepository } from '../../../../auth/ports/user-repository';
 import { IMailer } from '../../../../mailer/ports/mailer.interface';
 import { DomainException } from '../../../../shared/domain-exception';
 import { Executable } from '../../../../shared/executable';

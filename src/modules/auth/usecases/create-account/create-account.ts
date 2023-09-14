@@ -4,7 +4,7 @@ import { Executable } from '../../../shared/executable';
 import { Validator } from '../../../shared/validator';
 import { IIDProvider } from '../../../system/id/id-provider';
 import { UserEntity } from '../../core/user.entity';
-import { IUserRepository } from '../../ports/auth.gateway';
+import { IUserRepository } from '../../ports/user-repository';
 import { IPasswordHasher } from '../../services/password-hasher/password-hasher.interface';
 import { IMailer } from '../../../mailer/ports/mailer.interface';
 

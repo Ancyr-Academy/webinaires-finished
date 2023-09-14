@@ -9,7 +9,7 @@ import { CancelWebinaire } from '../../../modules/webinaires/write/usecases/canc
 import { ChangeDates } from '../../../modules/webinaires/write/usecases/change-dates/change-dates';
 import { ChangeSeats } from '../../../modules/webinaires/write/usecases/change-seats/change-seats';
 import { ReserveSeat } from '../../../modules/webinaires/write/usecases/reserve-seat/reserve-seat';
-import { I_USER_REPOSITORY } from '../../../modules/auth/ports/auth.gateway';
+import { I_USER_REPOSITORY } from '../../../modules/auth/ports/user-repository';
 
 export const useCases = [
   {

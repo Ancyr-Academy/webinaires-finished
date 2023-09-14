@@ -1,7 +1,7 @@
 import {
   IUserRepository,
   I_USER_REPOSITORY,
-} from '../../../modules/auth/ports/auth.gateway';
+} from '../../../modules/auth/ports/user-repository';
 import { TestApp } from '../../setup/test-app';
 
 describe('Feature: create account', () => {

@@ -7,9 +7,11 @@ import { AppModule } from '../../adapters/nest/app/app.module';
 import { Nullable } from '../../modules/shared/types';
 import { ITestApp } from './test-app.interface';
 import { IFixture } from './fixture';
+import { DatabaseManager } from './database-manager';
 
 export class TestApp implements ITestApp {
   private app: Nullable<INestApplication> = null;
+  private databaseManager = new DatabaseManager();
 
   async setup() {
     const module = await Test.createTestingModule({
@@ -21,7 +23,7 @@ export class TestApp implements ITestApp {
           isGlobal: true,
           load: [
             () => ({
-              databaseUrl:
+              DATABASE_URL:
                 'mongodb://webinaires:azerty@localhost:3701/webinaires?authSource=admin&directConnection=true',
             }),
           ],
@@ -31,6 +33,7 @@ export class TestApp implements ITestApp {
 
     this.app = module.createNestApplication();
     await this.app.init();
+    await this.databaseManager.clear(this);
   }
 
   async teardown() {

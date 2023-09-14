@@ -1,6 +1,6 @@
 import { I_PASSWORD_HASHER } from '../../../../modules/auth/services/password-hasher/password-hasher.interface';
 import { Argon2PasswordHasher } from '../../../../modules/auth/services/password-hasher/argon2-password-hasher';
-import { I_USER_REPOSITORY } from '../../../../modules/auth/ports/auth.gateway';
+import { I_USER_REPOSITORY } from '../../../../modules/auth/ports/user-repository';
 import { I_AUTHENTICATOR } from '../../../../modules/auth/services/authenticator/authenticator.interface';
 import { Authenticator } from '../../../../modules/auth/services/authenticator/authenticator';
 
