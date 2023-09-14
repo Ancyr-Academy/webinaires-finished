@@ -25,8 +25,16 @@ describe('Feature: reserving a seat', () => {
   let johnDoeWebinaire: WebinaireFixture;
 
   beforeEach(async () => {
-    johnDoe = new UserFixture('johndoe@gmail.com', 'azerty');
-    alice = new UserFixture('alice@gmail.com', 'azerty');
+    johnDoe = new UserFixture({
+      id: 'john-doe',
+      emailAddress: 'johndoe@gmail.com',
+      password: 'azerty',
+    });
+    alice = new UserFixture({
+      id: 'alice',
+      emailAddress: 'alice@gmail.com',
+      password: 'azerty',
+    });
 
     app = new TestApp();
     await app.setup();

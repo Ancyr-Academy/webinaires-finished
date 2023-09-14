@@ -31,7 +31,11 @@ describe('Feature: organizing a webinaire', () => {
   let johnDoe: UserFixture;
 
   beforeEach(async () => {
-    johnDoe = new UserFixture('johndoe@gmail.com', 'azerty');
+    johnDoe = new UserFixture({
+      id: 'john-doe',
+      emailAddress: 'johndoe@gmail.com',
+      password: 'azerty',
+    });
 
     app = new TestApp();
     await app.setup();

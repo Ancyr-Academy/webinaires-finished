@@ -36,8 +36,16 @@ describe('Feature: changing the seats of a webinaire', () => {
   };
 
   beforeEach(async () => {
-    bob = new UserFixture('bob@gmail.com', 'azerty');
-    alice = new UserFixture('alice@gmail.com', 'azerty');
+    bob = new UserFixture({
+      id: 'bob',
+      emailAddress: 'bob@gmail.com',
+      password: 'azerty',
+    });
+    alice = new UserFixture({
+      id: 'alice',
+      emailAddress: 'alice@gmail.com',
+      password: 'azerty',
+    });
 
     app = new TestApp();
     await app.setup();

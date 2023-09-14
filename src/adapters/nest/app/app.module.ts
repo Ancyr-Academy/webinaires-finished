@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
 import { APP_FILTER } from '@nestjs/core';
+import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -7,8 +9,6 @@ import { SystemModule } from '../system/system.module';
 import { AuthModule } from '../auth/auth.module';
 import { CatchAllFilter } from './catch-all.filter';
 import { WebinaireModule } from '../webinaires/webinaire.module';
-import { MongooseModule } from '@nestjs/mongoose';
-import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
