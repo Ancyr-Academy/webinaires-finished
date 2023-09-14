@@ -1,6 +1,7 @@
 import { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import * as request from 'supertest';
+import { ConfigModule } from '@nestjs/config';
 
 import { AppModule } from '../../adapters/nest/app/app.module';
 import { Nullable } from '../../modules/shared/types';
@@ -12,7 +13,20 @@ export class TestApp implements ITestApp {
 
   async setup() {
     const module = await Test.createTestingModule({
-      imports: [AppModule],
+      imports: [
+        AppModule,
+        ConfigModule.forRoot({
+          ignoreEnvFile: true,
+          ignoreEnvVars: true,
+          isGlobal: true,
+          load: [
+            () => ({
+              databaseUrl:
+                'mongodb://webinaires:azerty@localhost:3701/webinaires?authSource=admin&directConnection=true',
+            }),
+          ],
+        }),
+      ],
     }).compile();
 
     this.app = module.createNestApplication();

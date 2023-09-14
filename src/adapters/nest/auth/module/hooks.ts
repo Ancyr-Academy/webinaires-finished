@@ -1,6 +1,6 @@
 import { APP_GUARD, Reflector } from '@nestjs/core';
-import { I_AUTHENTICATOR } from '../../../modules/auth/services/authenticator/authenticator.interface';
-import { AuthGuard } from './auth.guard';
+import { I_AUTHENTICATOR } from '../../../../modules/auth/services/authenticator/authenticator.interface';
+import { AuthGuard } from '../auth.guard';
 
 export const hooks = [
   {
