@@ -14,9 +14,5 @@ export type WebinaireViewModelType = {
 };
 
 export class WebinaireViewModel {
-  constructor(public readonly data: WebinaireViewModelType) {}
-
-  isFull(): boolean {
-    return this.data.seats.available === 0;
-  }
+  constructor(public readonly props: WebinaireViewModelType) {}
 }

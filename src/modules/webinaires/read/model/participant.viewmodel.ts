@@ -5,5 +5,5 @@ export type ParticipantViewModelType = {
 };
 
 export class ParticipantViewModel {
-  constructor(public readonly data: ParticipantViewModelType) {}
+  constructor(public readonly props: ParticipantViewModelType) {}
 }

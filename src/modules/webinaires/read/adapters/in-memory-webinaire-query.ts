@@ -6,7 +6,7 @@ export class InMemoryWebinaireQuery implements IWebinaireQuery {
   constructor(private database: Record<string, WebinaireViewModel> = {}) {}
 
   setWebinaire(webinaire: WebinaireViewModel) {
-    this.database[webinaire.data.id] = webinaire;
+    this.database[webinaire.props.id] = webinaire;
   }
 
   async findById(id: string): Promise<Optional<WebinaireViewModel>> {
