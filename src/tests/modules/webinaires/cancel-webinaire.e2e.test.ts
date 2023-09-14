@@ -1,12 +1,12 @@
 import { addDays } from 'date-fns';
-import { TestApp } from '../setup/test-app';
+import { TestApp } from '../../setup/test-app';
 import {
   IWebinaireRepository,
   I_WEBINAIRE_REPOSITORY,
-} from '../../modules/webinaires/write/ports/webinaire.repository';
-import { WebinaireFactory } from '../../modules/webinaires/write/model/webinaire.factory';
-import { UserFixture } from '../fixtures/user.fixture';
-import { WebinaireFixture } from '../fixtures/webinaire.fixture';
+} from '../../../modules/webinaires/write/ports/webinaire.repository';
+import { WebinaireFactory } from '../../../modules/webinaires/write/model/webinaire.factory';
+import { UserFixture } from '../../fixtures/user.fixture';
+import { WebinaireFixture } from '../../fixtures/webinaire.fixture';
 
 describe('Feature: canceling a webinaire', () => {
   async function expectWebinaireToExist(id: string) {

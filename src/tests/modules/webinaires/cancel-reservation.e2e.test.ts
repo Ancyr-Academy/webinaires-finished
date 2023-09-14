@@ -1,14 +1,14 @@
 import { addDays } from 'date-fns';
-import { TestApp } from '../setup/test-app';
-import { WebinaireFactory } from '../../modules/webinaires/write/model/webinaire.factory';
-import { UserFixture } from '../fixtures/user.fixture';
-import { WebinaireFixture } from '../fixtures/webinaire.fixture';
+import { TestApp } from '../../setup/test-app';
+import { WebinaireFactory } from '../../../modules/webinaires/write/model/webinaire.factory';
+import { UserFixture } from '../../fixtures/user.fixture';
+import { WebinaireFixture } from '../../fixtures/webinaire.fixture';
 import {
   IParticipationRepository,
   I_PARTICIPATION_REPOSITORY,
-} from '../../modules/webinaires/write/ports/participation.repository';
-import { ParticipationFixture } from '../fixtures/participation.fixture';
-import { ParticipationFactory } from '../../modules/webinaires/write/model/participation.factory';
+} from '../../../modules/webinaires/write/ports/participation.repository';
+import { ParticipationFixture } from '../../fixtures/participation.fixture';
+import { ParticipationFactory } from '../../../modules/webinaires/write/model/participation.factory';
 
 describe('Feature: canceling a reservation', () => {
   async function expectReservationToBeCanceled(

@@ -1,8 +1,8 @@
 import {
   IUserRepository,
   I_USER_REPOSITORY,
-} from '../../modules/auth/ports/auth.gateway';
-import { TestApp } from '../setup/test-app';
+} from '../../../modules/auth/ports/auth.gateway';
+import { TestApp } from '../../setup/test-app';
 
 describe('Feature: create account', () => {
   let app: TestApp;

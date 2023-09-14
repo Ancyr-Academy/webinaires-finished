@@ -1,10 +1,10 @@
 import { addDays } from 'date-fns';
-import { TestApp } from '../setup/test-app';
+import { TestApp } from '../../setup/test-app';
 import {
   IWebinaireRepository,
   I_WEBINAIRE_REPOSITORY,
-} from '../../modules/webinaires/write/ports/webinaire.repository';
-import { UserFixture } from '../fixtures/user.fixture';
+} from '../../../modules/webinaires/write/ports/webinaire.repository';
+import { UserFixture } from '../../fixtures/user.fixture';
 
 type Payload = {
   startAt: Date;

@@ -1,34 +1,27 @@
-import { addDays } from 'date-fns';
-import { TestApp } from '../setup/test-app';
-import { WebinaireFactory } from '../../modules/webinaires/write/model/webinaire.factory';
-import { UserFixture } from '../fixtures/user.fixture';
-import { WebinaireFixture } from '../fixtures/webinaire.fixture';
+import { TestApp } from '../../setup/test-app';
+import { WebinaireFactory } from '../../../modules/webinaires/write/model/webinaire.factory';
+import { UserFixture } from '../../fixtures/user.fixture';
+import { WebinaireFixture } from '../../fixtures/webinaire.fixture';
 import {
   IWebinaireRepository,
   I_WEBINAIRE_REPOSITORY,
-} from '../../modules/webinaires/write/ports/webinaire.repository';
-import { EntityType } from '../../modules/shared/entity';
-import { WebinaireEntity } from '../../modules/webinaires/write/model/webinaire.entity';
+} from '../../../modules/webinaires/write/ports/webinaire.repository';
+import { EntityType } from '../../../modules/shared/entity';
+import { WebinaireEntity } from '../../../modules/webinaires/write/model/webinaire.entity';
 
-describe('Feature: changing the dates of a webinaire', () => {
-  async function expectDatesToBeChanged(
-    id: string,
-    startAt: Date,
-    endAt: Date,
-  ) {
+describe('Feature: changing the seats of a webinaire', () => {
+  async function expectDatesToBeChanged(id: string, seats: number) {
     const webinaireQuery = await webinaireRepository.getWebinaireById(id);
     const webinaire = webinaireQuery.getOrThrow();
 
-    expect(webinaire.data.startAt).toEqual(startAt);
-    expect(webinaire.data.endAt).toEqual(endAt);
+    expect(webinaire.data.seats).toEqual(seats);
   }
 
   async function expectDatesNotToBeChanged(id: string) {
     const webinaireQuery = await webinaireRepository.getWebinaireById(id);
     const webinaire = webinaireQuery.getOrThrow();
 
-    expect(webinaire.data.startAt).toEqual(bobWebinaireData.startAt);
-    expect(webinaire.data.endAt).toEqual(bobWebinaireData.endAt);
+    expect(webinaire.data.seats).toEqual(bobWebinaireData.seats);
   }
 
   let app: TestApp;
@@ -39,8 +32,7 @@ describe('Feature: changing the dates of a webinaire', () => {
 
   const bobWebinaireData: Partial<EntityType<WebinaireEntity>> = {
     id: 'john-doe-webinaire',
-    startAt: addDays(new Date(), 4),
-    endAt: addDays(new Date(), 5),
+    seats: 10,
   };
 
   beforeEach(async () => {
@@ -64,30 +56,28 @@ describe('Feature: changing the dates of a webinaire', () => {
   });
 
   describe('Scenario: happy path', () => {
-    const startAt = addDays(new Date(), 7);
-    const endAt = addDays(new Date(), 8);
+    const seats = 50;
 
-    it('should change the dates', async () => {
+    it('should change the seats', async () => {
       const result = await app
         .request()
-        .post(`/webinaires/${bobWebinaire.getId()}/dates`)
-        .send({ startAt, endAt })
+        .post(`/webinaires/${bobWebinaire.getId()}/seats`)
+        .send({ seats })
         .set('Authorization', bob.getAuthorizationToken());
 
       expect(result.status).toEqual(200);
-      await expectDatesToBeChanged(bobWebinaire.getId(), startAt, endAt);
+      await expectDatesToBeChanged(bobWebinaire.getId(), seats);
     });
   });
 
-  describe('Scenario: changing the dates of someone else webinaire', () => {
-    const startAt = addDays(new Date(), 7);
-    const endAt = addDays(new Date(), 8);
+  describe('Scenario: changing the seats of someone else webinaire', () => {
+    const seats = 50;
 
-    it('should not change the dates', async () => {
+    it('should not change the seats', async () => {
       const result = await app
         .request()
-        .post(`/webinaires/${bobWebinaire.getId()}/dates`)
-        .send({ startAt, endAt })
+        .post(`/webinaires/${bobWebinaire.getId()}/seats`)
+        .send({ seats })
         .set('Authorization', alice.getAuthorizationToken());
 
       expect(result.status).toEqual(400);
@@ -96,14 +86,13 @@ describe('Feature: changing the dates of a webinaire', () => {
   });
 
   describe('Scenario: the user is not authenticated', () => {
-    const startAt = addDays(new Date(), 7);
-    const endAt = addDays(new Date(), 8);
+    const seats = 50;
 
-    it('should fail to change the dates', async () => {
+    it('should fail to change the seats', async () => {
       const result = await app
         .request()
-        .post(`/webinaires/${bobWebinaire.getId()}/dates`)
-        .send({ startAt, endAt });
+        .post(`/webinaires/${bobWebinaire.getId()}/seats`)
+        .send({ seats });
 
       expect(result.status).toEqual(401);
     });
