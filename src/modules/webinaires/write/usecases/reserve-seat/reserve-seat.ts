@@ -19,7 +19,7 @@ type Response = void;
 export class ReserveSeat extends Executable<Request, Response> {
   constructor(
     private readonly idProvider: IIDProvider,
-    private readonly authGateway: IUserRepository,
+    private readonly userRepository: IUserRepository,
     private readonly webinaireRepository: IWebinaireRepository,
     private readonly participationRepository: IParticipationRepository,
     private readonly mailer: IMailer,
@@ -68,7 +68,7 @@ export class ReserveSeat extends Executable<Request, Response> {
   }
 
   private async notifyOrganizer(webinaire: WebinaireEntity) {
-    const organizerQuery = await this.authGateway.findById(
+    const organizerQuery = await this.userRepository.findById(
       webinaire.data.organizerId,
     );
 

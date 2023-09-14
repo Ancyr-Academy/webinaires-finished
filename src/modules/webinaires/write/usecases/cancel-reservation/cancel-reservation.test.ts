@@ -47,8 +47,8 @@ describe('Feature: canceling a participation', () => {
 
     useCase = new CancelReservation(
       userRepository,
-      participationRepository,
       webinaireRepository,
+      participationRepository,
       mailer,
     );
   });

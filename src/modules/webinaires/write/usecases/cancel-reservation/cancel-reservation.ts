@@ -16,8 +16,8 @@ type Response = void;
 export class CancelReservation extends Executable<Request, Response> {
   constructor(
     private readonly userRepository: IUserRepository,
-    private readonly participationRepository: IParticipationRepository,
     private readonly webinaireRepository: IWebinaireRepository,
+    private readonly participationRepository: IParticipationRepository,
     private readonly mailer: IMailer,
   ) {
     super();

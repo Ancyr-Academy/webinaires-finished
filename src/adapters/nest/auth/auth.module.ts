@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { APP_GUARD, Reflector } from '@nestjs/core';
 
 import { I_PASSWORD_HASHER } from '../../../modules/auth/services/password-hasher/password-hasher.interface';
@@ -54,6 +54,7 @@ const useCases = [
   },
 ];
 
+@Global()
 @Module({
   imports: [MailerModule],
   controllers: [AuthController],
@@ -69,6 +70,6 @@ const useCases = [
     ...gateways,
     ...useCases,
   ],
-  exports: [],
+  exports: [I_USER_REPOSITORY],
 })
 export class AuthModule {}

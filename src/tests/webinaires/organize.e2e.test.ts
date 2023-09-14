@@ -4,7 +4,7 @@ import {
   IWebinaireRepository,
   I_WEBINAIRE_REPOSITORY,
 } from '../../modules/webinaires/write/ports/webinaire.repository';
-import { UserFixture } from '../auth/user.fixture';
+import { UserFixture } from '../fixtures/user.fixture';
 
 type Payload = {
   startAt: Date;
