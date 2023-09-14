@@ -24,9 +24,8 @@ export class CancelWebinaire extends Executable<Request, Response> {
   }
 
   async execute({ user, webinaireId }: Request): Promise<Response> {
-    const webinaireQuery = await this.webinaireRepository.getWebinaireById(
-      webinaireId,
-    );
+    const webinaireQuery =
+      await this.webinaireRepository.getWebinaireById(webinaireId);
 
     const webinaire = webinaireQuery.getOrThrow(
       new DomainException('WEBINAIRE_NOT_FOUND', 'Webinaire not found'),

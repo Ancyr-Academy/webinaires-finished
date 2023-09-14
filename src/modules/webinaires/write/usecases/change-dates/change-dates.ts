@@ -33,9 +33,8 @@ export class ChangeDates extends Executable<Request, Response> {
     startAt,
     endAt,
   }: Request): Promise<Response> {
-    const webinaireQuery = await this.webinaireRepository.getWebinaireById(
-      webinaireId,
-    );
+    const webinaireQuery =
+      await this.webinaireRepository.getWebinaireById(webinaireId);
 
     const webinaire = webinaireQuery.getOrThrow(
       new DomainException('WEBINAIRE_NOT_FOUND', 'Webinaire not found'),

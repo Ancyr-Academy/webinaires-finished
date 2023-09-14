@@ -38,9 +38,8 @@ describe('Feature: Organizing webinaires', () => {
 
     it('should save the webinaire', async () => {
       await useCase.execute(payload);
-      const createdWebinaireOption = await webinaireGateway.getWebinaireById(
-        'webinaire-id',
-      );
+      const createdWebinaireOption =
+        await webinaireGateway.getWebinaireById('webinaire-id');
 
       const createdWebinaire = createdWebinaireOption.get();
       expect(createdWebinaire).not.toBe(null);

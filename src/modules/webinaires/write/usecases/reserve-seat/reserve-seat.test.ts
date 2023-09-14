@@ -10,9 +10,8 @@ import { InMemoryUserRepository } from '../../../../auth/adapters/in-memory-user
 
 describe('Feature: reserving a seat', () => {
   async function expectParticipationNotToBeCreated() {
-    const participationOption = await participationRepository.findById(
-      'participation-id',
-    );
+    const participationOption =
+      await participationRepository.findById('participation-id');
 
     expect(participationOption.isNull()).toBe(true);
   }

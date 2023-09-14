@@ -6,7 +6,10 @@ import { Nullable } from '../../modules/shared/types';
 export class UserFixture implements IFixture {
   public id: Nullable<string> = null;
 
-  constructor(public emailAddress: string, public password: string) {}
+  constructor(
+    public emailAddress: string,
+    public password: string,
+  ) {}
 
   async save(app: ITestApp) {
     const authGateway = app.get<CreateAccount>(CreateAccount);

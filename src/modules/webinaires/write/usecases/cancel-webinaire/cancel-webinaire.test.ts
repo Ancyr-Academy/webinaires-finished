@@ -74,9 +74,8 @@ describe('Feature: canceling a webinaire', () => {
     it('should delete the webinaire', async () => {
       await useCase.execute(payload);
 
-      const updatedWebinaireOption = await webinaireRepository.getWebinaireById(
-        'webinaire-id',
-      );
+      const updatedWebinaireOption =
+        await webinaireRepository.getWebinaireById('webinaire-id');
 
       expect(updatedWebinaireOption.isNull()).toBe(true);
     });

@@ -40,9 +40,8 @@ export class CancelReservation extends Executable<Request, Response> {
   }
 
   private async notifyOrganizer(webinaireId: string) {
-    const webinaireQuery = await this.webinaireRepository.getWebinaireById(
-      webinaireId,
-    );
+    const webinaireQuery =
+      await this.webinaireRepository.getWebinaireById(webinaireId);
 
     const webinaire = webinaireQuery.getOrThrow();
 
