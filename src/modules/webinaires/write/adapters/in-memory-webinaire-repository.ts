@@ -5,7 +5,7 @@ import { IWebinaireRepository } from '../ports/webinaire.repository';
 export class InMemoryWebinaireRepository implements IWebinaireRepository {
   constructor(private database: WebinaireEntity[] = []) {}
 
-  async getWebinaireById(id: string): Promise<Optional<WebinaireEntity>> {
+  async findById(id: string): Promise<Optional<WebinaireEntity>> {
     const webinaire = this.database.find((w) => w.data.id === id);
     if (!webinaire) {
       return Optional.empty();

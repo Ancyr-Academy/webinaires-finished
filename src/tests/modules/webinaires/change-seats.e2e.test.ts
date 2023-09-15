@@ -11,14 +11,14 @@ import { WebinaireEntity } from '../../../modules/webinaires/write/model/webinai
 
 describe('Feature: changing the seats of a webinaire', () => {
   async function expectDatesToBeChanged(id: string, seats: number) {
-    const webinaireQuery = await webinaireRepository.getWebinaireById(id);
+    const webinaireQuery = await webinaireRepository.findById(id);
     const webinaire = webinaireQuery.getOrThrow();
 
     expect(webinaire.data.seats).toEqual(seats);
   }
 
   async function expectDatesNotToBeChanged(id: string) {
-    const webinaireQuery = await webinaireRepository.getWebinaireById(id);
+    const webinaireQuery = await webinaireRepository.findById(id);
     const webinaire = webinaireQuery.getOrThrow();
 
     expect(webinaire.data.seats).toEqual(bobWebinaireData.seats);

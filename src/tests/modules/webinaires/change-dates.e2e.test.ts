@@ -16,7 +16,7 @@ describe('Feature: changing the dates of a webinaire', () => {
     startAt: Date,
     endAt: Date,
   ) {
-    const webinaireQuery = await webinaireRepository.getWebinaireById(id);
+    const webinaireQuery = await webinaireRepository.findById(id);
     const webinaire = webinaireQuery.getOrThrow();
 
     expect(webinaire.data.startAt).toEqual(startAt);
@@ -24,7 +24,7 @@ describe('Feature: changing the dates of a webinaire', () => {
   }
 
   async function expectDatesNotToBeChanged(id: string) {
-    const webinaireQuery = await webinaireRepository.getWebinaireById(id);
+    const webinaireQuery = await webinaireRepository.findById(id);
     const webinaire = webinaireQuery.getOrThrow();
 
     expect(webinaire.data.startAt).toEqual(bobWebinaireData.startAt);

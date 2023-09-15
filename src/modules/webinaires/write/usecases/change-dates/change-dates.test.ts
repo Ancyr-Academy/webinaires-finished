@@ -10,8 +10,7 @@ import { ParticipationFactory } from '../../model/participation.factory';
 
 describe('Feature: Changing the dates of a webinaire', () => {
   async function getWebinaireById(id: string) {
-    const updatedWebinaireOption =
-      await webinaireRepository.getWebinaireById(id);
+    const updatedWebinaireOption = await webinaireRepository.findById(id);
     return updatedWebinaireOption.getOrThrow();
   }
 

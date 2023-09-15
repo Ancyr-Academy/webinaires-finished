@@ -35,7 +35,7 @@ export class InMemoryParticipationRepository
     return participations.length;
   }
 
-  async findParticipations(
+  async findAllParticipations(
     webinaireId: string,
   ): Promise<ParticipationEntity[]> {
     const participations = this.database.filter(

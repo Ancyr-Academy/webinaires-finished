@@ -1,11 +1,15 @@
+import { getModelToken } from '@nestjs/mongoose';
+
 import { I_USER_REPOSITORY } from '../../../../modules/auth/ports/user-repository';
-import { InMemoryUserRepository } from '../../../../modules/auth/adapters/in-memory-user-repository';
+import { MongoUserRepository } from '../adapters/mongo.user-repository';
+import { MongoUser } from '../models/mongo-user';
 
 export const gateways = [
   {
     provide: I_USER_REPOSITORY,
-    useFactory: () => {
-      return new InMemoryUserRepository();
+    inject: [getModelToken(MongoUser.SchemaClass.name)],
+    useFactory: (model) => {
+      return new MongoUserRepository(model);
     },
   },
 ];

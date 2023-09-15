@@ -10,12 +10,12 @@ import { WebinaireFixture } from '../../fixtures/webinaire.fixture';
 
 describe('Feature: canceling a webinaire', () => {
   async function expectWebinaireToExist(id: string) {
-    const webinaireQuery = await webinaireRepository.getWebinaireById(id);
+    const webinaireQuery = await webinaireRepository.findById(id);
     expect(webinaireQuery.isNull()).toEqual(false);
   }
 
   async function expectWebinaireNotToExist(id: string) {
-    const webinaireQuery = await webinaireRepository.getWebinaireById(id);
+    const webinaireQuery = await webinaireRepository.findById(id);
     expect(webinaireQuery.isNull()).toEqual(true);
   }
 

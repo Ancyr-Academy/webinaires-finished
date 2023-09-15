@@ -5,7 +5,7 @@ import { ChangeSeats } from './change-seats';
 
 describe('Feature: Changing the number of seats of a webinaire', () => {
   async function getWebinaireById(id: string) {
-    const updatedWebinaireOption = await webinaireGateway.getWebinaireById(id);
+    const updatedWebinaireOption = await webinaireGateway.findById(id);
     return updatedWebinaireOption.getOrThrow();
   }
 

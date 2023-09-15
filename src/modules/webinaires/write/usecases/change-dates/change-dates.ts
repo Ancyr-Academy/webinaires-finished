@@ -33,8 +33,7 @@ export class ChangeDates extends Executable<Request, Response> {
     startAt,
     endAt,
   }: Request): Promise<Response> {
-    const webinaireQuery =
-      await this.webinaireRepository.getWebinaireById(webinaireId);
+    const webinaireQuery = await this.webinaireRepository.findById(webinaireId);
 
     const webinaire = webinaireQuery.getOrThrow(
       new DomainException('WEBINAIRE_NOT_FOUND', 'Webinaire not found'),
@@ -65,7 +64,7 @@ export class ChangeDates extends Executable<Request, Response> {
 
   async notifyParticipants(webinaireId: string): Promise<void> {
     const participations =
-      await this.participationRepository.findParticipations(webinaireId);
+      await this.participationRepository.findAllParticipations(webinaireId);
 
     const users = await this.userRepository.findByIds(
       participations.map((p) => p.data.userId),

@@ -14,7 +14,7 @@ type Payload = {
 
 describe('Feature: organizing a webinaire', () => {
   async function expectWebinaireToBeOrganized(id: string, payload: Payload) {
-    const webinaireQuery = await webinaireRepository.getWebinaireById(id);
+    const webinaireQuery = await webinaireRepository.findById(id);
 
     expect(webinaireQuery.isNull()).toEqual(false);
 
