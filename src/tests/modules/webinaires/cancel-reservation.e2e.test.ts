@@ -1,4 +1,5 @@
 import { addDays } from 'date-fns';
+
 import { TestApp } from '../../setup/test-app';
 import { WebinaireFactory } from '../../../modules/webinaires/write/model/webinaire.factory';
 import { UserFixture } from '../../fixtures/user.fixture';
