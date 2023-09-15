@@ -22,10 +22,17 @@ export class MongoWebinaireRepository implements IWebinaireRepository {
   }
 
   async update(entity: WebinaireEntity): Promise<void> {
-    throw new Error('Method not implemented.');
+    const model = await this.model.findById(entity.data.id);
+    if (!model) {
+      throw new Error('Webinaire not found');
+    }
+
+    const diff = this.mapper.diff(entity);
+    await model.updateOne(diff);
+    await entity.commit();
   }
 
   async delete(entity: WebinaireEntity): Promise<void> {
-    throw new Error('Method not implemented.');
+    await this.model.findByIdAndDelete(entity.data.id);
   }
 }

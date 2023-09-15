@@ -43,6 +43,10 @@ describe('MongoWebinaireRepository', () => {
     id: 'alice',
   });
 
+  const bob = UserFactory.create({
+    id: 'bob',
+  });
+
   const webinaire = new WebinaireEntity({
     id: 'webinaire',
     organizerId: alice.data.id,
@@ -61,6 +65,7 @@ describe('MongoWebinaireRepository', () => {
 
     const userRepository = new MongoUserRepository(userModel);
     await userRepository.create(alice);
+    await userRepository.create(bob);
 
     model = app.get<Model<MongoWebinaire.SchemaClass>>(
       getModelToken(MongoWebinaire.CollectionName),
@@ -102,6 +107,48 @@ describe('MongoWebinaireRepository', () => {
         startAt: webinaire.data.startAt,
         endAt: webinaire.data.endAt,
       });
+    });
+  });
+
+  describe('update', () => {
+    beforeEach(async () => {
+      await repository.create(webinaire);
+    });
+
+    it('should update the webinaire', async () => {
+      const clone = webinaire.clone() as WebinaireEntity;
+      clone.setState({
+        organizerId: bob.data.id,
+        seats: 20,
+        startAt: new Date('2023-01-01T09:00:00.000Z'),
+        endAt: new Date('2023-01-01T11:00:00.000Z'),
+      });
+
+      await repository.update(clone);
+
+      const createdModel = await model.findById(webinaire.data.id);
+      expect(createdModel).not.toBeNull();
+      expect(createdModel!.toObject()).toEqual({
+        _id: webinaire.data.id,
+        __v: 0,
+        organizerId: bob.data.id,
+        seats: 20,
+        startAt: new Date('2023-01-01T09:00:00.000Z'),
+        endAt: new Date('2023-01-01T11:00:00.000Z'),
+      });
+    });
+  });
+
+  describe('delete', () => {
+    beforeEach(async () => {
+      await repository.create(webinaire);
+    });
+
+    it('should delete the webinaire', async () => {
+      await repository.delete(webinaire);
+
+      const createdModel = await model.findById(webinaire.data.id);
+      expect(createdModel).toBeNull();
     });
   });
 
