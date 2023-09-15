@@ -14,24 +14,38 @@ export class MongoParticipationRepository implements IParticipationRepository {
     webinaireId: string,
     userId: string,
   ): Promise<Optional<ParticipationEntity>> {
-    throw new Error('Method not implemented.');
+    const record = await this.model.findOne({
+      webinaireId,
+      userId,
+    });
+
+    return record
+      ? Optional.of(this.mapper.toDomain(record))
+      : Optional.empty();
   }
 
   async findParticipationCount(webinaireId: string): Promise<number> {
-    throw new Error('Method not implemented.');
+    return this.model.countDocuments({ webinaireId });
   }
 
   async findAllParticipations(
     webinaireId: string,
   ): Promise<ParticipationEntity[]> {
-    throw new Error('Method not implemented.');
+    const records = await this.model.find({ webinaireId });
+    return records.map((record) => this.mapper.toDomain(record));
   }
 
   async create(participation: ParticipationEntity): Promise<void> {
-    throw new Error('Method not implemented.');
+    const record = this.mapper.toPersistence(participation);
+    await this.model.create(record);
   }
 
   async delete(participation: ParticipationEntity): Promise<void> {
-    throw new Error('Method not implemented.');
+    const record = this.mapper.toPersistence(participation);
+
+    await this.model.deleteOne({
+      webinaireId: record.webinaireId,
+      userId: record.userId,
+    });
   }
 }
