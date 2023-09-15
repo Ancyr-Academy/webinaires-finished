@@ -5,7 +5,7 @@ import { IUserRepository } from '../ports/user-repository';
 export class InMemoryUserRepository implements IUserRepository {
   constructor(private database: UserEntity[] = []) {}
 
-  async createUser(user: UserEntity): Promise<void> {
+  async create(user: UserEntity): Promise<void> {
     this.database.push(user);
   }
 

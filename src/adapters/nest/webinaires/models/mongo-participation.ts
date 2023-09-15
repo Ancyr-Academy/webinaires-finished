@@ -4,20 +4,22 @@ import {
   SchemaFactory,
 } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
+import { MongoWebinaire } from './mongo-webinaire';
+import { MongoUser } from '../../auth/models/mongo-user';
 
-export namespace MongoUser {
-  export const CollectionName = 'users';
+export namespace MongoParticipation {
+  export const CollectionName = 'participations';
 
   @MongooseSchema({ collection: CollectionName })
   export class SchemaClass {
     @Prop({ type: String })
     _id: string;
 
-    @Prop()
-    emailAddress: string;
+    @Prop({ type: String, ref: MongoWebinaire.CollectionName })
+    webinaireId: string;
 
-    @Prop()
-    password: string;
+    @Prop({ type: String, ref: MongoUser.CollectionName })
+    userId: string;
   }
 
   export const Schema = SchemaFactory.createForClass(SchemaClass);

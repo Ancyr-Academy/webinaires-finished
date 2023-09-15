@@ -19,7 +19,7 @@ describe('Authenticating', () => {
     passwordHasher = new PrefixPasswordHasher();
     authenticator = new Authenticator(authGateway, passwordHasher);
 
-    authGateway.createUser(storedUser);
+    authGateway.create(storedUser);
   });
   describe('basic authentication', () => {
     test('the user exists', async () => {

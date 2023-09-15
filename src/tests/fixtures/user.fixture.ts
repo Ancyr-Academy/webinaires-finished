@@ -31,7 +31,7 @@ export class UserFixture implements IFixture {
       password: hashedPassword,
     });
 
-    await authGateway.createUser(user);
+    await authGateway.create(user);
   }
 
   getAuthorizationToken() {

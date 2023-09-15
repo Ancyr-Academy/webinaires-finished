@@ -22,7 +22,7 @@ describe('Feature: Creating an account', () => {
     passwordHasher = new PrefixPasswordHasher();
     mailerService = new LoopbackMailer();
 
-    await authGateway.createUser(alice);
+    await authGateway.create(alice);
 
     useCase = new CreateAccount(
       new FixedIdProvider(),

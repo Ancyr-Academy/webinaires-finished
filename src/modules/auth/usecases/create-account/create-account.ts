@@ -53,7 +53,7 @@ export class CreateAccount extends Executable<Request, Response> {
       password: hashedPassword,
     });
 
-    await this.authGateway.createUser(user);
+    await this.authGateway.create(user);
     await this.mailer.sendMail({
       to: emailAddress,
       subject: 'Bienvenue à Webinaires !',

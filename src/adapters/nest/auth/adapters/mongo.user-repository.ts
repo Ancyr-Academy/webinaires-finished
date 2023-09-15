@@ -10,15 +10,15 @@ export class MongoUserRepository implements IUserRepository {
 
   constructor(private readonly model: Model<MongoUser.SchemaClass>) {}
 
-  async createUser(user: UserEntity): Promise<void> {
+  async create(user: UserEntity): Promise<void> {
     const document = this.mapper.toPersistence(user);
     const model = new this.model(document);
     await model.save();
   }
 
   async findById(id: string): Promise<Optional<UserEntity>> {
-    const user = await this.model.findById(id);
-    return user ? Optional.of(this.mapper.toDomain(user)) : Optional.empty();
+    const model = await this.model.findById(id);
+    return model ? Optional.of(this.mapper.toDomain(model)) : Optional.empty();
   }
 
   async isEmailAddressAvailable(emailAddress: string): Promise<boolean> {

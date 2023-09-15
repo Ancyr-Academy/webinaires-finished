@@ -8,13 +8,13 @@ import { UserEntity } from '../../../../modules/auth/core/user.entity';
 
 describe('MongoUserRepository', () => {
   async function createUserInDatabase(user: UserEntity) {
-    const userModel = new model({
+    const record = new model({
       _id: user.data.id,
       emailAddress: user.data.emailAddress,
       password: user.data.password,
     });
 
-    await userModel.save();
+    await record.save();
   }
 
   function expectEqualUsers(first: UserEntity, second: UserEntity) {
@@ -46,7 +46,7 @@ describe('MongoUserRepository', () => {
     await app.setup();
 
     model = app.get<Model<MongoUser.SchemaClass>>(
-      getModelToken(MongoUser.SchemaClass.name),
+      getModelToken(MongoUser.CollectionName),
     );
 
     repository = new MongoUserRepository(model);
@@ -58,7 +58,7 @@ describe('MongoUserRepository', () => {
 
   describe('createUser', () => {
     it('should create the user', async () => {
-      await repository.createUser(alice);
+      await repository.create(alice);
 
       const createdUser = await model.findById(alice.data.id);
       expect(createdUser).not.toBeNull();

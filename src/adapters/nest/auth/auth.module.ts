@@ -18,7 +18,7 @@ import { MongoUser } from './models/mongo-user';
     ConfigModule,
     MongooseModule.forFeature([
       {
-        name: MongoUser.SchemaClass.name,
+        name: MongoUser.CollectionName,
         schema: MongoUser.Schema,
       },
     ]),

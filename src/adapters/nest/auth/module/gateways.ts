@@ -7,7 +7,7 @@ import { MongoUser } from '../models/mongo-user';
 export const gateways = [
   {
     provide: I_USER_REPOSITORY,
-    inject: [getModelToken(MongoUser.SchemaClass.name)],
+    inject: [getModelToken(MongoUser.CollectionName)],
     useFactory: (model) => {
       return new MongoUserRepository(model);
     },
