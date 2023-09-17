@@ -3,7 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 import { MailerModule } from '../mailer/mailer.module';
 import { WebinaireController } from './webinaire.controller';
-import { gateways } from './gateways';
+import { repositories } from './repositories';
 import { useCases } from './use-cases';
 import { MongoWebinaire } from './models/mongo-webinaire';
 import { MongoParticipation } from './models/mongo-participation';
@@ -23,7 +23,7 @@ import { MongoParticipation } from './models/mongo-participation';
     ]),
   ],
   controllers: [WebinaireController],
-  providers: [...gateways, ...useCases],
+  providers: [...repositories, ...useCases],
   exports: [],
 })
 export class WebinaireModule {}
