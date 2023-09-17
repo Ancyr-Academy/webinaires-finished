@@ -7,6 +7,7 @@ import { repositories } from './repositories';
 import { useCases } from './use-cases';
 import { MongoWebinaire } from './models/mongo-webinaire';
 import { MongoParticipation } from './models/mongo-participation';
+import { queries } from './queries';
 
 @Module({
   imports: [
@@ -23,7 +24,7 @@ import { MongoParticipation } from './models/mongo-participation';
     ]),
   ],
   controllers: [WebinaireController],
-  providers: [...repositories, ...useCases],
-  exports: [],
+  providers: [...queries, ...repositories, ...useCases],
+  exports: [MongooseModule],
 })
 export class WebinaireModule {}

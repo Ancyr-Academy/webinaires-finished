@@ -25,6 +25,6 @@ import { MongoUser } from './models/mongo-user';
   ],
   controllers: [AuthController],
   providers: [...hooks, ...services, ...gateways, ...useCases],
-  exports: [I_USER_REPOSITORY],
+  exports: [MongooseModule, I_USER_REPOSITORY],
 })
 export class AuthModule {}
