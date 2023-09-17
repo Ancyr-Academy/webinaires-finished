@@ -3,10 +3,10 @@ import { MongoWebinaire } from '../models/mongo-webinaire';
 import { MongoParticipation } from '../models/mongo-participation';
 import { MongoUser } from '../../auth/models/mongo-user';
 import { WebinaireReadModel } from '../../../../modules/webinaires/read/model/webinaire.read-model';
-import { IFindWebinairesUserParticipatesInQuery } from '../../../../modules/webinaires/read/queries/find-webinaires-user-participates-in.query-interface';
+import { IGetWebinairesUserParticipatesInQuery } from '../../../../modules/webinaires/read/queries/get-webinaires-user-participates-in.query-interface';
 
-export class FindWebinairesUserParticipatesInQuery
-  implements IFindWebinairesUserParticipatesInQuery
+export class GetWebinairesUserParticipatesInQuery
+  implements IGetWebinairesUserParticipatesInQuery
 {
   constructor(
     private readonly userModel: Model<MongoUser.SchemaClass>,

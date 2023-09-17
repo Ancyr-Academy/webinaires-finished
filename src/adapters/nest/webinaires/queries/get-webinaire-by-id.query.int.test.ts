@@ -7,12 +7,12 @@ import { WebinaireEntity } from '../../../../modules/webinaires/write/model/webi
 import { UserFactory } from '../../../../modules/auth/core/user.factory';
 import { MongoUserRepository } from '../../auth/adapters/mongo.user-repository';
 import { MongoUser } from '../../auth/models/mongo-user';
-import { FindWebinaireByIdQuery } from './find-webinaire-by-id.query';
+import { GetWebinaireByIdQuery } from './get-webinaire-by-id.query';
 import { WebinaireReadModel } from '../../../../modules/webinaires/read/model/webinaire.read-model';
 import { MongoWebinaireRepository } from '../adapters/mongo.webinaire-repository';
 import { MongoParticipation } from '../models/mongo-participation';
 
-describe('FindWebinaireByIdQuery', () => {
+describe('GetWebinaireByIdQuery', () => {
   function expectEqualWebinaires(
     first: WebinaireReadModel,
     second: WebinaireReadModel,
@@ -21,7 +21,7 @@ describe('FindWebinaireByIdQuery', () => {
   }
 
   let app: TestApp;
-  let query: FindWebinaireByIdQuery;
+  let query: GetWebinaireByIdQuery;
 
   const alice = UserFactory.create({
     id: 'alice',
@@ -62,7 +62,7 @@ describe('FindWebinaireByIdQuery', () => {
       getModelToken(MongoParticipation.CollectionName),
     );
 
-    query = new FindWebinaireByIdQuery(
+    query = new GetWebinaireByIdQuery(
       userModel,
       webinaireModel,
       participationModel,

@@ -2,7 +2,9 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   HttpCode,
+  Inject,
   Param,
   Post,
 } from '@nestjs/common';
@@ -17,6 +19,11 @@ import { User } from '../auth/user.decorator';
 import { UserEntity } from '../../../modules/auth/core/user.entity';
 import { WebinaireAPI } from '../../../modules/webinaires/write/contract/webinaire.api';
 import { ZodValidationPipe } from '../app/zod-validation.pipe';
+import { GetWebinaireByIdQuery } from './queries/get-webinaire-by-id.query';
+import { GetWebinairesUserParticipatesInQuery } from './queries/get-webinaires-user-participates-in.query';
+import { Public } from '../auth/auth.metadata';
+import { I_GET_WEBINAIRE_BY_ID_QUERY } from '../../../modules/webinaires/read/queries/get-webinaire-by-id.query-interface';
+import { I_GET_WEBINAIRES_USER_PARTICIPATES_IN_QUERY } from '../../../modules/webinaires/read/queries/get-webinaires-user-participates-in.query-interface';
 
 @Controller('webinaires')
 export class WebinaireController {
@@ -27,6 +34,11 @@ export class WebinaireController {
     private readonly changeSeats: ChangeSeats,
     private readonly organize: Organize,
     private readonly reserveSeat: ReserveSeat,
+
+    @Inject(I_GET_WEBINAIRE_BY_ID_QUERY)
+    private readonly getWebinaireById: GetWebinaireByIdQuery,
+    @Inject(I_GET_WEBINAIRES_USER_PARTICIPATES_IN_QUERY)
+    private readonly getWebinairesUserParticipatesIn: GetWebinairesUserParticipatesInQuery,
   ) {}
 
   @Delete('/:webinaireId/reservations')
@@ -105,5 +117,21 @@ export class WebinaireController {
       webinaireId,
       user,
     });
+  }
+
+  @Get('/participated')
+  async getWebinairesUserParticipatesInHandler(
+    @User() user: UserEntity,
+  ): Promise<WebinaireAPI.FindWebinairesUserParticipatesIn.Response> {
+    return this.getWebinairesUserParticipatesIn.execute(user.data.id);
+  }
+
+  // Put it last or it will get called before the one above
+  @Public()
+  @Get('/:webinaireId')
+  async getWebinaireByIdHandler(
+    @Param('webinaireId') webinaireId: string,
+  ): Promise<WebinaireAPI.FindWebinaireById.Response> {
+    return this.getWebinaireById.execute(webinaireId);
   }
 }

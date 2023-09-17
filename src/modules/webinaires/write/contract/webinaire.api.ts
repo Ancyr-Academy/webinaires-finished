@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { WebinaireReadModel } from '../../read/model/webinaire.read-model';
 
 export namespace WebinaireAPI {
   export namespace CancelReservation {
@@ -43,5 +44,13 @@ export namespace WebinaireAPI {
 
   export namespace ReserveSeat {
     export type Response = void;
+  }
+
+  export namespace FindWebinaireById {
+    export type Response = WebinaireReadModel;
+  }
+
+  export namespace FindWebinairesUserParticipatesIn {
+    export type Response = WebinaireReadModel[];
   }
 }

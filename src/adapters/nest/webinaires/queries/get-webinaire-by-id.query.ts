@@ -1,11 +1,11 @@
 import { Model } from 'mongoose';
-import { IFindWebinaireByIdQuery } from '../../../../modules/webinaires/read/queries/find-webinaire-by-id.query-interface';
+import { IGetWebinaireByIdQuery } from '../../../../modules/webinaires/read/queries/get-webinaire-by-id.query-interface';
 import { MongoWebinaire } from '../models/mongo-webinaire';
 import { MongoParticipation } from '../models/mongo-participation';
 import { MongoUser } from '../../auth/models/mongo-user';
 import { WebinaireReadModel } from '../../../../modules/webinaires/read/model/webinaire.read-model';
 
-export class FindWebinaireByIdQuery implements IFindWebinaireByIdQuery {
+export class GetWebinaireByIdQuery implements IGetWebinaireByIdQuery {
   constructor(
     private readonly userModel: Model<MongoUser.SchemaClass>,
     private readonly webinaireModel: Model<MongoWebinaire.SchemaClass>,

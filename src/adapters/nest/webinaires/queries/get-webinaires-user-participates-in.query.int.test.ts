@@ -12,9 +12,9 @@ import { MongoParticipation } from '../models/mongo-participation';
 import { MongoParticipationRepository } from '../adapters/mongo.participation-repository';
 import { WebinaireFactory } from '../../../../modules/webinaires/write/model/webinaire.factory';
 import { ParticipationFactory } from '../../../../modules/webinaires/write/model/participation.factory';
-import { FindWebinairesUserParticipatesInQuery } from './find-webinaires-user-participates-in.query';
+import { GetWebinairesUserParticipatesInQuery } from './get-webinaires-user-participates-in.query';
 
-describe('FindWebinairesUserParticipatesInQuery', () => {
+describe('GetWebinairesUserParticipatesInQuery', () => {
   function expectEqualWebinaires(
     first: WebinaireReadModel,
     second: WebinaireReadModel,
@@ -23,7 +23,7 @@ describe('FindWebinairesUserParticipatesInQuery', () => {
   }
 
   let app: TestApp;
-  let query: FindWebinairesUserParticipatesInQuery;
+  let query: GetWebinairesUserParticipatesInQuery;
 
   const alice = UserFactory.create({
     id: 'alice',
@@ -76,7 +76,7 @@ describe('FindWebinairesUserParticipatesInQuery', () => {
 
     await participationRepository.create(bobParticipation);
 
-    query = new FindWebinairesUserParticipatesInQuery(
+    query = new GetWebinairesUserParticipatesInQuery(
       userModel,
       webinaireModel,
       participationModel,
