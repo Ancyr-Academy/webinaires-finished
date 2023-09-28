@@ -4,9 +4,9 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
+import { Request } from 'express';
 import { IAuthenticator } from '../../../modules/auth/services/authenticator/authenticator.interface';
 import { IS_PUBLIC_KEY } from './auth.metadata';
-import { Request } from 'express';
 
 export class AuthGuard implements CanActivate {
   constructor(

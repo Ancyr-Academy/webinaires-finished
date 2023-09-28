@@ -1,13 +1,13 @@
 import { INestApplication } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
 import * as request from 'supertest';
-import { ConfigModule } from '@nestjs/config';
 
 import { AppModule } from '../../adapters/nest/app/app.module';
 import { Nullable } from '../../modules/shared/types';
-import { ITestApp } from './test-app.interface';
-import { IFixture } from './fixture';
 import { DatabaseManager } from './database-manager';
+import { IFixture } from './fixture';
+import { ITestApp } from './test-app.interface';
 
 export class TestApp implements ITestApp {
   private app: Nullable<INestApplication> = null;

@@ -1,8 +1,8 @@
+import * as path from 'path';
 import {
   DockerComposeEnvironment,
   StartedDockerComposeEnvironment,
 } from 'testcontainers';
-import * as path from 'path';
 
 import { Nullable } from '../../modules/shared/types';
 
@@ -16,7 +16,6 @@ export const startDocker = async () => {
     await new DockerComposeEnvironment(composeFilePath, composeFile).up();
 
   instance = environment;
-  globalThis.__DOCKER_ENVIRONMENT__ = environment;
 };
 
 export const stopDocker = async () => {
@@ -33,10 +32,6 @@ export const stopDocker = async () => {
 };
 
 export const getRunningEnvironment = () => {
-  if (!instance) {
-    instance = globalThis.__DOCKER_ENVIRONMENT__;
-  }
-
   if (!instance) {
     throw new Error('Docker environment is not running');
   }
